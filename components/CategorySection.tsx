@@ -46,7 +46,7 @@ const CategorySection = () => {
 
   return (
     <section className={`py-10 bg-gray-50 transition-all duration-700 ${showSection ? 'opacity-100' : 'opacity-0'}`}>
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="mx-auto px-4" style={{ width: '1223px', maxWidth: '100%' }}>
         {/* Title with decoration */}
         <div className="flex flex-col items-center mb-8">
           <h2 className="text-3xl font-bold text-center text-purple-400 mb-2">

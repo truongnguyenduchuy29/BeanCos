@@ -375,7 +375,7 @@ const FlashSale = () => {
   return (
     <section className="py-4 bg-white section_flash_sale">
       <style>{customStyles}</style>
-      <div className="container mx-auto px-2">
+      <div className="mx-auto px-2" style={{ width: '1223px', maxWidth: '100%' }}>
         <div className="bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg p-3">
           {/* Header */}
           <div className="flex flex-wrap items-center justify-between mb-3">

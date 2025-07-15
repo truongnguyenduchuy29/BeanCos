@@ -455,25 +455,25 @@ const ProductSection = () => {
       code: 'BEA50', 
       discount: '50K',
       description: 'Mã giảm 50K cho đơn hàng tối thiểu 750.000đ.',
-      color: 'voucher-gradient'
+      color: 'bg-pink-100'
     },
     { 
       code: 'BEA15', 
       discount: '15%',
       description: 'Mã giảm 15% cho đơn hàng tối thiểu 1.500.000đ.',
-      color: 'voucher-gradient'
+      color: 'bg-pink-100'
     },
     { 
       code: 'BEAN99K', 
       discount: '99K',
       description: 'Mã giảm 99K cho đơn hàng tối thiểu 950.000đ.',
-      color: 'voucher-gradient'
+      color: 'bg-pink-100'
     },
     { 
       code: 'FREESHIP', 
       discount: '0K',
       description: 'Nhập mã FREESHIP miễn phí vận chuyển.',
-      color: 'voucher-gradient'
+      color: 'bg-pink-100'
     }
   ];
 
@@ -584,37 +584,28 @@ const ProductSection = () => {
     <>
       {/* Vouchers Section */}
       <section className="py-6 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="swiper-wrapper flex flex-nowrap overflow-x-auto gap-4 pb-2 scrollbar-hide" style={swiperStyles.swiperWrapper}>
+        <div className="mx-auto px-4" style={{ width: '1223px', maxWidth: '100%' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {vouchers.map((voucher, index) => (
               <div 
                 key={index} 
-                className="swiper-slide flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 border border-purple-200 rounded-lg overflow-hidden bg-white transition-transform duration-300 hover:shadow-md transform hover:scale-[1.02]"
-                style={{ 
-                  opacity: showSection ? 1 : 0,
-                  transform: showSection ? 
-                    `translateY(0) translate3d(0px, 0, 0)` : 
-                    `translateY(20px) translate3d(0px, 0, 0)`,
-                  transition: 'opacity 0.5s, transform 0.5s',
-                  transitionDelay: `${0.1 + index * 0.1}s`,
-                  position: 'relative',
-                  minWidth: '280px',
-                  maxWidth: '320px',
-                  height: '100%',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
-                }}
+                className="border border-purple-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <div className="flex p-4">
                   <div className="flex-shrink-0 mr-4">
-                    <div className={`w-16 h-16 ${voucher.color} rounded-lg flex items-center justify-center text-pink-600 font-bold text-xl shadow-sm border border-pink-100`}>
-                      {voucher.discount}
+                    <div className={`w-20 h-20 ${voucher.color} rounded-lg flex items-center justify-center font-bold text-2xl shadow-sm border border-pink-100`}>
+                      {voucher.discount === '0K' ? (
+                        <span className="text-pink-600">0K</span>
+                      ) : (
+                        <span className="text-pink-600">{voucher.discount}</span>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-col flex-grow">
-                    <div className="font-bold text-pink-600">NHẬP MÃ: {voucher.code}</div>
-                    <div className="text-xs text-gray-600 my-1">{voucher.description}</div>
-                    <div className="flex justify-between items-center mt-auto">
-                      <button className="bg-purple-200 text-purple-700 text-xs py-1 px-3 rounded-full hover:bg-purple-300 transition-colors">
+                    <div className="font-bold text-pink-600 text-lg">NHẬP MÃ: {voucher.code}</div>
+                    <div className="text-sm text-gray-600 my-1">{voucher.description}</div>
+                    <div className="flex justify-between items-center mt-2">
+                      <button className="bg-purple-100 text-purple-700 text-xs py-1.5 px-3 rounded-full hover:bg-purple-200 transition-colors">
                         Sao chép mã
                       </button>
                       <a href="#" className="text-xs text-blue-500 hover:underline">Điều kiện</a>
@@ -629,7 +620,7 @@ const ProductSection = () => {
       
       {/* Product Section */}
       <section className="section_product">
-        <div className="container mx-auto px-4">
+        <div className="mx-auto px-4" style={{ width: '1223px', maxWidth: '100%' }}>
           {/* Section Header */}
           <div className="section-header">
             <h2 className="section-title">CHĂM SÓC DA</h2>
@@ -746,7 +737,7 @@ const ProductSection = () => {
       </section>
       
       {/* Banner Section */}
-      <div className="container mx-auto px-4 mb-4">
+      <div className="mx-auto px-4 mb-4" style={{ width: '1223px', maxWidth: '100%' }}>
         <div className="banner-container">
           {banners.map((banner) => (
             <a 
@@ -767,7 +758,7 @@ const ProductSection = () => {
       </div>
       
       {/* Category Links */}
-      <div className="container mx-auto px-4 mb-8">
+      <div className="mx-auto px-4 mb-8" style={{ width: '1223px', maxWidth: '100%' }}>
         <div className="category-links-container">
           <div className="category-links">
             {categories.map((category, index) => (
@@ -781,7 +772,7 @@ const ProductSection = () => {
       
       {/* Body Care Section - CHĂM SÓC CƠ THỂ */}
       <section className="section_product">
-        <div className="container mx-auto px-4">
+        <div className="mx-auto px-4" style={{ width: '1223px', maxWidth: '100%' }}>
           {/* Section Header */}
           <div className="section-header">
             <h2 className="section-title">CHĂM SÓC CƠ THỂ</h2>
