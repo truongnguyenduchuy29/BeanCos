@@ -806,7 +806,7 @@ const ProductSection = () => {
                 </div>
                 
                 <div className="product-image-container">
-                  <img src="../src/img/toner-la-gi-su-khac-nhau-giua-lotion.webp" alt="Tinh chất La Roche-Posay" className="product-image" />
+                  <img src="../src/img/slider_1.webp" alt="Tinh chất La Roche-Posay" className="product-image" />
                 </div>
                 
                 <div className="product-tags">
@@ -846,11 +846,11 @@ const ProductSection = () => {
                 </button>
                 
                 <div className="brand-badge">
-                  <img src="../src/img/thuonghieu_10.jpg" alt="Timeless" />
+                  <img src="../src/img/slider_1.webp" alt="Timeless" />
                 </div>
                 
                 <div className="product-image-container">
-                  <img src="../src/img/treatment-la-gi-cac-hoat-chat-dieu-tri-mun.webp" alt="Tinh chất serum Timeless" className="product-image" />
+                  <img src="../src/img/slider_1.webp" alt="Tinh chất serum Timeless" className="product-image" />
                 </div>
                 
                 <div className="product-tags">
@@ -890,11 +890,11 @@ const ProductSection = () => {
                 </button>
                 
                 <div className="brand-badge">
-                  <img src="../src/img/thuonghieu_11.jpg" alt="Lucenbase" />
+                  <img src="../src/img/slider_1.webp" alt="Lucenbase" />
                 </div>
                 
                 <div className="product-image-container">
-                  <img src="../src/img/purging-la-gi-nen-lam-gi-khi-da-bi.webp" alt="Tinh chất phục hồi Lucenbase" className="product-image" />
+                  <img src="../src/img/slider_1.webp" alt="Tinh chất phục hồi Lucenbase" className="product-image" />
                 </div>
                 
                 <div className="product-tags"></div>
@@ -932,11 +932,11 @@ const ProductSection = () => {
                 </button>
                 
                 <div className="brand-badge">
-                  <img src="../src/img/thuonghieu_12.jpg" alt="Dr.Wu" />
+                  <img src="../src/img/slider_1.webp" alt="Dr.Wu" />
                 </div>
                 
                 <div className="product-image-container">
-                  <img src="../src/img/da-dau-mun-nen-dung-my-pham-nao.webp" alt="Tinh chất kiềm dầu phục hồi Dr.Wu" className="product-image" />
+                  <img src="../src/img/slider_1.webp" alt="Tinh chất kiềm dầu phục hồi Dr.Wu" className="product-image" />
                 </div>
                 
                 <div className="product-tags">
@@ -974,11 +974,11 @@ const ProductSection = () => {
                 </button>
                 
                 <div className="brand-badge">
-                  <img src="../src/img/thuonghieu_14.jpg" alt="SVR" />
+                  <img src="../src/img/slider_1.webp" alt="SVR" />
                 </div>
                 
                 <div className="product-image-container">
-                  <img src="../src/img/toner-la-gi-su-khac-nhau-giua-lotion.webp" alt="Toner giảm mụn SVR Sebiaclear" className="product-image" />
+                  <img src="../src/img/slider_1.webp" alt="Toner giảm mụn SVR Sebiaclear" className="product-image" />
                 </div>
                 
                 <div className="product-tags">

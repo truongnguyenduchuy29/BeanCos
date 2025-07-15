@@ -17,7 +17,7 @@ const PersonalizedSection = () => {
       price: '395.000₫',
       originalPrice: '450.000₫',
       discount: '-13%',
-      image: 'https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=300',
+      image: '../src/img/slider_1.webp',
       brand: 'SVR',
       tags: ['BEST SELLER']
     },
@@ -27,7 +27,7 @@ const PersonalizedSection = () => {
       price: '395.000₫',
       originalPrice: '450.000₫',
       discount: '-13%',
-      image: 'https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=300',
+      image: '../src/img/slider_1.webp',
       brand: 'La Roche-Posay',
       tags: ['EXCLUSIVE', 'BEST SELLER']
     },
@@ -37,7 +37,7 @@ const PersonalizedSection = () => {
       price: '195.000₫',
       originalPrice: '240.000₫',
       discount: '-19%',
-      image: 'https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=300',
+      image: '../src/img/slider_1.webp',
       brand: "L'OREAL"
     },
     {
@@ -46,7 +46,7 @@ const PersonalizedSection = () => {
       price: '170.000₫',
       originalPrice: '205.000₫',
       discount: '-17%',
-      image: 'https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=300'
+      image: '../src/img/slider_1.webp'
     },
     {
       id: 10,
@@ -54,7 +54,7 @@ const PersonalizedSection = () => {
       price: '160.000₫',
       originalPrice: '190.000₫',
       discount: '-16%',
-      image: 'https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=300',
+      image: '../src/img/slider_1.webp',
       brand: 'BIODERMA',
       tags: ['BEST SELLER']
     },
@@ -62,7 +62,7 @@ const PersonalizedSection = () => {
 
   return (
     <section className="py-12 bg-gray-50">
-      <div className="container mx-auto px-4">
+      <div className="mx-auto px-4" style={{ width: '1223px', maxWidth: '100%' }}>
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-pink-500 mb-4">DÀNH RIÊNG CHO BẠN</h2>
           <div className="w-16 h-1 bg-pink-500 mx-auto"></div>
