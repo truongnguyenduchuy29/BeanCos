@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Heart, Search, ShoppingCart } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Heart, Search, ShoppingCart } from "lucide-react";
 
 // CSS for the animated progress bar and other styles
 const customStyles = `
@@ -300,73 +300,73 @@ const FlashSale = () => {
   const products = [
     {
       id: 1,
-      name: 'Nước cân bằng ngừa mụn La Roche-Posay Effaclar Astringent Lotion',
-      image: '../src/img/slider_1.webp',
-      brand: 'LA ROCHE-POSAY',
-      brandLogo: '../src/img/thuonghieu_10.jpg',
+      name: "Nước cân bằng ngừa mụn La Roche-Posay Effaclar Astringent Lotion",
+      image: "../src/img/slider_1.webp",
+      brand: "LA ROCHE-POSAY",
+      brandLogo: "../src/img/thuonghieu_10.jpg",
       currentPrice: 305000,
       originalPrice: 380000,
       discount: 20,
       sold: 218,
       gifts: 2,
-      labels: ['EXCLUSIVE', 'BEST SELLER'],
-      soldPercentage: 75
+      labels: ["EXCLUSIVE", "BEST SELLER"],
+      soldPercentage: 75,
     },
     {
       id: 2,
-      name: 'Sữa Rửa Mặt Cerave Hydrating Facial Cleanser',
-      image: '../src/img/slider_1.webp',
-      brand: 'CERAVE',
-      brandLogo: '../src/img/thuonghieu_5.jpg',
+      name: "Sữa Rửa Mặt Cerave Hydrating Facial Cleanser",
+      image: "../src/img/slider_1.webp",
+      brand: "CERAVE",
+      brandLogo: "../src/img/thuonghieu_5.jpg",
       currentPrice: 287000,
       originalPrice: 287000,
       discount: 0,
       sold: 160,
       gifts: 3,
-      labels: ['EXCLUSIVE', 'BEST SELLER'],
-      soldPercentage: 60
+      labels: ["EXCLUSIVE", "BEST SELLER"],
+      soldPercentage: 60,
     },
     {
       id: 3,
-      name: 'Simple Kind To Skin Soothing Facial Toner',
-      image: '../src/img/slider_1.webp',
-      brand: 'SIMPLE',
-      brandLogo: '../src/img/images.png',
+      name: "Simple Kind To Skin Soothing Facial Toner",
+      image: "../src/img/slider_1.webp",
+      brand: "SIMPLE",
+      brandLogo: "../src/img/images.png",
       currentPrice: 80000,
       originalPrice: 135000,
       discount: 41,
       sold: 166,
       gifts: 1,
-      labels: ['EXCLUSIVE'],
-      soldPercentage: 65
+      labels: ["EXCLUSIVE"],
+      soldPercentage: 65,
     },
     {
       id: 4,
-      name: 'Sữa rửa mặt ngừa mụn La Roche-Posay Effaclar Purifying Foaming Gel',
-      image: '../src/img/slider_1.webp',
-      brand: 'LA ROCHE-POSAY',
-      brandLogo: '../src/img/thuonghieu_10.jpg',
+      name: "Sữa rửa mặt ngừa mụn La Roche-Posay Effaclar Purifying Foaming Gel",
+      image: "../src/img/slider_1.webp",
+      brand: "LA ROCHE-POSAY",
+      brandLogo: "../src/img/thuonghieu_10.jpg",
       currentPrice: 290000,
       originalPrice: 355000,
       discount: 18,
       sold: 259,
       gifts: 2,
-      labels: ['BEST SELLER'],
-      soldPercentage: 80
+      labels: ["BEST SELLER"],
+      soldPercentage: 80,
     },
     {
       id: 5,
-      name: 'Simple Kind To Skin Refreshing Facial Wash',
-      image: '../src/img/slider_1.webp',
-      brand: 'SIMPLE',
-      brandLogo: '../src/img/images.png',
+      name: "Simple Kind To Skin Refreshing Facial Wash",
+      image: "../src/img/slider_1.webp",
+      brand: "SIMPLE",
+      brandLogo: "../src/img/images.png",
       currentPrice: 95000,
       originalPrice: 105000,
       discount: 10,
       sold: 170,
       gifts: 4,
-      labels: ['EXCLUSIVE', 'BEST SELLER'],
-      soldPercentage: 70
+      labels: ["EXCLUSIVE", "BEST SELLER"],
+      soldPercentage: 70,
     },
   ];
 
@@ -379,12 +379,12 @@ const FlashSale = () => {
   const [countdown, setCountdown] = useState({
     hours: 2,
     minutes: 28,
-    seconds: 57
+    seconds: 57,
   });
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCountdown(prev => {
+      setCountdown((prev) => {
         if (prev.seconds > 0) {
           return { ...prev, seconds: prev.seconds - 1 };
         } else if (prev.minutes > 0) {
@@ -397,20 +397,27 @@ const FlashSale = () => {
         }
       });
     }, 1000);
-    
+
     return () => clearInterval(timer);
   }, []);
 
   return (
     <section className="py-4 bg-white section_flash_sale">
       <style>{customStyles}</style>
-      <div className="mx-auto px-2" style={{ width: '1223px', maxWidth: '100%' }}>
+      <div
+        className="mx-auto px-2"
+        style={{ width: "1223px", maxWidth: "100%" }}
+      >
         <div className="bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg p-3">
           {/* Header */}
           <div className="flex flex-wrap items-center justify-between mb-3">
             <div className="flex items-center mb-2 md:mb-0">
               <div className="flash-sale-header">
-                <img src="../src/img/flash.png" alt="Flash" className="w-6 h-6" />
+                <img
+                  src="../src/img/flash.png"
+                  alt="Flash"
+                  className="w-6 h-6"
+                />
                 Flash Sale
               </div>
               <div className="marquee-container ml-4">
@@ -423,15 +430,15 @@ const FlashSale = () => {
               <span className="mr-2">Kết thúc sau:</span>
               <div className="flex space-x-1">
                 <div className="bg-black bg-opacity-30 px-2 py-1 rounded">
-                  {String(countdown.hours).padStart(2, '0')}
+                  {String(countdown.hours).padStart(2, "0")}
                 </div>
                 <span>:</span>
                 <div className="bg-black bg-opacity-30 px-2 py-1 rounded">
-                  {String(countdown.minutes).padStart(2, '0')}
+                  {String(countdown.minutes).padStart(2, "0")}
                 </div>
                 <span>:</span>
                 <div className="bg-black bg-opacity-30 px-2 py-1 rounded">
-                  {String(countdown.seconds).padStart(2, '0')}
+                  {String(countdown.seconds).padStart(2, "0")}
                 </div>
               </div>
             </div>
@@ -446,24 +453,21 @@ const FlashSale = () => {
                   <button className="absolute top-2 right-2 z-10 text-gray-400 hover:text-red-500 transition-colors duration-300">
                     <Heart className="w-6 h-6" />
                   </button>
-                  
+
                   {/* Brand Logo */}
                   <div className="absolute top-2 left-2 z-10">
-                    <img 
+                    <img
                       src={product.brandLogo}
-                      alt={product.brand} 
-                      className="h-8 w-auto rounded" 
+                      alt={product.brand}
+                      className="h-8 w-auto rounded"
                     />
                   </div>
-                  
+
                   {/* Product Image with Hover Effects */}
                   <div className="product-image">
                     {/* Main product image */}
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                    />
-                    
+                    <img src={product.image} alt={product.name} />
+
                     {/* Hover Overlay */}
                     <div className="hover-buttons">
                       <div className="button-group">
@@ -477,52 +481,64 @@ const FlashSale = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Labels */}
                   <div className="product-labels">
                     {product.labels.map((label, idx) => (
-                      <span 
-                        key={idx} 
+                      <span
+                        key={idx}
                         className={`label ${
-                          label === 'EXCLUSIVE' ? 'label-exclusive' : 
-                          label === 'BEST SELLER' ? 'label-bestseller' : ''
+                          label === "EXCLUSIVE"
+                            ? "label-exclusive"
+                            : label === "BEST SELLER"
+                            ? "label-bestseller"
+                            : ""
                         }`}
                       >
                         {label}
                       </span>
                     ))}
                   </div>
-                  
+
                   {/* Product Name */}
-                  <h3 className="product-name">
-                    {product.name}
-                  </h3>
-                  
+                  <h3 className="product-name">{product.name}</h3>
+
                   {/* Prices */}
                   <div className="product-price">
-                    <span className="current-price">{formatPrice(product.currentPrice)}đ</span>
+                    <span className="current-price">
+                      {formatPrice(product.currentPrice)}đ
+                    </span>
                     {product.discount > 0 && (
-                      <span className="original-price">{formatPrice(product.originalPrice)}đ</span>
+                      <span className="original-price">
+                        {formatPrice(product.originalPrice)}đ
+                      </span>
                     )}
                     {product.discount > 0 && (
-                      <span className="discount-badge">-{product.discount}%</span>
+                      <span className="discount-badge">
+                        -{product.discount}%
+                      </span>
                     )}
                   </div>
-                  
+
                   {/* Sold Count - Using the CSS from the provided code */}
                   <div className="countdown-bar">
                     <div className="bar-bg">
-                      <div 
+                      <div
                         className="bar-progress"
                         style={{ width: `${product.soldPercentage}%` }}
                       ></div>
-                      <div className="sale-icon" style={{ backgroundImage: 'url(../src/img/sale_bag.png)' }}></div>
+                      <div
+                        className="sale-icon"
+                        style={{
+                          backgroundImage: "url(../src/img/sale_bag.png)",
+                        }}
+                      ></div>
                       <span className="bar-text">
                         🔥 Đã bán {product.sold} sp
                       </span>
                     </div>
                   </div>
-                  
+
                   {/* Gift Badge */}
                   <div className="gift-badge">
                     <span>🎁</span>

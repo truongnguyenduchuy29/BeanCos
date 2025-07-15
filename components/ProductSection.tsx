@@ -395,6 +395,52 @@ const ProductSection = () => {
         opacity: 1;
         background-color: rgba(0, 0, 0, 0.2);
       }
+      .hover-buttons {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .search-button {
+        background-color: white;
+        border-radius: 9999px;
+        padding: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      .product-item:hover .search-button {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .search-button:hover {
+        background-color: #f3f4f6;
+      }
+      .buy-button {
+        background-color: white;
+        color: #2563eb;
+        border-radius: 9999px;
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      .product-item:hover .buy-button {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .buy-button:hover {
+        background-color: #2563eb;
+        color: white;
+      }
       .add-to-cart-button {
         background-color: white;
         color: #e91e63;
@@ -668,16 +714,23 @@ useEffect(() => {
                       className="product-image"
                     />
                     
-                    {/* Add hover overlay with cart button */}
+                    {/* Hover Overlay */}
                     <div className="product-hover-overlay">
-                      <button className="add-to-cart-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="9" cy="21" r="1"></circle>
-                          <circle cx="20" cy="21" r="1"></circle>
-                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                        <span>Thêm vào giỏ</span>
-                      </button>
+                      <div className="hover-buttons">
+                        <button className="search-button">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </button>
+                        <button className="buy-button">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                          </svg>
+                          <span>Mua ngay</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                   
@@ -814,16 +867,23 @@ useEffect(() => {
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Tinh chất La Roche-Posay" className="product-image" />
                   
-                  {/* Add hover overlay with cart button */}
+                  {/* Hover Overlay */}
                   <div className="product-hover-overlay">
-                    <button className="add-to-cart-button">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                      </svg>
-                      <span>Thêm vào giỏ</span>
-                    </button>
+                    <div className="hover-buttons">
+                      <button className="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                      <button className="buy-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <circle cx="9" cy="21" r="1"></circle>
+                          <circle cx="20" cy="21" r="1"></circle>
+                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Mua ngay</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
@@ -870,16 +930,23 @@ useEffect(() => {
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Tinh chất serum Timeless" className="product-image" />
                   
-                  {/* Add hover overlay with cart button */}
+                  {/* Hover Overlay */}
                   <div className="product-hover-overlay">
-                    <button className="add-to-cart-button">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                      </svg>
-                      <span>Thêm vào giỏ</span>
-                    </button>
+                    <div className="hover-buttons">
+                      <button className="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                      <button className="buy-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <circle cx="9" cy="21" r="1"></circle>
+                          <circle cx="20" cy="21" r="1"></circle>
+                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Mua ngay</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
@@ -926,16 +993,23 @@ useEffect(() => {
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Tinh chất phục hồi Lucenbase" className="product-image" />
                   
-                  {/* Add hover overlay with cart button */}
+                  {/* Hover Overlay */}
                   <div className="product-hover-overlay">
-                    <button className="add-to-cart-button">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                      </svg>
-                      <span>Thêm vào giỏ</span>
-                    </button>
+                    <div className="hover-buttons">
+                      <button className="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                      <button className="buy-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <circle cx="9" cy="21" r="1"></circle>
+                          <circle cx="20" cy="21" r="1"></circle>
+                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Mua ngay</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
@@ -980,16 +1054,23 @@ useEffect(() => {
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Tinh chất kiềm dầu phục hồi Dr.Wu" className="product-image" />
                   
-                  {/* Add hover overlay with cart button */}
+                  {/* Hover Overlay */}
                   <div className="product-hover-overlay">
-                    <button className="add-to-cart-button">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                      </svg>
-                      <span>Thêm vào giỏ</span>
-                    </button>
+                    <div className="hover-buttons">
+                      <button className="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                      <button className="buy-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <circle cx="9" cy="21" r="1"></circle>
+                          <circle cx="20" cy="21" r="1"></circle>
+                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Mua ngay</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
@@ -1034,16 +1115,23 @@ useEffect(() => {
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Toner giảm mụn SVR Sebiaclear" className="product-image" />
                   
-                  {/* Add hover overlay with cart button */}
+                  {/* Hover Overlay */}
                   <div className="product-hover-overlay">
-                    <button className="add-to-cart-button">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                      </svg>
-                      <span>Thêm vào giỏ</span>
-                    </button>
+                    <div className="hover-buttons">
+                      <button className="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </button>
+                      <button className="buy-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <circle cx="9" cy="21" r="1"></circle>
+                          <circle cx="20" cy="21" r="1"></circle>
+                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Mua ngay</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
