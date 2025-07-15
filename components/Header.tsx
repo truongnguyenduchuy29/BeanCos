@@ -221,6 +221,11 @@ const Header = () => {
                   )}
                 </li>
                 <li>
+                  <a href="/products" className="text-gray-700 hover:text-blue-500 transition-colors">
+                    SẢN PHẨM
+                  </a>
+                </li>
+                <li>
                   <a href="/news" className="text-gray-700 hover:text-blue-500 transition-colors">
                     TIN TỨC
                   </a>

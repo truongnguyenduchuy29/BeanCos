@@ -5,6 +5,7 @@ import { useAppContext } from '../context/AppContext';
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -34,34 +35,46 @@ const RegisterPage = () => {
   const validateForm = () => {
     const newErrors: {[key: string]: string} = {};
 
+    // Full name validation
     if (!formData.fullName.trim()) {
       newErrors.fullName = 'Vui lòng nhập họ tên';
+    } else if (formData.fullName.trim().length < 2) {
+      newErrors.fullName = 'Họ tên phải có ít nhất 2 ký tự';
+    } else if (formData.fullName.trim().length > 50) {
+      newErrors.fullName = 'Họ tên không được vượt quá 50 ký tự';
     }
 
+    // Email validation
     if (!formData.email) {
       newErrors.email = 'Vui lòng nhập email';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
       newErrors.email = 'Email không hợp lệ';
     }
 
+    // Phone validation
     if (!formData.phone) {
       newErrors.phone = 'Vui lòng nhập số điện thoại';
-    } else if (!/^[0-9]{10,11}$/.test(formData.phone)) {
-      newErrors.phone = 'Số điện thoại không hợp lệ';
+    } else if (!/^(0|\+84)[3|5|7|8|9][0-9]{8}$/.test(formData.phone)) {
+      newErrors.phone = 'Số điện thoại không hợp lệ (phải có 10 số và bắt đầu bằng 0 hoặc +84)';
     }
 
+    // Password validation
     if (!formData.password) {
       newErrors.password = 'Vui lòng nhập mật khẩu';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+      newErrors.password = 'Mật khẩu phải chứa ít nhất một chữ cái thường, một chữ cái hoa và một chữ số';
     }
 
+    // Confirm password validation
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = 'Vui lòng xác nhận mật khẩu';
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Mật khẩu xác nhận không khớp';
     }
 
+    // Terms agreement validation
     if (!formData.agreeToTerms) {
       newErrors.agreeToTerms = 'Vui lòng đồng ý với điều khoản sử dụng';
     }
@@ -81,8 +94,13 @@ const RegisterPage = () => {
         email: formData.email
       });
       
-      // Redirect to home page
-      window.location.href = '/';
+      // Show success message
+      setSubmitted(true);
+      
+      // Redirect to home page after a delay
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
     }
   };
 
@@ -105,7 +123,14 @@ const RegisterPage = () => {
             <p className="text-gray-600">Tạo tài khoản mới tại Bean Mỹ Phẩm</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {submitted ? (
+            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 text-center" role="alert">
+              <p className="font-bold">Đăng ký thành công!</p>
+              <p>Bạn sẽ được chuyển đến trang chủ trong giây lát...</p>
+            </div>
+          ) : (
+            <>
+              <form onSubmit={handleSubmit} className="space-y-6">
             {/* Full Name Field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -304,6 +329,8 @@ const RegisterPage = () => {
               Đăng nhập ngay
             </a>
           </p>
+          </>
+          )}
         </div>
       </div>
     </div>

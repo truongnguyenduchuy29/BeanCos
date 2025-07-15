@@ -63,36 +63,36 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">CHÍNH SÁCH</h3>
+            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">LIÊN KẾT NHANH</h3>
             <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
               <li>
                 •{" "}
-                <a href="#" className="hover:text-red-500 transition-colors">
-                  Chính sách thành viên
+                <a href="/about" className="hover:text-red-500 transition-colors">
+                  Giới thiệu
                 </a>
               </li>
               <li>
                 •{" "}
-                <a href="#" className="hover:text-red-500 transition-colors">
-                  Chính sách thanh toán
+                <a href="/products" className="hover:text-red-500 transition-colors">
+                  Sản phẩm
                 </a>
               </li>
               <li>
                 •{" "}
-                <a href="#" className="hover:text-red-500 transition-colors">
-                  Hướng dẫn mua hàng
+                <a href="/news" className="hover:text-red-500 transition-colors">
+                  Tin tức
                 </a>
               </li>
               <li>
                 •{" "}
-                <a href="#" className="hover:text-red-500 transition-colors">
-                  Bảo mật thông tin cá nhân
+                <a href="/routine" className="hover:text-red-500 transition-colors">
+                  Routine Skincare
                 </a>
               </li>
               <li>
                 •{" "}
-                <a href="#" className="hover:text-red-500 transition-colors">
-                  Chính sách cộng tác viên
+                <a href="/contact" className="hover:text-red-500 transition-colors">
+                  Liên hệ
                 </a>
               </li>
             </ul>

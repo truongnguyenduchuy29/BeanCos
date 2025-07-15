@@ -1,4 +1,3 @@
-import React from 'react';
 import { AppProvider } from './context/AppContext';
 import Header from './components/Header';
 import HeroBanner from './components/HeroBanner';
@@ -18,6 +17,7 @@ import SearchPage from './pages/SearchPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 
 function App() {
   // Simple routing based on pathname
@@ -37,6 +37,8 @@ function App() {
         return <RegisterPage />;
       case '/about':
         return <AboutPage />;
+      case '/contact':
+        return <ContactPage />;
       default:
         return (
           <div className="min-h-screen bg-gray-50">

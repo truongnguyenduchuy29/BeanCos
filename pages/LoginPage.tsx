@@ -4,6 +4,8 @@ import { useAppContext } from '../context/AppContext';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -29,12 +31,14 @@ const LoginPage = () => {
   const validateForm = () => {
     const newErrors: {[key: string]: string} = {};
 
+    // Email validation
     if (!formData.email) {
       newErrors.email = 'Vui lòng nhập email';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
       newErrors.email = 'Email không hợp lệ';
     }
 
+    // Password validation
     if (!formData.password) {
       newErrors.password = 'Vui lòng nhập mật khẩu';
     } else if (formData.password.length < 6) {
@@ -56,8 +60,18 @@ const LoginPage = () => {
         email: formData.email
       });
       
-      // Redirect to home page
-      window.location.href = '/';
+      // Show success message
+      setSubmitted(true);
+      
+      // Store in local storage if "remember me" is checked
+      if (rememberMe) {
+        localStorage.setItem('userEmail', formData.email);
+      }
+      
+      // Redirect to home page after a delay
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
     }
   };
 
@@ -79,6 +93,13 @@ const LoginPage = () => {
             <h1 className="text-3xl font-bold text-gray-800 mb-2">Đăng nhập</h1>
             <p className="text-gray-600">Chào mừng bạn trở lại Bean Mỹ Phẩm!</p>
           </div>
+
+          {submitted && (
+            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 text-center" role="alert">
+              <p className="font-bold">Đăng nhập thành công!</p>
+              <p>Bạn sẽ được chuyển đến trang chủ trong giây lát...</p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
@@ -143,6 +164,8 @@ const LoginPage = () => {
               <label className="flex items-center">
                 <input
                   type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
                 />
                 <span className="ml-2 text-sm text-gray-600">Ghi nhớ đăng nhập</span>
