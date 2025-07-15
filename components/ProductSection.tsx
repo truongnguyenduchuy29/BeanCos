@@ -1,45 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-
-// Add CSS styles as a separate object
-const swiperStyles = {
-  swiperContainerVertical: {
-    flexDirection: 'column' as const
-  },
-  swiperWrapper: {
-    position: 'relative' as const,
-    width: '100%',
-    height: '100%',
-    zIndex: 1,
-    display: 'flex',
-    transitionProperty: 'transform',
-    boxSizing: 'content-box' as const
-  },
-  swiperAndroid: {
-    transform: 'translate3d(0px, 0, 0)'
-  },
-  swiperMultirow: {
-    flexWrap: 'wrap' as const
-  },
-  swiperMultirowColumn: {
-    flexWrap: 'wrap' as const,
-    flexDirection: 'column' as const
-  },
-  swiperFreeMode: {
-    transitionTimingFunction: 'ease-out',
-    margin: '0 auto'
-  },
-  scrollbarHide: {
-    msOverflowStyle: 'none',
-    scrollbarWidth: 'none' as const,
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    }
-  }
-};
-
-// Add custom CSS to the head
-const addCustomCSS = () => {
+const ProductSection = () => {
+  const [showSection, setShowSection] = useState(false);
+   
+  // Add custom CSS to the head
   useEffect(() => {
     // Create style element
     const style = document.createElement('style');
@@ -128,6 +92,7 @@ const addCustomCSS = () => {
       }
       .product-item:hover {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(-8px);
       }
       .product-image-container {
         position: relative;
@@ -415,6 +380,43 @@ const addCustomCSS = () => {
         border-color: #e91e63;
         color: #e91e63;
       }
+      .product-hover-overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 5;
+      }
+      .product-item:hover .product-hover-overlay {
+        opacity: 1;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+      .add-to-cart-button {
+        background-color: white;
+        color: #e91e63;
+        border-radius: 9999px;
+        padding: 8px 16px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transform: translateY(10px);
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+      .product-item:hover .add-to-cart-button {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .add-to-cart-button:hover {
+        background-color: #e91e63;
+        color: white;
+      }
     `;
     // Append to head
     document.head.appendChild(style);
@@ -424,31 +426,23 @@ const addCustomCSS = () => {
       document.head.removeChild(style);
     };
   }, []);
-};
+useEffect(() => {
+  // Add animation after component mounts
+  setShowSection(true);
 
-const ProductSection = () => {
-  const [showSection, setShowSection] = useState(false);
-   
-  // Add custom CSS
-  addCustomCSS();
+  // For staggered animation of products
+  const timer = setTimeout(() => {
+    const products = document.querySelectorAll('.product-item');
+    products.forEach((product, index) => {
+      setTimeout(() => {
+        (product as HTMLElement).style.opacity = '1';
+        (product as HTMLElement).style.transform = 'translateY(0)';
+      }, index * 100);
+    });
+  }, 300);
 
-  useEffect(() => {
-    // Add animation after component mounts
-    setShowSection(true);
-
-    // For staggered animation of products
-    const timer = setTimeout(() => {
-      const products = document.querySelectorAll('.product-item');
-      products.forEach((product, index) => {
-        setTimeout(() => {
-          (product as HTMLElement).style.opacity = '1';
-          (product as HTMLElement).style.transform = 'translateY(0)';
-        }, index * 100);
-      });
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, []);
+  return () => clearTimeout(timer);
+}, []);
 
   const vouchers = [
     { 
@@ -641,7 +635,7 @@ const ProductSection = () => {
             </button>
             
             <div className="product-grid">
-              {products.map((product, index) => (
+              {products.map((product) => (
                 <div 
                   key={product.id} 
                   className="product-item"
@@ -673,6 +667,18 @@ const ProductSection = () => {
                       alt={product.name}
                       className="product-image"
                     />
+                    
+                    {/* Add hover overlay with cart button */}
+                    <div className="product-hover-overlay">
+                      <button className="add-to-cart-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="9" cy="21" r="1"></circle>
+                          <circle cx="20" cy="21" r="1"></circle>
+                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Thêm vào giỏ</span>
+                      </button>
+                    </div>
                   </div>
                   
                   {/* Product Tags */}
@@ -807,6 +813,18 @@ const ProductSection = () => {
                 
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Tinh chất La Roche-Posay" className="product-image" />
+                  
+                  {/* Add hover overlay with cart button */}
+                  <div className="product-hover-overlay">
+                    <button className="add-to-cart-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
+                      <span>Thêm vào giỏ</span>
+                    </button>
+                  </div>
                 </div>
                 
                 <div className="product-tags">
@@ -851,6 +869,18 @@ const ProductSection = () => {
                 
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Tinh chất serum Timeless" className="product-image" />
+                  
+                  {/* Add hover overlay with cart button */}
+                  <div className="product-hover-overlay">
+                    <button className="add-to-cart-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
+                      <span>Thêm vào giỏ</span>
+                    </button>
+                  </div>
                 </div>
                 
                 <div className="product-tags">
@@ -895,6 +925,18 @@ const ProductSection = () => {
                 
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Tinh chất phục hồi Lucenbase" className="product-image" />
+                  
+                  {/* Add hover overlay with cart button */}
+                  <div className="product-hover-overlay">
+                    <button className="add-to-cart-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
+                      <span>Thêm vào giỏ</span>
+                    </button>
+                  </div>
                 </div>
                 
                 <div className="product-tags"></div>
@@ -937,6 +979,18 @@ const ProductSection = () => {
                 
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Tinh chất kiềm dầu phục hồi Dr.Wu" className="product-image" />
+                  
+                  {/* Add hover overlay with cart button */}
+                  <div className="product-hover-overlay">
+                    <button className="add-to-cart-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
+                      <span>Thêm vào giỏ</span>
+                    </button>
+                  </div>
                 </div>
                 
                 <div className="product-tags">
@@ -979,6 +1033,18 @@ const ProductSection = () => {
                 
                 <div className="product-image-container">
                   <img src="../src/img/slider_1.webp" alt="Toner giảm mụn SVR Sebiaclear" className="product-image" />
+                  
+                  {/* Add hover overlay with cart button */}
+                  <div className="product-hover-overlay">
+                    <button className="add-to-cart-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
+                      <span>Thêm vào giỏ</span>
+                    </button>
+                  </div>
                 </div>
                 
                 <div className="product-tags">
@@ -1018,14 +1084,17 @@ const ProductSection = () => {
           
           {/* Additional Banners */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <a href="#" className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <img src="../src/img/img_32banner_1.jpg" alt="Da dầu mụn nên dùng mỹ phẩm nào" className="w-full h-auto" />
+            <a href="#" className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow relative group">
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10"></div>
+              <img src="../src/img/img_32banner_1.jpg" alt="Da dầu mụn nên dùng mỹ phẩm nào" className="w-full h-auto transform transition-transform duration-500 group-hover:scale-105" />
             </a>
-            <a href="#" className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <img src="../src/img/img_32banner_2.jpg" alt="Purging là gì nên làm gì khi da bị" className="w-full h-auto" />
+            <a href="#" className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow relative group">
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10"></div>
+              <img src="../src/img/img_32banner_2.jpg" alt="Purging là gì nên làm gì khi da bị" className="w-full h-auto transform transition-transform duration-500 group-hover:scale-105" />
             </a>
-            <a href="#" className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <img src="../src/img/img_32banner_3.jpg" alt="Treatment là gì các hoạt chất điều trị mụn" className="w-full h-auto" />
+            <a href="#" className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow relative group">
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10"></div>
+              <img src="../src/img/img_32banner_3.jpg" alt="Treatment là gì các hoạt chất điều trị mụn" className="w-full h-auto transform transition-transform duration-500 group-hover:scale-105" />
             </a>
           </div>
           

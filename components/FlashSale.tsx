@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Heart, Search } from 'lucide-react';
+import { Heart, Search, ShoppingCart } from 'lucide-react';
 
 // CSS for the animated progress bar and other styles
 const customStyles = `
@@ -49,10 +49,12 @@ const customStyles = `
     position: relative;
     background: white;
     transition: all 0.3s;
+    transform: translateY(0);
   }
   
   .product-card:hover {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
   }
   
   .product-image {
@@ -68,6 +70,11 @@ const customStyles = `
   .product-image img {
     max-height: 100%;
     object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-card:hover .product-image img {
+    transform: scale(1.05);
   }
   
   .product-name {
@@ -224,10 +231,13 @@ const customStyles = `
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 5;
   }
   
   .product-card:hover .hover-buttons {
     opacity: 1;
+    background-color: rgba(0, 0, 0, 0.2);
   }
   
   .hover-buttons .button-group {
@@ -245,6 +255,14 @@ const customStyles = `
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+  }
+  
+  .product-card:hover .search-button {
+    opacity: 1;
+    transform: translateY(0);
   }
   
   .search-button:hover {
@@ -259,6 +277,17 @@ const customStyles = `
     font-weight: 500;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+  }
+  
+  .product-card:hover .buy-button {
+    opacity: 1;
+    transform: translateY(0);
   }
   
   .buy-button:hover {
@@ -442,7 +471,8 @@ const FlashSale = () => {
                           <Search className="w-5 h-5 text-blue-600" />
                         </button>
                         <button className="buy-button">
-                          Mua ngay
+                          <ShoppingCart className="w-4 h-4" />
+                          <span>Mua ngay</span>
                         </button>
                       </div>
                     </div>
