@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const SkincareRoutine = () => {
   const [activeStep, setActiveStep] = useState<"5" | "9">("5");

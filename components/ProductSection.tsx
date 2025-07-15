@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const ProductSection = () => {
   const [showSection, setShowSection] = useState(false);
@@ -15,7 +15,65 @@ const ProductSection = () => {
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
-      .voucher-gradient {
+      
+.voucher-card {
+  border-radius: 10px;
+  padding: 10px;
+  background: linear-gradient(to right, #fce4ec, #f3e5f5);
+  border: 1px solid #f3e5f5;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.voucher-card:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.voucher-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: linear-gradient(to bottom, #f8bbd0, #e1bee7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #d81b60;
+  font-size: 20px;
+  border: 2px dashed white;
+}
+.voucher-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.voucher-code {
+  color: #d81b60;
+  font-weight: 700;
+  font-size: 16px;
+}
+.voucher-desc {
+  font-size: 13px;
+  color: #555;
+  margin-top: 4px;
+}
+.voucher-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.voucher-copy {
+  background-color: #f3e5f5;
+  color: #6a1b9a;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 9999px;
+}
+.voucher-link {
+  color: #2196f3;
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.voucher-gradient {
         background: linear-gradient(to right, #f8e1eb, #f0e6f8);
       }
       .section_product {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Phone, Heart, ShoppingCart, User, Menu, X, ChevronDown } from 'lucide-react';
+import { Search, Phone, Heart, ShoppingCart, Menu, X, ChevronDown } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 
 const Header = () => {

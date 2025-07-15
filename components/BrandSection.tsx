@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 const BrandSection = () => {
-  const [showSection, setShowSection] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   
@@ -40,9 +39,17 @@ const BrandSection = () => {
   const maxSlides = Math.max(0, brands.length - itemsPerView);
 
   // Setup animations and auto sliding
-  useEffect(() => {
-    setShowSection(true);
+  const startAutoSlide = useCallback(() => {
+    if (autoSlideIntervalRef.current) {
+      window.clearInterval(autoSlideIntervalRef.current);
+    }
     
+    autoSlideIntervalRef.current = window.setInterval(() => {
+      setCurrentSlide(prev => (prev < maxSlides ? prev + 1 : 0));
+    }, 3000);
+  }, [maxSlides]);
+
+  useEffect(() => {
     // Animate brands in on initial load
     const timer = setTimeout(() => {
       const brandElements = document.querySelectorAll('.brand-item');
@@ -63,7 +70,7 @@ const BrandSection = () => {
         window.clearInterval(autoSlideIntervalRef.current);
       }
     };
-  }, []);
+  }, [startAutoSlide]);
 
   // Pause auto sliding on hover
   useEffect(() => {
@@ -81,17 +88,7 @@ const BrandSection = () => {
         window.clearInterval(autoSlideIntervalRef.current);
       }
     };
-  }, [isHovered]);
-  
-  const startAutoSlide = () => {
-    if (autoSlideIntervalRef.current) {
-      window.clearInterval(autoSlideIntervalRef.current);
-    }
-    
-    autoSlideIntervalRef.current = window.setInterval(() => {
-      setCurrentSlide(prev => (prev < maxSlides ? prev + 1 : 0));
-    }, 4000);
-  };
+  }, [isHovered, startAutoSlide]);
 
   const nextSlide = () => {
     setCurrentSlide(prev => (prev < maxSlides ? prev + 1 : 0));

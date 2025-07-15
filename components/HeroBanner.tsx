@@ -1,5 +1,3 @@
-import React from 'react';
-
 const HeroBanner = () => {
   return (
     <section className="bg-gradient-to-r from-blue-50 to-blue-100 py-10 md:py-10 overflow-hidden relative">

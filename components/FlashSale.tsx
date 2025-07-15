@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Heart, Search, ShoppingCart } from "lucide-react";
 
 // CSS for the animated progress bar and other styles

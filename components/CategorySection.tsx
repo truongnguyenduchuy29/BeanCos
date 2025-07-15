@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const CategorySection = () => {
   const [showSection, setShowSection] = useState(false);
@@ -36,12 +36,6 @@ const CategorySection = () => {
     { name: 'Chăm sóc cơ thể', image: '../src/img/danhmuc_12.jpg' },
     { name: 'Chăm sóc mặt', image: '../src/img/danhmuc_13.jpg' },
     { name: 'Sản phẩm khác', image: '../src/img/danhmuc_14.jpg' },
-  ];
-
-  const vouchers = [
-    { code: 'BEAN20', discount: '20%', minOrder: 500000, expiry: '30/06/2023' },
-    { code: 'BEAN50', discount: '50K', minOrder: 800000, expiry: '30/06/2023' },
-    { code: 'BEAN100', discount: '100K', minOrder: 1500000, expiry: '30/06/2023' },
   ];
 
   return (
