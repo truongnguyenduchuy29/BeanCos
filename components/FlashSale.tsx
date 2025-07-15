@@ -35,7 +35,13 @@ const customStyles = `
     display: flex;
     align-items: center;
     font-weight: bold;
-    font-size: 1.25rem;
+    font-size: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .flash-sale-header {
+      font-size: 1.25rem;
+    }
   }
   
   .flash-sale-header img {
@@ -45,26 +51,51 @@ const customStyles = `
   .product-card {
     border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.375rem;
     position: relative;
     background: white;
     transition: all 0.3s;
     transform: translateY(0);
   }
   
+  @media (min-width: 640px) {
+    .product-card {
+      padding: 0.5rem;
+    }
+  }
+  
   .product-card:hover {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    transform: translateY(-8px);
+    transform: translateY(-4px);
+  }
+  
+  @media (min-width: 640px) {
+    .product-card:hover {
+      transform: translateY(-8px);
+    }
   }
   
   .product-image {
-    height: 150px;
+    height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.375rem;
+  }
+  
+  @media (min-width: 640px) {
+    .product-image {
+      height: 140px;
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .product-image {
+      height: 150px;
+    }
   }
   
   .product-image img {
@@ -78,42 +109,72 @@ const customStyles = `
   }
   
   .product-name {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 500;
     color: #1f2937;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.375rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    height: 2.5rem;
+    height: 2rem;
+  }
+  
+  @media (min-width: 640px) {
+    .product-name {
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      height: 2.5rem;
+    }
   }
   
   .product-price {
     display: flex;
     align-items: center;
     margin-bottom: 0.25rem;
+    flex-wrap: wrap;
+    gap: 0.25rem;
   }
   
   .current-price {
     color: #e83a45;
     font-weight: bold;
-    margin-right: 0.5rem;
+    margin-right: 0.25rem;
+    font-size: 0.75rem;
+  }
+  
+  @media (min-width: 640px) {
+    .current-price {
+      margin-right: 0.5rem;
+      font-size: 0.875rem;
+    }
   }
   
   .original-price {
     color: #9ca3af;
     text-decoration: line-through;
-    font-size: 0.75rem;
+    font-size: 0.625rem;
+  }
+  
+  @media (min-width: 640px) {
+    .original-price {
+      font-size: 0.75rem;
+    }
   }
   
   .discount-badge {
     background-color: #e83a45;
     color: white;
-    font-size: 0.75rem;
+    font-size: 0.625rem;
     padding: 0 0.25rem;
     border-radius: 0.25rem;
     margin-left: auto;
+  }
+  
+  @media (min-width: 640px) {
+    .discount-badge {
+      font-size: 0.75rem;
+    }
   }
   
   .countdown-bar {
@@ -128,7 +189,7 @@ const customStyles = `
     height: 16px;
     border-radius: 7px;
     position: relative;
-    background: #e83a45;
+    background: #fddde6;
     z-index: 1;
     margin-top: 5px;
   }
@@ -183,8 +244,8 @@ const customStyles = `
   .gift-badge {
     border: 1px solid #e83a45;
     border-radius: 0.125rem;
-    padding: 0.25rem;
-    font-size: 0.75rem;
+    padding: 0.125rem 0.25rem;
+    font-size: 0.625rem;
     color: #e83a45;
     display: flex;
     align-items: center;
@@ -192,25 +253,53 @@ const customStyles = `
     transition: background-color 0.3s;
   }
   
+  @media (min-width: 640px) {
+    .gift-badge {
+      padding: 0.25rem;
+      font-size: 0.75rem;
+    }
+  }
+  
   .gift-badge:hover {
     background-color: rgba(232, 58, 69, 0.05);
   }
   
   .gift-badge span {
-    margin-right: 0.25rem;
+    margin-right: 0.125rem;
+  }
+  
+  @media (min-width: 640px) {
+    .gift-badge span {
+      margin-right: 0.25rem;
+    }
   }
   
   .product-labels {
     display: flex;
-    gap: 0.25rem;
-    margin-bottom: 0.5rem;
+    gap: 0.125rem;
+    margin-bottom: 0.375rem;
+    flex-wrap: wrap;
+  }
+  
+  @media (min-width: 640px) {
+    .product-labels {
+      gap: 0.25rem;
+      margin-bottom: 0.5rem;
+    }
   }
   
   .label {
-    font-size: 0.75rem;
-    padding: 0 0.25rem;
+    font-size: 0.625rem;
+    padding: 0 0.125rem;
     border-radius: 0.25rem;
     font-weight: 500;
+  }
+  
+  @media (min-width: 640px) {
+    .label {
+      font-size: 0.75rem;
+      padding: 0 0.25rem;
+    }
   }
   
   .label-exclusive {
@@ -402,42 +491,42 @@ const FlashSale = () => {
   }, []);
 
   return (
-    <section className="py-4 bg-white section_flash_sale">
+    <section className="py-3 sm:py-4 bg-white section_flash_sale">
       <style>{customStyles}</style>
       <div
-        className="mx-auto px-2"
+        className="mx-auto px-1 sm:px-2"
         style={{ width: "1223px", maxWidth: "100%" }}
       >
-        <div className="bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg p-3">
+        <div className="bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg p-2 sm:p-3">
           {/* Header */}
-          <div className="flex flex-wrap items-center justify-between mb-3">
-            <div className="flex items-center mb-2 md:mb-0">
-              <div className="flash-sale-header">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3 gap-2">
+            <div className="flex items-center">
+              <div className="flash-sale-header text-base sm:text-lg">
                 <img
                   src="../src/img/flash.png"
                   alt="Flash"
-                  className="w-6 h-6"
+                  className="w-5 h-5 sm:w-6 sm:h-6"
                 />
                 Flash Sale
               </div>
-              <div className="marquee-container ml-4">
-                <div className="marquee-content">
+              <div className="marquee-container ml-2 sm:ml-4 max-w-[200px] sm:max-w-[500px]">
+                <div className="marquee-content text-xs sm:text-sm">
                   Giảm ngay 120k (áp dụng cho các đơn hàng trên 500k)
                 </div>
               </div>
             </div>
-            <div className="text-white text-sm font-medium flex items-center">
-              <span className="mr-2">Kết thúc sau:</span>
+            <div className="text-white text-xs sm:text-sm font-medium flex items-center">
+              <span className="mr-1 sm:mr-2">Kết thúc sau:</span>
               <div className="flex space-x-1">
-                <div className="bg-black bg-opacity-30 px-2 py-1 rounded">
+                <div className="bg-black bg-opacity-30 px-1 sm:px-2 py-1 rounded text-xs sm:text-sm">
                   {String(countdown.hours).padStart(2, "0")}
                 </div>
-                <span>:</span>
-                <div className="bg-black bg-opacity-30 px-2 py-1 rounded">
+                <span className="text-xs sm:text-sm">:</span>
+                <div className="bg-black bg-opacity-30 px-1 sm:px-2 py-1 rounded text-xs sm:text-sm">
                   {String(countdown.minutes).padStart(2, "0")}
                 </div>
-                <span>:</span>
-                <div className="bg-black bg-opacity-30 px-2 py-1 rounded">
+                <span className="text-xs sm:text-sm">:</span>
+                <div className="bg-black bg-opacity-30 px-1 sm:px-2 py-1 rounded text-xs sm:text-sm">
                   {String(countdown.seconds).padStart(2, "0")}
                 </div>
               </div>
@@ -445,21 +534,21 @@ const FlashSale = () => {
           </div>
 
           {/* Products */}
-          <div className="bg-white p-3 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="bg-white p-2 sm:p-3 rounded-lg">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3">
               {products.map((product) => (
                 <div key={product.id} className="product-card group">
                   {/* Wishlist */}
-                  <button className="absolute top-2 right-2 z-10 text-gray-400 hover:text-red-500 transition-colors duration-300">
-                    <Heart className="w-6 h-6" />
+                  <button className="absolute top-1 sm:top-2 right-1 sm:right-2 z-10 text-gray-400 hover:text-red-500 transition-colors duration-300">
+                    <Heart className="w-4 h-4 sm:w-6 sm:h-6" />
                   </button>
 
                   {/* Brand Logo */}
-                  <div className="absolute top-2 left-2 z-10">
+                  <div className="absolute top-1 sm:top-2 left-1 sm:left-2 z-10">
                     <img
                       src={product.brandLogo}
                       alt={product.brand}
-                      className="h-8 w-auto rounded"
+                      className="h-6 sm:h-8 w-auto rounded"
                     />
                   </div>
 
@@ -542,7 +631,7 @@ const FlashSale = () => {
                   {/* Gift Badge */}
                   <div className="gift-badge">
                     <span>🎁</span>
-                    Có {product.gifts} lựa chọn quà tặng khi mua sp
+                    Có {product.gifts} lựa chọn quà tặng khi mua hàng
                   </div>
                 </div>
               ))}
@@ -550,8 +639,8 @@ const FlashSale = () => {
           </div>
 
           {/* Navigation Dots */}
-          <div className="flex justify-center mt-3 space-x-1">
-            <span className="w-5 h-2 bg-white rounded-full"></span>
+          <div className="flex justify-center mt-2 sm:mt-3 space-x-1">
+            <span className="w-4 h-2 sm:w-5 sm:h-2 bg-white rounded-full"></span>
             <span className="w-2 h-2 bg-gray-300 rounded-full hover:bg-white transition-colors duration-300 cursor-pointer"></span>
           </div>
         </div>

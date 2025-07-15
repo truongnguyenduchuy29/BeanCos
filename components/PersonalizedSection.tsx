@@ -1,70 +1,75 @@
-import React, { useState } from 'react';
-import ProductCard from './ProductCard';
+import React, { useState } from "react";
+import ProductCard from "./ProductCard";
 
 const PersonalizedSection = () => {
-  const [activeTab, setActiveTab] = useState('cleanser');
+  const [activeTab, setActiveTab] = useState("cleanser");
 
   const tabs = [
-    { id: 'cleanser', label: 'TẨY TRANG', active: true },
-    { id: 'face-wash', label: 'SỮA RỬA MẶT' },
-    { id: 'toner', label: 'TONER' },
+    { id: "cleanser", label: "TẨY TRANG", active: true },
+    { id: "face-wash", label: "SỮA RỬA MẶT" },
+    { id: "toner", label: "TONER" },
   ];
 
   const products = [
     {
       id: 6,
-      name: 'Tẩy trang SVR Sebiaclear Eau Micellaire sạch sâu',
-      price: '395.000₫',
-      originalPrice: '450.000₫',
-      discount: '-13%',
-      image: '../src/img/slider_1.webp',
-      brand: 'SVR',
-      tags: ['BEST SELLER']
+      name: "Tẩy trang SVR Sebiaclear Eau Micellaire sạch sâu",
+      price: "395.000₫",
+      originalPrice: "450.000₫",
+      discount: "-13%",
+      image: "../src/img/slider_1.webp",
+      brand: "SVR",
+      tags: ["BEST SELLER"],
     },
     {
       id: 7,
-      name: 'Tẩy trang sạch sâu La Roche Posay Effaclar Micellar Water',
-      price: '395.000₫',
-      originalPrice: '450.000₫',
-      discount: '-13%',
-      image: '../src/img/slider_1.webp',
-      brand: 'La Roche-Posay',
-      tags: ['EXCLUSIVE', 'BEST SELLER']
+      name: "Tẩy trang sạch sâu La Roche Posay Effaclar Micellar Water",
+      price: "395.000₫",
+      originalPrice: "450.000₫",
+      discount: "-13%",
+      image: "../src/img/slider_1.webp",
+      brand: "La Roche-Posay",
+      tags: ["EXCLUSIVE", "BEST SELLER"],
     },
     {
       id: 8,
       name: "L'Oreal Paris 3in1 Micellar Water Tím",
-      price: '195.000₫',
-      originalPrice: '240.000₫',
-      discount: '-19%',
-      image: '../src/img/slider_1.webp',
-      brand: "L'OREAL"
+      price: "195.000₫",
+      originalPrice: "240.000₫",
+      discount: "-19%",
+      image: "../src/img/slider_1.webp",
+      brand: "L'OREAL",
     },
     {
       id: 9,
-      name: 'Dầu tẩy trang Hada Labo Advanced Nourish Hyaluronic...',
-      price: '170.000₫',
-      originalPrice: '205.000₫',
-      discount: '-17%',
-      image: '../src/img/slider_1.webp'
+      name: "Dầu tẩy trang Hada Labo Advanced Nourish Hyaluronic...",
+      price: "170.000₫",
+      originalPrice: "205.000₫",
+      discount: "-17%",
+      image: "../src/img/slider_1.webp",
     },
     {
       id: 10,
-      name: 'Tẩy trang bioderma Sensibio H2O Solution Micellaire dịu nhẹ',
-      price: '160.000₫',
-      originalPrice: '190.000₫',
-      discount: '-16%',
-      image: '../src/img/slider_1.webp',
-      brand: 'BIODERMA',
-      tags: ['BEST SELLER']
+      name: "Tẩy trang bioderma Sensibio H2O Solution Micellaire dịu nhẹ",
+      price: "160.000₫",
+      originalPrice: "190.000₫",
+      discount: "-16%",
+      image: "../src/img/slider_1.webp",
+      brand: "BIODERMA",
+      tags: ["BEST SELLER"],
     },
   ];
 
   return (
     <section className="py-12 bg-gray-50">
-      <div className="mx-auto px-4" style={{ width: '1223px', maxWidth: '100%' }}>
+      <div
+        className="mx-auto px-4"
+        style={{ width: "1223px", maxWidth: "100%" }}
+      >
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-pink-500 mb-4">DÀNH RIÊNG CHO BẠN</h2>
+          <h2 className="text-3xl font-bold text-pink-500 mb-4">
+            DÀNH RIÊNG CHO BẠN
+          </h2>
           <div className="w-16 h-1 bg-pink-500 mx-auto"></div>
         </div>
 
@@ -77,8 +82,8 @@ const PersonalizedSection = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-8 py-3 rounded-lg font-semibold transition-all ${
                   activeTab === tab.id
-                    ? 'bg-blue-500 text-white shadow-md'
-                    : 'text-gray-600 hover:text-blue-500'
+                    ? "bg-blue-500 text-white shadow-md"
+                    : "text-gray-600 hover:text-blue-500"
                 } whitespace-nowrap`}
               >
                 {tab.label}
@@ -95,7 +100,12 @@ const PersonalizedSection = () => {
         </div>
 
         <div className="text-center mt-8">
-          <button className="bg-purple-500 text-white px-8 py-3 rounded-lg hover:bg-purple-600 transition-colors">
+          <button
+            className="text-black px-6 py-2 rounded-full font-medium transition-opacity hover:opacity-90"
+            style={{
+              background: "linear-gradient(90deg, #b5c5ff, #fcd1ff)",
+            }}
+          >
             Xem sản phẩm
           </button>
         </div>

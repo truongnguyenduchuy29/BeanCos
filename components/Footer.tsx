@@ -3,19 +3,19 @@ import { Facebook, Twitter, Youtube, Instagram } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-purple-300 via-purple-200 to-blue-200 pt-8 pb-0">
-      <div className="max-w-[1223px] mx-auto px-4">
+    <footer className="bg-gradient-to-r from-purple-300 via-purple-200 to-blue-200 pt-6 sm:pt-8 pb-0">
+      <div className="max-w-[1223px] mx-auto px-2 sm:px-4">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           <div>
-            <h3 className="text-lg font-bold text-gray-800 mb-4">
+            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">
               THÔNG TIN CHUNG
             </h3>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
               Với sứ mệnh "Khách hàng là ưu tiên số 1" chúng tôi luôn mang lại
               giá trị tốt nhất
             </p>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
               <p className="mb-1">
                 <span className="font-medium">Địa chỉ:</span> 70 Lữ Gia, Phường
                 15, Quận 11, TP. Hồ Chí Minh
@@ -38,7 +38,7 @@ const Footer = () => {
             </div>
             <a
               href="tel:19006750"
-              className="bg-red-500 text-white px-6 py-2 rounded-full mt-4 hover:bg-red-600 transition-colors flex items-center w-max"
+              className="bg-red-500 text-white px-4 sm:px-6 py-2 rounded-full mt-3 sm:mt-4 hover:bg-red-600 transition-colors flex items-center w-max text-sm"
             >
               <svg
                 className="w-4 h-4 mr-2"
@@ -64,8 +64,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-bold text-gray-800 mb-4">CHÍNH SÁCH</h3>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">CHÍNH SÁCH</h3>
+            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
               <li>
                 •{" "}
                 <a href="#" className="hover:text-red-500 transition-colors">
@@ -100,8 +100,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-bold text-gray-800 mb-4">HỖ TRỢ</h3>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">HỖ TRỢ</h3>
+            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
               <li>
                 • Kinh doanh:{" "}
                 <a
@@ -142,70 +142,70 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-bold text-gray-800 mb-4">
+            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">
               LIÊN KẾT XÃ HỘI
             </h3>
-            <div className="flex space-x-2 mb-6">
+            <div className="flex space-x-2 mb-4 sm:mb-6">
               <a
                 href="#"
-                className="bg-[#1877f2] text-white p-2 rounded flex items-center justify-center w-8 h-8 hover:opacity-90 transition-opacity"
+                className="bg-[#1877f2] text-white p-2 rounded flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 hover:opacity-90 transition-opacity"
               >
-                <Facebook className="w-4 h-4" />
+                <Facebook className="w-3 h-3 sm:w-4 sm:h-4" />
               </a>
               <a
                 href="#"
-                className="bg-[#1DA1F2] text-white p-2 rounded flex items-center justify-center w-8 h-8 hover:opacity-90 transition-opacity"
+                className="bg-[#1DA1F2] text-white p-2 rounded flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 hover:opacity-90 transition-opacity"
               >
-                <Twitter className="w-4 h-4" />
+                <Twitter className="w-3 h-3 sm:w-4 sm:h-4" />
               </a>
               <a
                 href="#"
-                className="bg-[#FF0000] text-white p-2 rounded flex items-center justify-center w-8 h-8 hover:opacity-90 transition-opacity"
+                className="bg-[#FF0000] text-white p-2 rounded flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 hover:opacity-90 transition-opacity"
               >
-                <Youtube className="w-4 h-4" />
+                <Youtube className="w-3 h-3 sm:w-4 sm:h-4" />
               </a>
               <a
                 href="#"
-                className="bg-[#C13584] text-white p-2 rounded flex items-center justify-center w-8 h-8 hover:opacity-90 transition-opacity"
+                className="bg-[#C13584] text-white p-2 rounded flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 hover:opacity-90 transition-opacity"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="w-3 h-3 sm:w-4 sm:h-4" />
               </a>
             </div>
 
-            <h4 className="text-base font-bold text-gray-800 mb-3">
+            <h4 className="text-sm sm:text-base font-bold text-gray-800 mb-2 sm:mb-3">
               PHƯƠNG THỨC THANH TOÁN
             </h4>
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-3 sm:mb-4">
               <div className="bg-white p-1 rounded border flex items-center justify-center">
                 <img
                   src="/src/img/payment-1.png"
                   alt="MasterCard"
-                  className="h-7"
+                  className="h-6 sm:h-7"
                 />
               </div>
               <div className="bg-white p-1 rounded border flex items-center justify-center">
-                <img src="/src/img/payment-2.png" alt="VISA" className="h-7" />
+                <img src="/src/img/payment-2.png" alt="VISA" className="h-6 sm:h-7" />
               </div>
               <div className="bg-white p-1 rounded border flex items-center justify-center">
-                <img src="/src/img/payment-3.png" alt="JCB" className="h-7" />
+                <img src="/src/img/payment-3.png" alt="JCB" className="h-6 sm:h-7" />
               </div>
               <div className="bg-white p-1 rounded border flex items-center justify-center">
                 <img
                   src="/src/img/payment-4.png"
                   alt="ZaloPay"
-                  className="h-7"
+                  className="h-6 sm:h-7"
                 />
               </div>
             </div>
 
-            <div className="bg-white p-3 rounded border">
-              <h5 className="font-semibold text-sm mb-2">Zalo Mini Apps</h5>
+            <div className="bg-white p-2 sm:p-3 rounded border">
+              <h5 className="font-semibold text-xs sm:text-sm mb-2">Zalo Mini Apps</h5>
               <div className="flex items-center">
-                <div className="w-12 h-12 bg-white rounded mr-3 flex items-center justify-center">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded mr-2 sm:mr-3 flex items-center justify-center">
                   <img
                     src="/src/img/qrzalo.jpg"
                     alt="Zalo QR Code"
-                    className="w-10 h-10"
+                    className="w-8 h-8 sm:w-10 sm:h-10"
                   />
                 </div>
                 <div>
@@ -221,9 +221,9 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-gray-300 pt-3">
+        <div className="border-t border-gray-300 pt-2 sm:pt-3">
           <div className="bg-[#e91e63] text-white text-center py-2 rounded-sm">
-            <p className="text-sm">
+            <p className="text-xs sm:text-sm">
               © Bản quyền thuộc về Mr. Bean | Cung cấp bởi Sapo
             </p>
           </div>

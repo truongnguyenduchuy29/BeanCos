@@ -45,23 +45,23 @@ const CategorySection = () => {
   ];
 
   return (
-    <section className={`py-10 bg-gray-50 transition-all duration-700 ${showSection ? 'opacity-100' : 'opacity-0'}`}>
-      <div className="mx-auto px-4" style={{ width: '1223px', maxWidth: '100%' }}>
+    <section className={`py-6 sm:py-8 lg:py-10 bg-gray-50 transition-all duration-700 ${showSection ? 'opacity-100' : 'opacity-0'}`}>
+      <div className="mx-auto px-2 sm:px-4" style={{ width: '1223px', maxWidth: '100%' }}>
         {/* Title with decoration */}
-        <div className="flex flex-col items-center mb-8">
-          <h2 className="text-3xl font-bold text-center text-purple-400 mb-2">
+        <div className="flex flex-col items-center mb-6 sm:mb-8">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center text-purple-400 mb-2">
             DANH MỤC HOT
           </h2>
-          <div className="relative w-40 h-6 flex justify-center">
+          <div className="relative w-32 sm:w-40 h-6 flex justify-center">
             <div className="h-0.5 w-full bg-pink-300 absolute top-1/2 transform -translate-y-1/2"></div>
             <div className="bg-gray-50 p-1 z-10 relative">
-              <img src="../src/img/icon_title.png" alt="title decoration" className="w-6 h-6" />
+              <img src="../src/img/icon_title.png" alt="title decoration" className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
           </div>
         </div>
         
         {/* Categories Grid - First Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3 sm:gap-4 lg:gap-5 mb-4 sm:mb-6">
           {categories.slice(0, 7).map((category, index) => (
             <a 
               key={index}
@@ -75,14 +75,14 @@ const CategorySection = () => {
               }}
             >
               <div className="flex flex-col items-center">
-                <div className="bg-purple-100 rounded-lg p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
+                <div className="bg-purple-100 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
                   <img 
                     src={category.image} 
                     alt={category.name} 
                     className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
                   />
                 </div>
-                <span className="text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300">
+                <span className="text-xs sm:text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
                   {category.name}
                 </span>
               </div>
@@ -90,10 +90,8 @@ const CategorySection = () => {
           ))}
         </div>
         
-      
-        
         {/* Categories Grid - Second Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3 sm:gap-4 lg:gap-5">
           {categories.slice(7).map((category, index) => (
             <a 
               key={index + 7}
@@ -107,14 +105,14 @@ const CategorySection = () => {
               }}
             >
               <div className="flex flex-col items-center">
-                <div className="bg-purple-100 rounded-lg p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
+                <div className="bg-purple-100 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
                   <img 
                     src={category.image} 
                     alt={category.name} 
                     className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
                   />
                 </div>
-                <span className="text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300">
+                <span className="text-xs sm:text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
                   {category.name}
                 </span>
               </div>

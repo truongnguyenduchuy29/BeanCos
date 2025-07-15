@@ -42,35 +42,35 @@ const NewsSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4 max-w-[1223px]">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-blue-500 mb-4">TIN NỔI BẬT</h2>
-          <div className="w-16 h-1 bg-pink-500 mx-auto"></div>
+    <section className="py-10 sm:py-12 lg:py-16 bg-gray-50">
+      <div className="container mx-auto px-2 sm:px-4 max-w-[1223px]">
+        <div className="text-center mb-8 sm:mb-10 lg:mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-blue-500 mb-3 sm:mb-4">TIN NỔI BẬT</h2>
+          <div className="w-12 sm:w-16 h-1 bg-pink-500 mx-auto"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {newsItems.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2"
             >
               <div className="relative">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-36 sm:h-40 lg:h-48 object-cover"
                 />
-                <div className="absolute top-4 left-4">
-                  <div className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute top-2 sm:top-4 left-2 sm:left-4">
+                  <div className="bg-blue-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
                     {item.date}
                   </div>
                 </div>
 
                 {item.category && (
-                  <div className="absolute top-4 right-4">
+                  <div className="absolute top-2 sm:top-4 right-2 sm:right-4">
                     <span
-                      className={`px-2 py-1 rounded text-xs font-bold ${
+                      className={`px-1 sm:px-2 py-1 rounded text-xs font-bold ${
                         item.category === "BHA"
                           ? "bg-red-500 text-white"
                           : item.category === "LOTION"
@@ -84,11 +84,11 @@ const NewsSection = () => {
                 )}
 
                 {item.tags && (
-                  <div className="absolute bottom-4 left-4 flex flex-wrap gap-1">
+                  <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 flex flex-wrap gap-1">
                     {item.tags.map((tag, index) => (
                       <span
                         key={index}
-                        className={`px-2 py-1 rounded text-xs font-bold ${
+                        className={`px-1 sm:px-2 py-1 rounded text-xs font-bold ${
                           tag === "PURGING"
                             ? "bg-green-600 text-white"
                             : tag === "BREAK OUT"
@@ -103,24 +103,24 @@ const NewsSection = () => {
                 )}
 
                 {item.beforeAfter && (
-                  <div className="absolute bottom-4 right-4 flex gap-2">
-                    <div className="w-12 h-8 bg-white rounded border-2 border-gray-300"></div>
-                    <div className="w-12 h-8 bg-white rounded border-2 border-gray-300"></div>
+                  <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 flex gap-1 sm:gap-2">
+                    <div className="w-10 h-6 sm:w-12 sm:h-8 bg-white rounded border-2 border-gray-300"></div>
+                    <div className="w-10 h-6 sm:w-12 sm:h-8 bg-white rounded border-2 border-gray-300"></div>
                   </div>
                 )}
               </div>
 
-              <div className="p-4">
+              <div className="p-3 sm:p-4">
                 {item.subtitle && (
-                  <p className="text-sm text-gray-500 mb-2">{item.subtitle}</p>
+                  <p className="text-xs sm:text-sm text-gray-500 mb-1 sm:mb-2">{item.subtitle}</p>
                 )}
-                <h3 className="font-bold text-gray-800 mb-2 line-clamp-2">
+                <h3 className="font-bold text-gray-800 mb-2 line-clamp-2 text-sm sm:text-base">
                   {item.title}
                 </h3>
-                <p className="text-sm text-gray-600 mb-3 line-clamp-3">
+                <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 line-clamp-3">
                   {item.excerpt}
                 </p>
-                <button className="text-blue-500 hover:text-blue-700 text-sm font-semibold transition-colors">
+                <button className="text-blue-500 hover:text-blue-700 text-xs sm:text-sm font-semibold transition-colors">
                   Đọc tiếp
                 </button>
               </div>
