@@ -6,7 +6,7 @@ import WishlistPage from "./components/WishlistPage";
 import CartPage from "./components/CartPage";
 import SearchPage from "./components/SearchPage";
 import LoginPage from "./components/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import RegisterPage from "./components/RegisterPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 
