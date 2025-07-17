@@ -21,6 +21,7 @@ interface Product {
   benefits: string[];
   status: string;
   imageUrl: string;
+  imageUrl1?: string; // Added optional imageUrl1 property
   tags: string[];
   gifts?: string[];
 }
@@ -42,7 +43,7 @@ const ProductPage = () => {
   const [selectedSkinType, setSelectedSkinType] = useState<string | null>(null);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<string>("default");
-  const productsPerPage = 8;
+  const productsPerPage = 12; // Changed from 8 to 12
   const brandsRef = useRef<HTMLDivElement>(null);
 
   // List of price ranges
@@ -97,8 +98,9 @@ const ProductPage = () => {
 
   // Load products from JSON data
   useEffect(() => {
-    setProducts(productData.products);
-    setFilteredProducts(productData.products);
+    // Type assertion to ensure the products match the Product interface
+    setProducts(productData.products as Product[]);
+    setFilteredProducts(productData.products as Product[]);
   }, []);
 
   // Filter products based on selected filters
@@ -200,12 +202,12 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="product-page">
+    <div className="product-page bg-gray-50">
       <Header />
       
       {/* Breadcrumb */}
-      <div className="bg-gray-100 py-3">
-        <div className="container mx-auto px-4">
+      <div className="bg-gray-100 py-2">
+        <div className="container mx-auto px-3">
           <nav className="flex items-center text-sm">
             <Link to="/" className="text-gray-600 hover:text-pink-500">
               Trang chủ
@@ -217,19 +219,19 @@ const ProductPage = () => {
       </div>
 
       {/* Banner Section */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="container mx-auto px-3 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {banners.map((banner) => (
-            <div key={banner.id} className="relative rounded-lg overflow-hidden border border-gray-200">
+            <div key={banner.id} className="relative rounded-md overflow-hidden border border-gray-200">
               <img 
                 src={banner.imageUrl} 
                 alt={banner.title} 
-                className="w-full h-40 object-cover"
+                className="w-full h-32 object-cover"
               />
-              <div className="absolute top-0 left-0 p-4">
-                <h3 className="text-lg font-semibold text-green-700">{banner.title}</h3>
+              <div className="absolute top-0 left-0 p-3">
+                <h3 className="text-base font-semibold text-green-700">{banner.title}</h3>
                 {banner.subtitle && <p className="text-sm text-green-700">{banner.subtitle}</p>}
-                <button className="mt-2 px-4 py-1 bg-white text-green-700 rounded-full text-sm hover:bg-gray-100 transition">
+                <button className="mt-1 px-3 py-1 bg-white text-green-700 rounded-full text-xs hover:bg-gray-100 transition">
                   {banner.buttonText}
                 </button>
               </div>
@@ -239,31 +241,31 @@ const ProductPage = () => {
       </div>
 
       {/* Brand Carousel */}
-      <div className="container mx-auto px-4 py-6">
-        <h2 className="text-xl font-semibold mb-4">TÌM KIẾM NHIỀU</h2>
+      <div className="container mx-auto px-3 py-4">
+        <h2 className="text-lg font-semibold mb-3">TÌM KIẾM NHIỀU</h2>
         <div className="relative">
           <button 
             onClick={() => scrollBrands('left')} 
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-7 h-7 rounded-full flex items-center justify-center"
           >
             &lt;
           </button>
           <div 
             ref={brandsRef}
-            className="flex overflow-x-auto scrollbar-hide space-x-4 py-2"
+            className="flex overflow-x-auto scrollbar-hide space-x-3 py-1"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {brands.map((brand) => (
               <div 
                 key={brand.id} 
-                className="flex-none w-24 text-center cursor-pointer"
+                className="flex-none w-20 text-center cursor-pointer"
                 onClick={() => handleBrandChange(brand.name)}
               >
-                <div className={`border ${selectedBrand === brand.name ? 'border-pink-500' : 'border-gray-200'} rounded-lg p-2 mb-2`}>
+                <div className={`border ${selectedBrand === brand.name ? 'border-pink-500' : 'border-gray-200'} rounded-lg p-1 mb-1`}>
                   <img 
                     src={brand.imageUrl} 
                     alt={brand.name} 
-                    className="w-full h-12 object-contain"
+                    className="w-full h-10 object-contain"
                   />
                 </div>
                 <p className="text-xs truncate">{brand.name}</p>
@@ -272,7 +274,7 @@ const ProductPage = () => {
           </div>
           <button 
             onClick={() => scrollBrands('right')} 
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-7 h-7 rounded-full flex items-center justify-center"
           >
             &gt;
           </button>
@@ -280,24 +282,24 @@ const ProductPage = () => {
       </div>
 
       {/* Main Content with Sidebar and Products */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex flex-col lg:flex-row">
+      <div className="container mx-auto px-3 py-4">
+        <div className="flex flex-col lg:flex-row gap-4">
           {/* Sidebar Filters */}
-          <div className="lg:w-1/4 pr-0 lg:pr-6 mb-6 lg:mb-0">
+          <div className="lg:w-1/5 mb-4 lg:mb-0">
             {/* Categories */}
-            <div className="mb-6">
-              <div className="bg-purple-100 p-3 rounded-t-lg">
-                <h3 className="text-base font-semibold text-purple-900">DANH MỤC SẢN PHẨM</h3>
+            <div className="mb-4">
+              <div className="bg-purple-100 p-2 rounded-t-md">
+                <h3 className="text-sm font-semibold text-purple-900">DANH MỤC SẢN PHẨM</h3>
               </div>
-              <div className="border border-gray-200 p-4 rounded-b-lg">
+              <div className="border border-gray-200 p-2 rounded-b-md">
                 {categories.map((category) => (
-                  <div key={category} className="flex items-center mb-3">
+                  <div key={category} className="flex items-center mb-2">
                     <button 
-                      className={`flex items-center justify-between w-full text-left ${selectedCategory === category ? 'text-pink-500' : 'text-gray-700'}`}
+                      className={`flex items-center justify-between w-full text-left ${selectedCategory === category ? 'text-pink-500' : 'text-gray-700'} text-sm`}
                       onClick={() => handleCategoryChange(category)}
                     >
                       <span>{category}</span>
-                      <span className="text-lg">{selectedCategory === category ? '-' : '+'}</span>
+                      <span>{selectedCategory === category ? '-' : '+'}</span>
                     </button>
                   </div>
                 ))}
@@ -305,21 +307,21 @@ const ProductPage = () => {
             </div>
 
             {/* Product Types */}
-            <div className="mb-6">
-              <div className="bg-purple-100 p-3 rounded-t-lg">
-                <h3 className="text-base font-semibold text-purple-900">LOẠI SẢN PHẨM</h3>
+            <div className="mb-4">
+              <div className="bg-purple-100 p-2 rounded-t-md">
+                <h3 className="text-sm font-semibold text-purple-900">LOẠI SẢN PHẨM</h3>
               </div>
-              <div className="border border-gray-200 p-4 rounded-b-lg max-h-60 overflow-y-auto">
+              <div className="border border-gray-200 p-2 rounded-b-md max-h-48 overflow-y-auto">
                 {productTypes.map((type) => (
-                  <div key={type} className="flex items-center mb-3">
+                  <div key={type} className="flex items-center mb-2">
                     <input
                       type="checkbox"
                       id={`type-${type}`}
                       checked={selectedProductType === type}
                       onChange={() => handleProductTypeChange(type)}
-                      className="mr-2"
+                      className="mr-1.5 h-3.5 w-3.5"
                     />
-                    <label htmlFor={`type-${type}`} className="text-sm text-gray-700 cursor-pointer">
+                    <label htmlFor={`type-${type}`} className="text-xs text-gray-700 cursor-pointer">
                       {type}
                     </label>
                   </div>
@@ -328,21 +330,21 @@ const ProductPage = () => {
             </div>
 
             {/* Price Range */}
-            <div className="mb-6">
-              <div className="bg-purple-100 p-3 rounded-t-lg">
-                <h3 className="text-base font-semibold text-purple-900">CHỌN MỨC GIÁ</h3>
+            <div className="mb-4">
+              <div className="bg-purple-100 p-2 rounded-t-md">
+                <h3 className="text-sm font-semibold text-purple-900">CHỌN MỨC GIÁ</h3>
               </div>
-              <div className="border border-gray-200 p-4 rounded-b-lg">
+              <div className="border border-gray-200 p-2 rounded-b-md">
                 {priceRanges.map((range, index) => (
-                  <div key={index} className="flex items-center mb-3">
+                  <div key={index} className="flex items-center mb-2">
                     <input
                       type="checkbox"
                       id={`price-${index}`}
                       checked={selectedPriceRange === `${range.min}-${range.max}`}
                       onChange={() => handlePriceRangeChange(`${range.min}-${range.max}`)}
-                      className="mr-2"
+                      className="mr-1.5 h-3.5 w-3.5"
                     />
-                    <label htmlFor={`price-${index}`} className="text-sm text-gray-700 cursor-pointer">
+                    <label htmlFor={`price-${index}`} className="text-xs text-gray-700 cursor-pointer">
                       {range.label}
                     </label>
                   </div>
@@ -351,21 +353,21 @@ const ProductPage = () => {
             </div>
 
             {/* Brands */}
-            <div className="mb-6">
-              <div className="bg-purple-100 p-3 rounded-t-lg">
-                <h3 className="text-base font-semibold text-purple-900">THƯƠNG HIỆU</h3>
+            <div className="mb-4">
+              <div className="bg-purple-100 p-2 rounded-t-md">
+                <h3 className="text-sm font-semibold text-purple-900">THƯƠNG HIỆU</h3>
               </div>
-              <div className="border border-gray-200 p-4 rounded-b-lg max-h-60 overflow-y-auto">
+              <div className="border border-gray-200 p-2 rounded-b-md max-h-48 overflow-y-auto">
                 {uniqueBrands.map((brand) => (
-                  <div key={brand} className="flex items-center mb-3">
+                  <div key={brand} className="flex items-center mb-2">
                     <input
                       type="checkbox"
                       id={`brand-${brand}`}
                       checked={selectedBrand === brand}
                       onChange={() => handleBrandChange(brand)}
-                      className="mr-2"
+                      className="mr-1.5 h-3.5 w-3.5"
                     />
-                    <label htmlFor={`brand-${brand}`} className="text-sm text-gray-700 cursor-pointer">
+                    <label htmlFor={`brand-${brand}`} className="text-xs text-gray-700 cursor-pointer">
                       {brand}
                     </label>
                   </div>
@@ -374,21 +376,21 @@ const ProductPage = () => {
             </div>
 
             {/* Skin Types */}
-            <div className="mb-6">
-              <div className="bg-purple-100 p-3 rounded-t-lg">
-                <h3 className="text-base font-semibold text-purple-900">LOẠI DA</h3>
+            <div className="mb-4">
+              <div className="bg-purple-100 p-2 rounded-t-md">
+                <h3 className="text-sm font-semibold text-purple-900">LOẠI DA</h3>
               </div>
-              <div className="border border-gray-200 p-4 rounded-b-lg">
+              <div className="border border-gray-200 p-2 rounded-b-md">
                 {["Da dầu", "Da khô", "Da nhạy cảm", "Da thường", "Da hỗn hợp"].map((skinType) => (
-                  <div key={skinType} className="flex items-center mb-3">
+                  <div key={skinType} className="flex items-center mb-2">
                     <input
                       type="checkbox"
                       id={`skin-${skinType}`}
                       checked={selectedSkinType === skinType}
                       onChange={() => handleSkinTypeChange(skinType)}
-                      className="mr-2"
+                      className="mr-1.5 h-3.5 w-3.5"
                     />
-                    <label htmlFor={`skin-${skinType}`} className="text-sm text-gray-700 cursor-pointer">
+                    <label htmlFor={`skin-${skinType}`} className="text-xs text-gray-700 cursor-pointer">
                       {skinType}
                     </label>
                   </div>
@@ -398,16 +400,16 @@ const ProductPage = () => {
           </div>
 
           {/* Product Grid */}
-          <div className="lg:w-3/4">
+          <div className="lg:w-4/5">
             {/* Top bar with title and sort */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 pb-3 border-b border-gray-200">
-              <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">TẤT CẢ SẢN PHẨM</h2>
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-3 pb-2 border-b border-gray-200">
+              <h2 className="text-lg font-semibold uppercase mb-2 sm:mb-0">TẤT CẢ SẢN PHẨM</h2>
               <div className="flex items-center">
-                <span className="text-sm text-gray-600 mr-2">Sắp xếp:</span>
+                <span className="text-xs text-gray-600 mr-1">Sắp xếp:</span>
                 <select 
                   value={sortBy} 
                   onChange={handleSortChange}
-                  className="border border-gray-300 rounded px-2 py-1 text-sm"
+                  className="border border-gray-300 rounded px-2 py-0.5 text-xs"
                 >
                   <option value="default">Mặc định</option>
                   <option value="price-asc">Giá: Thấp đến cao</option>
@@ -419,23 +421,23 @@ const ProductPage = () => {
             </div>
 
             {/* Product Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {currentProducts.map((product) => (
-                <div key={product.id} className="product-card group relative border border-gray-200 rounded-md overflow-hidden transition-all duration-300 hover:shadow-lg bg-white">
+                <div key={product.id} className="product-card group relative border border-gray-200 rounded-md overflow-hidden transition-all duration-300 hover:shadow-md bg-white">
                   {/* Brand Logo */}
                   <div className="absolute top-2 left-2 z-10">
                     <div className="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center">
                       <img 
                         src={brands.find(b => b.name === product.brand)?.imageUrl || "/src/img/logo.webp"} 
                         alt={product.brand} 
-                        className="max-h-4 max-w-8"
+                        className="max-h-4 max-w-7"
                       />
                     </div>
                   </div>
                   
                   {/* Wishlist button */}
-                  <button className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 text-gray-500 hover:text-pink-500">
+                  <button className="absolute top-2 right-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-3.5 h-3.5 text-gray-500 hover:text-pink-500">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                   </button>
@@ -445,17 +447,17 @@ const ProductPage = () => {
                     <img 
                       src={product.imageUrl} 
                       alt={product.name} 
-                      className="w-full h-36 object-contain transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-40 object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                     
                     {/* Quick view & Buy overlay (appears on hover) */}
                     <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
-                      <Link to={`/product/${product.id}`} className="mb-2 w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-pink-100 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-pink-500">
+                      <Link to={`/product/${product.id}`} className="mb-2 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-pink-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 text-pink-500">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                       </Link>
-                      <button className="px-4 py-1.5 bg-pink-500 text-white text-xs font-medium rounded hover:bg-pink-600 transition-colors">
+                      <button className="px-4 py-1 bg-pink-500 text-white text-xs font-medium rounded hover:bg-pink-600 transition-colors">
                         Mua ngay
                       </button>
                     </div>
@@ -465,12 +467,12 @@ const ProductPage = () => {
                   {product.tags && product.tags.length > 0 && (
                     <div className="absolute top-10 left-0">
                       {product.tags.includes("BEST SELLER") && (
-                        <span className="block bg-red-600 text-white text-xs px-2 py-0.5 mb-1">
+                        <span className="block bg-red-600 text-white text-[10px] px-2 py-0.5 mb-0.5">
                           BEST SELLER
                         </span>
                       )}
                       {product.tags.includes("EXCLUSIVE") && (
-                        <span className="block bg-blue-800 text-white text-xs px-2 py-0.5">
+                        <span className="block bg-blue-800 text-white text-[10px] px-2 py-0.5">
                           EXCLUSIVE
                         </span>
                       )}
@@ -490,8 +492,8 @@ const ProductPage = () => {
                       
                       {product.discount > 0 && (
                         <>
-                          <span className="text-gray-400 text-xs line-through">{formatPrice(product.originalPrice)}đ</span>
-                          <span className="ml-1 bg-red-600 text-white text-xs px-1 py-0.5 rounded">
+                          <span className="text-gray-400 text-[11px] line-through">{formatPrice(product.originalPrice)}đ</span>
+                          <span className="ml-1 bg-red-600 text-white text-[10px] px-1 rounded">
                             -{product.discount}%
                           </span>
                         </>
@@ -500,14 +502,14 @@ const ProductPage = () => {
 
                     {/* Gift info */}
                     {product.gifts && product.gifts.length > 0 && (
-                      <div className="mt-1.5 border border-red-200 rounded p-1.5 bg-red-50">
+                      <div className="mt-1 border border-red-200 rounded p-1 bg-red-50">
                         <div className="flex items-center">
                           <span className="text-red-500 mr-1">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
                             </svg>
                           </span>
-                          <span className="text-xs text-red-500 line-clamp-1">
+                          <span className="text-[10px] text-red-500 line-clamp-1">
                             {`${product.gifts.length} quà tặng kèm`}
                           </span>
                         </div>
@@ -520,13 +522,13 @@ const ProductPage = () => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="mt-8 flex justify-center">
-                <div className="flex space-x-2">
+              <div className="mt-4 mb-11 flex justify-center">
+                <div className="flex space-x-1">
                   {Array.from({ length: totalPages }, (_, index) => (
                     <button
                       key={index + 1}
                       onClick={() => setCurrentPage(index + 1)}
-                      className={`w-8 h-8 flex items-center justify-center rounded ${
+                      className={`w-6 h-6 flex items-center justify-center text-xs rounded ${
                         currentPage === index + 1
                           ? "bg-pink-500 text-white"
                           : "border border-gray-300 hover:bg-gray-100"
