@@ -25,7 +25,10 @@
                 "Hạn chế nhiễm khuẩn, giảm tình trạng tấy đỏ, mụn"
             ],
             "status": "Còn hàng",
-            "imageUrl": "/src/img/labo/1.webp",
+            "imageUrl": "https://bizweb.dktcdn.net/100/490/275/products/162-39ae5224e9753a802693700c896d14c7.jpg?v=1689168337833",
+            "imageUrl2": "https://bizweb.dktcdn.net/100/490/275/products/162-kem-duong-cicaplast-baume-b5-laroche-posay-1.jpg?v=1689168338553",
+            "imageUrl3": "https://bizweb.dktcdn.net/100/490/275/products/162-kem-duong-cicaplast-baume-b5-laroche-posay-2.jpg?v=1689168338553",
+            "imageUrl4": "https://bizweb.dktcdn.net/100/490/275/products/162-kem-duong-cicaplast-baume-b5-laroche-posay-3.jpg?v=1689168338553",
             "tags": [
                 "BEST SELLER"
             ],
@@ -57,7 +60,10 @@
                 "Chống oxy hóa"
             ],
             "status": "Còn hàng",
-            "imageUrl": "/src/img/paulas-choice-recovery.jpg",
+            "imageUrl": "https://bizweb.dktcdn.net/100/490/275/products/501-paulas-choice-skin-recovery-replenishing-moisturizer.jpg?v=1689167568440",
+            "imageUrl2": "https://bizweb.dktcdn.net/100/490/275/products/501-paula-s-choice-skin-recovery-replenishing-moisturize-1.jpg?v=1689167568440",
+            "imageUrl3": "https://bizweb.dktcdn.net/100/490/275/products/501-paula-s-choice-skin-recovery-replenishing-moisturize-2.jpg?v=1689167568440",
+            "imageUrl4": "https://bizweb.dktcdn.net/100/490/275/products/501-paula-s-choice-skin-recovery-replenishing-moisturize-3.jpg?v=1689167568440",
             "tags": [
                 "BEST SELLER"
             ]
@@ -86,7 +92,10 @@
                 "Không gây bít tắc lỗ chân lông"
             ],
             "status": "Còn hàng",
-            "imageUrl": "/src/img/bioderma-sebium-hydra.jpg",
+            "imageUrl": "https://bizweb.dktcdn.net/100/490/275/products/kem-duong-am-cho-da-dau-mun-bioderma.jpg?v=1689156748393",
+            "imageUrl2": "https://bizweb.dktcdn.net/100/490/275/products/549-kem-duong-bioderma-s-bium-hydra-1.jpg?v=1689156748393",
+            "imageUrl3": "https://bizweb.dktcdn.net/100/490/275/products/549-kem-duong-bioderma-s-bium-hydra-2.jpg?v=1689156748393",
+            "imageUrl4": "https://bizweb.dktcdn.net/100/490/275/products/549-kem-duong-bioderma-s-bium-hydra-3.jpg?v=1689156748393",
             "tags": [
                 "EXCLUSIVE",
                 "BEST SELLER"
@@ -116,7 +125,9 @@
                 "Cải thiện kết cấu da"
             ],
             "status": "Còn hàng",
-            "imageUrl": "/src/img/kiehls-calendula.jpg",
+            "imageUrl": "https://bizweb.dktcdn.net/100/490/275/products/563-kiehl-s-calendula-serum-infused-water-cream.jpg?v=1689155975807",
+            "imageUrl2": "https://bizweb.dktcdn.net/100/490/275/products/563-kem-duong-am-kiehl-s-calendula-serum-infused-water-cream-4.jpg?v=1689155975807",
+            "imageUrl3": "https://bizweb.dktcdn.net/100/490/275/products/563-kem-duong-am-kiehl-s-calendula-serum-infused-water-cream-ket-cau.jpg?v=1689155975807",
             "tags": []
         },
         {
@@ -143,7 +154,7 @@
                 "Tăng độ đàn hồi"
             ],
             "status": "Còn hàng",
-            "imageUrl": "/src/img/vichy-liftactiv.jpg",
+            "imageUrl": "https://bizweb.dktcdn.net/100/490/275/products/tinh-chat-serum.jpg?v=1689214181723",
             "tags": [
                 "EXCLUSIVE"
             ]
@@ -346,6 +357,932 @@
             "imageUrl": "/src/img/drwu-dermalab.jpg",
             "tags": [
                 "BEST SELLER"
+            ]
+        },
+        {
+            "id": 13,
+            "name": "Nước cân bằng Kiehl's Calendula Herbal Extract Toner",
+            "brand": "Kiehl's",
+            "price": 255000,
+            "originalPrice": 380000,
+            "discount": 33,
+            "category": "Toner",
+            "origin": "Mỹ",
+            "type": "Nước cân bằng",
+            "skinType": "Mọi loại da",
+            "volume": "250ml",
+            "ingredients": [
+                "Calendula Extract",
+                "Witch Hazel",
+                "Allantoin"
+            ],
+            "description": "Nước cân bằng chiết xuất hoa cúc Calendula, làm dịu và cấp ẩm cho da, phù hợp với mọi loại da kể cả da nhạy cảm.",
+            "benefits": [
+                "Làm dịu da",
+                "Cân bằng độ pH",
+                "Cấp ẩm nhẹ nhàng"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/kiehls-calendula-toner.jpg",
+            "tags": [
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 3 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 14,
+            "name": "Nước cân bằng ngừa mụn La Roche-Posay Effaclar Astringent Lotion",
+            "brand": "La Roche Posay",
+            "price": 305000,
+            "originalPrice": 380000,
+            "discount": 20,
+            "category": "Toner",
+            "origin": "Pháp",
+            "type": "Nước cân bằng",
+            "skinType": "Da dầu, da mụn",
+            "volume": "200ml",
+            "ingredients": [
+                "Salicylic Acid",
+                "LHA",
+                "Zinc PCA"
+            ],
+            "description": "Nước cân bằng chuyên biệt cho da dầu mụn, giúp kiểm soát bã nhờn và làm thông thoáng lỗ chân lông.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Se khít lỗ chân lông",
+                "Kiểm soát dầu nhờn"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/laroche-effaclar-toner.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 2 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 15,
+            "name": "Nước cân bằng trà xanh Toner Eveline Tea Tree Botanic Expert",
+            "brand": "Eveline",
+            "price": 195000,
+            "originalPrice": 195000,
+            "discount": 0,
+            "category": "Toner",
+            "origin": "Ba Lan",
+            "type": "Nước cân bằng",
+            "skinType": "Da dầu, da mụn",
+            "volume": "225ml",
+            "ingredients": [
+                "Tea Tree Extract",
+                "Salicylic Acid",
+                "Witch Hazel"
+            ],
+            "description": "Nước cân bằng chiết xuất trà xanh, giúp kiểm soát dầu nhờn và làm giảm mụn hiệu quả.",
+            "benefits": [
+                "Kháng khuẩn",
+                "Làm dịu da",
+                "Kiểm soát dầu"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/eveline-tea-tree-toner.jpg",
+            "tags": [],
+            "gifts": [
+                "Có 3 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 16,
+            "name": "Nước cân bằng cấp ẩm Hanajirushi Coix Seed Skin Lotion",
+            "brand": "Hanajirushi",
+            "price": 175000,
+            "originalPrice": 175000,
+            "discount": 0,
+            "category": "Toner",
+            "origin": "Nhật Bản",
+            "type": "Nước cân bằng",
+            "skinType": "Da khô, da thường",
+            "volume": "500ml",
+            "ingredients": [
+                "Coix Seed Extract",
+                "Glycerin",
+                "Hyaluronic Acid"
+            ],
+            "description": "Nước cân bằng cấp ẩm từ chiết xuất ý dĩ, giúp làm mềm và dưỡng ẩm sâu cho da.",
+            "benefits": [
+                "Cấp ẩm tức thì",
+                "Làm dịu da",
+                "Cân bằng pH"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/hanajirushi-coix-toner.jpg",
+            "tags": [
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 4 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 17,
+            "name": "Nước cân bằng sáng da Toner Innisfree Jeju Cherry Blossom Skin",
+            "brand": "Innisfree",
+            "price": 240000,
+            "originalPrice": 450000,
+            "discount": 24,
+            "category": "Toner",
+            "origin": "Hàn Quốc",
+            "type": "Nước cân bằng",
+            "skinType": "Mọi loại da",
+            "volume": "200ml",
+            "ingredients": [
+                "Cherry Blossom Extract",
+                "Betaine",
+                "Glycerin"
+            ],
+            "description": "Nước cân bằng chiết xuất hoa anh đào Jeju, giúp làm sáng và đều màu da hiệu quả.",
+            "benefits": [
+                "Làm sáng da",
+                "Cấp ẩm",
+                "Cải thiện kết cấu da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/innisfree-cherry-toner.jpg",
+            "tags": [
+                "EXCLUSIVE"
+            ]
+        },
+        {
+            "id": 18,
+            "name": "Gowon Tigre Skin Toner",
+            "brand": "Gowon",
+            "price": 270000,
+            "originalPrice": 270000,
+            "discount": 0,
+            "category": "Toner",
+            "origin": "Hàn Quốc",
+            "type": "Nước cân bằng",
+            "skinType": "Da nhạy cảm",
+            "volume": "300ml",
+            "ingredients": [
+                "Centella Asiatica",
+                "Green Tea Extract",
+                "Allantoin"
+            ],
+            "description": "Nước cân bằng dịu nhẹ, giúp làm dịu da kích ứng và giảm mẩn đỏ.",
+            "benefits": [
+                "Làm dịu da",
+                "Cấp ẩm",
+                "Phục hồi hàng rào bảo vệ da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/gowon-tigre-toner.jpg",
+            "tags": [
+                "BEST SELLER"
+            ]
+        },
+        {
+            "id": 19,
+            "name": "COSRX Propolis Synergy Toner",
+            "brand": "COSRX",
+            "price": 330000,
+            "originalPrice": 330000,
+            "discount": 0,
+            "category": "Toner",
+            "origin": "Hàn Quốc",
+            "type": "Nước cân bằng",
+            "skinType": "Mọi loại da",
+            "volume": "280ml",
+            "ingredients": [
+                "Propolis Extract",
+                "Honey Extract",
+                "Betaine"
+            ],
+            "description": "Nước cân bằng chiết xuất keo ong, cung cấp dưỡng chất và làm dịu da.",
+            "benefits": [
+                "Nuôi dưỡng da",
+                "Tăng cường hàng rào bảo vệ",
+                "Cấp ẩm"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/cosrx-propolis-toner.jpg",
+            "tags": []
+        },
+        {
+            "id": 20,
+            "name": "Nước cân bằng Toner Paula's Choice Skin Balancing Pore-Reducing Toner",
+            "brand": "Paula's Choice",
+            "price": 490000,
+            "originalPrice": 490000,
+            "discount": 0,
+            "category": "Toner",
+            "origin": "Mỹ",
+            "type": "Nước cân bằng",
+            "skinType": "Da hỗn hợp, da dầu",
+            "volume": "190ml",
+            "ingredients": [
+                "Niacinamide",
+                "Chamomile Extract",
+                "Aloe Vera"
+            ],
+            "description": "Nước cân bằng không chứa cồn, giúp se khít lỗ chân lông và cân bằng dầu nhờn.",
+            "benefits": [
+                "Se khít lỗ chân lông",
+                "Kiểm soát dầu",
+                "Làm dịu da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/paulas-choice-balancing-toner.jpg",
+            "tags": [
+                "EXCLUSIVE"
+            ]
+        },
+        {
+            "id": 21,
+            "name": "Toner giảm mụn SVR Sebiaclear Micro Peel cân bằng da",
+            "brand": "SVR",
+            "price": 285000,
+            "originalPrice": 285000,
+            "discount": 0,
+            "category": "Toner",
+            "origin": "Pháp",
+            "type": "Nước cân bằng",
+            "skinType": "Da dầu, da mụn",
+            "volume": "200ml",
+            "ingredients": [
+                "Gluconolactone",
+                "LHA",
+                "Niacinamide"
+            ],
+            "description": "Toner tẩy da chết nhẹ nhàng, giúp làm sạch sâu và loại bỏ tế bào chết dư thừa trên da.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Giảm mụn",
+                "Tẩy tế bào chết nhẹ nhàng"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/svr-sebiaclear-toner.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ]
+        },
+        {
+            "id": 22,
+            "name": "Sữa rửa mặt dịu nhẹ Cetaphil Gentle Skin Cleanser 500ml",
+            "brand": "Cetaphil",
+            "price": 340000,
+            "originalPrice": 390000,
+            "discount": 11,
+            "category": "Sữa rửa mặt",
+            "origin": "Mỹ",
+            "type": "Sữa rửa mặt",
+            "skinType": "Mọi loại da, da nhạy cảm",
+            "volume": "500ml",
+            "ingredients": [
+                "Glycerin",
+                "Panthenol",
+                "Niacinamide"
+            ],
+            "description": "Sữa rửa mặt dịu nhẹ, không xà phòng, không gây kích ứng cho da nhạy cảm.",
+            "benefits": [
+                "Làm sạch nhẹ nhàng",
+                "Không làm khô da",
+                "An toàn cho da nhạy cảm"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/cetaphil-gentle-cleanser.jpg",
+            "tags": [],
+            "gifts": [
+                "Có 2 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 23,
+            "name": "Sữa rửa mặt ngừa mụn Paula's Choice Clear Pore Normalizing Cleanser",
+            "brand": "Paula's Choice",
+            "price": 550000,
+            "originalPrice": 550000,
+            "discount": 0,
+            "category": "Sữa rửa mặt",
+            "origin": "Mỹ",
+            "type": "Sữa rửa mặt",
+            "skinType": "Da dầu, da mụn",
+            "volume": "180ml",
+            "ingredients": [
+                "Salicylic Acid",
+                "Tea Tree Oil",
+                "Green Tea Extract"
+            ],
+            "description": "Sữa rửa mặt chuyên trị mụn, làm sạch sâu và giảm bã nhờn hiệu quả.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Giảm mụn",
+                "Kiểm soát dầu"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/paulas-choice-clear-cleanser.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 4 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 24,
+            "name": "Sữa Rửa Mặt Cerave Hydrating Facial Cleanser",
+            "brand": "Cerave",
+            "price": 287000,
+            "originalPrice": 287000,
+            "discount": 0,
+            "category": "Sữa rửa mặt",
+            "origin": "Mỹ",
+            "type": "Sữa rửa mặt",
+            "skinType": "Da thường đến da khô",
+            "volume": "355ml",
+            "ingredients": [
+                "Ceramides",
+                "Hyaluronic Acid",
+                "Glycerin"
+            ],
+            "description": "Sữa rửa mặt dịu nhẹ với công thức không xà phòng, giữ ẩm và phục hồi hàng rào bảo vệ da.",
+            "benefits": [
+                "Làm sạch nhẹ nhàng",
+                "Duy trì độ ẩm",
+                "Phục hồi hàng rào bảo vệ"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/cerave-hydrating-cleanser.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 3 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 25,
+            "name": "Sữa rửa mặt cho da nhạy cảm Bioderma Sensibio Gel Moussant",
+            "brand": "Bioderma",
+            "price": 430000,
+            "originalPrice": 430000,
+            "discount": 0,
+            "category": "Sữa rửa mặt",
+            "origin": "Pháp",
+            "type": "Sữa rửa mặt",
+            "skinType": "Da nhạy cảm",
+            "volume": "200ml",
+            "ingredients": [
+                "Rhamnose",
+                "Coco-Glucoside",
+                "Glycerin"
+            ],
+            "description": "Gel rửa mặt dịu nhẹ dành cho da nhạy cảm, làm sạch mà không gây kích ứng.",
+            "benefits": [
+                "Làm sạch dịu nhẹ",
+                "Không gây kích ứng",
+                "Giữ ẩm cho da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/bioderma-sensibio-gel.jpg",
+            "tags": [
+                "EXCLUSIVE"
+            ]
+        },
+        {
+            "id": 26,
+            "name": "Tẩy trang SVR Sebiaclear Eau Micellaire sạch sâu",
+            "brand": "SVR",
+            "price": 370000,
+            "originalPrice": 370000,
+            "discount": 0,
+            "category": "Tẩy trang",
+            "origin": "Pháp",
+            "type": "Nước tẩy trang",
+            "skinType": "Da dầu, da mụn",
+            "volume": "400ml",
+            "ingredients": [
+                "Gluconolactone",
+                "Micelles",
+                "Niacinamide"
+            ],
+            "description": "Nước tẩy trang dành cho da dầu mụn, làm sạch sâu mà không gây khô da.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Kiểm soát dầu",
+                "Không gây bít tắc lỗ chân lông"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/svr-sebiaclear-micellar.jpg",
+            "tags": [
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 2 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 27,
+            "name": "Tẩy trang sạch sâu La Roche Posay Effaclar Micellar Water Ultra",
+            "brand": "La Roche Posay",
+            "price": 395000,
+            "originalPrice": 450000,
+            "discount": 12,
+            "category": "Tẩy trang",
+            "origin": "Pháp",
+            "type": "Nước tẩy trang",
+            "skinType": "Da dầu, da mụn",
+            "volume": "400ml",
+            "ingredients": [
+                "Micelles",
+                "Zinc Gluconate",
+                "Thermal Spring Water"
+            ],
+            "description": "Nước tẩy trang làm sạch sâu, loại bỏ bã nhờn và chất bẩn tích tụ, không gây bít tắc lỗ chân lông.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Kiểm soát dầu",
+                "Không gây kích ứng"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/laroche-effaclar-micellar.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ]
+        },
+        {
+            "id": 28,
+            "name": "L'Oreal Paris 3in1 Micellar Water Tím",
+            "brand": "L'Oreal",
+            "price": 195000,
+            "originalPrice": 195000,
+            "discount": 0,
+            "category": "Tẩy trang",
+            "origin": "Pháp",
+            "type": "Nước tẩy trang",
+            "skinType": "Mọi loại da",
+            "volume": "400ml",
+            "ingredients": [
+                "Micelles",
+                "Glycerin",
+                "Panthenol"
+            ],
+            "description": "Nước tẩy trang 3 trong 1, làm sạch hiệu quả, không cần rửa lại với nước.",
+            "benefits": [
+                "Làm sạch đa năng",
+                "Không cần rửa lại",
+                "Dịu nhẹ với da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/loreal-micellar.jpg",
+            "tags": [],
+            "gifts": [
+                "Có 3 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 29,
+            "name": "Dầu tẩy trang Hada Labo Advanced Nourish Hyaluronic Cleansing Oil",
+            "brand": "Hada Labo",
+            "price": 170000,
+            "originalPrice": 195000,
+            "discount": 13,
+            "category": "Tẩy trang",
+            "origin": "Nhật Bản",
+            "type": "Dầu tẩy trang",
+            "skinType": "Mọi loại da",
+            "volume": "200ml",
+            "ingredients": [
+                "Olive Oil",
+                "Jojoba Oil",
+                "Hyaluronic Acid"
+            ],
+            "description": "Dầu tẩy trang làm sạch sâu, nhưng vẫn dịu nhẹ và dưỡng ẩm cho da.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Dưỡng ẩm",
+                "Không gây khô da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/hada-labo-cleansing-oil.jpg",
+            "tags": [],
+            "gifts": [
+                "Có 1 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 30,
+            "name": "Simple Kind To Skin Soothing Facial Toner",
+            "brand": "Simple",
+            "price": 80000,
+            "originalPrice": 135000,
+            "discount": 41,
+            "category": "Toner",
+            "origin": "Anh",
+            "type": "Nước cân bằng",
+            "skinType": "Da nhạy cảm",
+            "volume": "200ml",
+            "ingredients": [
+                "Chamomile Extract",
+                "Witch Hazel",
+                "Allantoin"
+            ],
+            "description": "Nước cân bằng dịu nhẹ, không cồn, làm dịu và làm mềm da mà không gây kích ứng.",
+            "benefits": [
+                "Làm dịu da",
+                "Không chứa cồn",
+                "An toàn cho da nhạy cảm"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/simple-facial-toner.jpg",
+            "tags": [
+                "EXCLUSIVE"
+            ],
+            "gifts": [
+                "Có 1 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 31,
+            "name": "Sữa rửa mặt sạch sâu innisfree Jeju Pomegranate Revitalizing Foam Cleanser",
+            "brand": "Innisfree",
+            "price": 285000,
+            "originalPrice": 285000,
+            "discount": 0,
+            "category": "Sữa rửa mặt",
+            "origin": "Hàn Quốc",
+            "type": "Sữa rửa mặt",
+            "skinType": "Mọi loại da",
+            "volume": "150ml",
+            "ingredients": [
+                "Pomegranate Extract",
+                "Glycerin",
+                "Citric Acid"
+            ],
+            "description": "Sữa rửa mặt chiết xuất lựu, làm sạch và nuôi dưỡng da, mang lại làn da tươi sáng.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Làm sáng da",
+                "Nuôi dưỡng da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/innisfree-pomegranate-cleanser.jpg",
+            "tags": [
+                "EXCLUSIVE"
+            ],
+            "gifts": [
+                "Có 4 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 32,
+            "name": "Sữa rửa mặt dịu nhẹ Innisfree Jeju Volcanic Pore Cleansing Foam",
+            "brand": "Innisfree",
+            "price": 170000,
+            "originalPrice": 210000,
+            "discount": 19,
+            "category": "Sữa rửa mặt",
+            "origin": "Hàn Quốc",
+            "type": "Sữa rửa mặt",
+            "skinType": "Da dầu, da hỗn hợp",
+            "volume": "150ml",
+            "ingredients": [
+                "Volcanic Ash",
+                "Glycerin",
+                "Citric Acid"
+            ],
+            "description": "Sữa rửa mặt chứa tro núi lửa Jeju, giúp hút dầu thừa và làm sạch sâu lỗ chân lông.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Kiểm soát dầu",
+                "Se khít lỗ chân lông"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/innisfree-volcanic-cleanser.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 2 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 33,
+            "name": "Sữa rửa mặt ngừa mụn La Roche-Posay Effaclar Purifying Foaming Gel",
+            "brand": "La Roche Posay",
+            "price": 290000,
+            "originalPrice": 355000,
+            "discount": 18,
+            "category": "Sữa rửa mặt",
+            "origin": "Pháp",
+            "type": "Sữa rửa mặt",
+            "skinType": "Da dầu, da mụn",
+            "volume": "200ml",
+            "ingredients": [
+                "Zinc PCA",
+                "Thermal Spring Water",
+                "Glycerin"
+            ],
+            "description": "Gel rửa mặt tạo bọt nhẹ nhàng dành cho da dầu mụn, làm sạch sâu và kiểm soát bã nhờn hiệu quả.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Kiểm soát dầu",
+                "Không làm khô da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/laroche-effaclar-cleanser.jpg",
+            "tags": [
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 2 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 34,
+            "name": "Sữa rửa mặt Bioderma Sebium Moussant Gel cho da nhờn mụn",
+            "brand": "Bioderma",
+            "price": 339000,
+            "originalPrice": 430000,
+            "discount": 21,
+            "category": "Sữa rửa mặt",
+            "origin": "Pháp",
+            "type": "Sữa rửa mặt",
+            "skinType": "Da dầu, da mụn",
+            "volume": "200ml",
+            "ingredients": [
+                "Zinc Gluconate",
+                "Copper Sulfate",
+                "Salicylic Acid"
+            ],
+            "description": "Gel rửa mặt dạng bọt dành cho da dầu mụn, làm sạch sâu và giúp cân bằng lượng dầu trên da.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Cân bằng độ ẩm",
+                "Kiểm soát dầu"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/bioderma-sebium-moussant.jpg",
+            "tags": [],
+            "gifts": [
+                "Có 3 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 35,
+            "name": "Sữa rửa mặt Some By Mi Miracle Acne Clear Foam",
+            "brand": "Some By Mi",
+            "price": 260000,
+            "originalPrice": 260000,
+            "discount": 0,
+            "category": "Sữa rửa mặt",
+            "origin": "Hàn Quốc",
+            "type": "Sữa rửa mặt",
+            "skinType": "Da mụn",
+            "volume": "100ml",
+            "ingredients": [
+                "AHA",
+                "BHA",
+                "PHA"
+            ],
+            "description": "Sữa rửa mặt trị mụn với công thức 3 loại acid nhẹ nhàng giúp làm sạch sâu và giảm mụn hiệu quả.",
+            "benefits": [
+                "Trị mụn",
+                "Làm sạch sâu",
+                "Tẩy tế bào chết nhẹ nhàng"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/some-by-mi-cleanser.jpg",
+            "tags": [
+                "BEST SELLER"
+            ]
+        },
+        {
+            "id": 36,
+            "name": "Simple Kind To Skin Refreshing Facial Wash",
+            "brand": "Simple",
+            "price": 95000,
+            "originalPrice": 105000,
+            "discount": 10,
+            "category": "Sữa rửa mặt",
+            "origin": "Anh",
+            "type": "Sữa rửa mặt",
+            "skinType": "Da nhạy cảm",
+            "volume": "150ml",
+            "ingredients": [
+                "Pro-Vitamin B5",
+                "Vitamin E",
+                "Chamomile Extract"
+            ],
+            "description": "Gel rửa mặt dịu nhẹ không chứa xà phòng và hương liệu, an toàn cho da nhạy cảm.",
+            "benefits": [
+                "Làm sạch nhẹ nhàng",
+                "Không gây kích ứng",
+                "Giữ ẩm cho da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/simple-refreshing-wash.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 4 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 37,
+            "name": "Tẩy trang Bioderma Sensibio H2O Solution Micellaire dịu nhẹ",
+            "brand": "Bioderma",
+            "price": 160000,
+            "originalPrice": 180000,
+            "discount": 11,
+            "category": "Tẩy trang",
+            "origin": "Pháp",
+            "type": "Nước tẩy trang",
+            "skinType": "Da nhạy cảm",
+            "volume": "250ml",
+            "ingredients": [
+                "Micelles",
+                "Cucumber Extract",
+                "Glycerin"
+            ],
+            "description": "Nước tẩy trang micellar dịu nhẹ, không cồn, dành cho da nhạy cảm.",
+            "benefits": [
+                "Làm sạch nhẹ nhàng",
+                "Không gây kích ứng",
+                "Không cần rửa lại"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/bioderma-sensibio-h2o.jpg",
+            "tags": [],
+            "gifts": [
+                "Có 1 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 38,
+            "name": "Nước Tẩy Trang Bioderma Sebium H2O Solution Micellaire",
+            "brand": "Bioderma",
+            "price": 158000,
+            "originalPrice": 158000,
+            "discount": 0,
+            "category": "Tẩy trang",
+            "origin": "Pháp",
+            "type": "Nước tẩy trang",
+            "skinType": "Da dầu, da mụn",
+            "volume": "250ml",
+            "ingredients": [
+                "Micelles",
+                "Zinc Gluconate",
+                "Copper Sulfate"
+            ],
+            "description": "Nước tẩy trang dành riêng cho da dầu mụn, làm sạch sâu nhưng không gây khô da.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Kiểm soát dầu",
+                "Không gây bít tắc lỗ chân lông"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/bioderma-sebium-h2o.jpg",
+            "tags": [],
+            "gifts": [
+                "Có 2 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 39,
+            "name": "Nước tẩy trang sạch sâu Derladie Cleansing Water Natural",
+            "brand": "Derladie",
+            "price": 155000,
+            "originalPrice": 155000,
+            "discount": 0,
+            "category": "Tẩy trang",
+            "origin": "Hàn Quốc",
+            "type": "Nước tẩy trang",
+            "skinType": "Mọi loại da",
+            "volume": "500ml",
+            "ingredients": [
+                "Micelles",
+                "Centella Asiatica",
+                "Hyaluronic Acid"
+            ],
+            "description": "Nước tẩy trang làm sạch sâu, dịu nhẹ với chiết xuất từ thiên nhiên.",
+            "benefits": [
+                "Làm sạch tốt",
+                "Làm dịu da",
+                "Cấp ẩm nhẹ"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/derladie-cleansing-water.jpg",
+            "tags": [
+                "EXCLUSIVE"
+            ],
+            "gifts": [
+                "Có 3 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 40,
+            "name": "Tẩy trang dịu nhẹ La Roche-Posay Micellar Water Ultra Sensitive Skin",
+            "brand": "La Roche Posay",
+            "price": 395000,
+            "originalPrice": 450000,
+            "discount": 12,
+            "category": "Tẩy trang",
+            "origin": "Pháp",
+            "type": "Nước tẩy trang",
+            "skinType": "Da nhạy cảm",
+            "volume": "400ml",
+            "ingredients": [
+                "Glycerin",
+                "Micelles",
+                "Thermal Spring Water"
+            ],
+            "description": "Nước tẩy trang micellar không cồn, dịu nhẹ, phù hợp với da nhạy cảm.",
+            "benefits": [
+                "Làm sạch nhẹ nhàng",
+                "Không gây kích ứng",
+                "Không cần rửa lại"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/laroche-micellar-ultra.jpg",
+            "tags": [
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 2 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 41,
+            "name": "Nước tẩy trang Nature Republic Good Skin AHA Cleansing Water",
+            "brand": "Nature Republic",
+            "price": 170000,
+            "originalPrice": 205000,
+            "discount": 17,
+            "category": "Tẩy trang",
+            "origin": "Hàn Quốc",
+            "type": "Nước tẩy trang",
+            "skinType": "Da thường đến da dầu",
+            "volume": "500ml",
+            "ingredients": [
+                "AHA",
+                "Aloe Vera",
+                "Tea Tree Extract"
+            ],
+            "description": "Nước tẩy trang chứa AHA, giúp làm sạch sâu và nhẹ nhàng tẩy tế bào chết.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Tẩy tế bào chết nhẹ nhàng",
+                "Làm sáng da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/nature-republic-aha.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "Có 2 lựa chọn quà tặng khi mua hàng"
+            ]
+        },
+        {
+            "id": 42,
+            "name": "Tẩy trang Simple Water Boost Micellar Water",
+            "brand": "Simple",
+            "price": 200000,
+            "originalPrice": 240000,
+            "discount": 17,
+            "category": "Tẩy trang",
+            "origin": "Anh",
+            "type": "Nước tẩy trang",
+            "skinType": "Da khô, da nhạy cảm",
+            "volume": "400ml",
+            "ingredients": [
+                "Micelles",
+                "Glycerin",
+                "Vitamin B3"
+            ],
+            "description": "Nước tẩy trang micellar cấp ẩm, dịu nhẹ với làn da nhạy cảm.",
+            "benefits": [
+                "Làm sạch nhẹ nhàng",
+                "Cấp ẩm",
+                "Không gây kích ứng"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/simple-boost-micellar.jpg",
+            "tags": [],
+            "gifts": [
+                "Có 4 lựa chọn quà tặng khi mua hàng"
             ]
         }
     ]
