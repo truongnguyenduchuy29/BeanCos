@@ -307,13 +307,13 @@ const ProductPage = () => {
       </div>
 
       {/* Main Content with Sidebar and Products */}
-      <div className="container mx-auto px-3 py-4">
-        <div className="flex flex-col lg:flex-row gap-4">
+      <div className="container mx-auto px-4 py-6">
+        <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar Filters */}
-          <div className="lg:w-[300px] mb-4 lg:mb-0">
+          <div className="lg:w-[280px] mb-4 lg:mb-0">
             {/* Categories */}
             <div className="mb-5">
-              <div className="bg-purple-100 p-2.5 rounded-t-md">
+              <div className="bg-purple-100 p-3 rounded-t-md">
                 <h3 className="text-sm font-bold text-purple-900">DANH MỤC SẢN PHẨM</h3>
               </div>
               <div className="border border-gray-200 p-3 rounded-b-md">
@@ -331,19 +331,19 @@ const ProductPage = () => {
             </div>
 
             {/* Product Types */}
-            <div className="mb-4">
-              <div className="bg-purple-100 p-2 rounded-t-md">
+            <div className="mb-5">
+              <div className="bg-purple-100 p-3 rounded-t-md">
                 <h3 className="text-sm font-semibold text-purple-900">LOẠI SẢN PHẨM</h3>
               </div>
-              <div className="border border-gray-200 p-2 rounded-b-md max-h-48 overflow-y-auto">
+              <div className="border border-gray-200 p-3 rounded-b-md max-h-48 overflow-y-auto">
                 {productTypes.map((type) => (
-                  <div key={type} className="flex items-center mb-2">
+                  <div key={type} className="flex items-center mb-2.5">
                     <input
                       type="checkbox"
                       id={`type-${type}`}
                       checked={selectedProductType === type}
                       onChange={() => handleProductTypeChange(type)}
-                      className="mr-1.5 h-3.5 w-3.5"
+                      className="mr-2 h-4 w-4"
                     />
                     <label htmlFor={`type-${type}`} className="text-xs text-gray-700 cursor-pointer">
                       {type}
@@ -354,19 +354,19 @@ const ProductPage = () => {
             </div>
 
             {/* Price Range */}
-            <div className="mb-4">
-              <div className="bg-purple-100 p-2 rounded-t-md">
+            <div className="mb-5">
+              <div className="bg-purple-100 p-3 rounded-t-md">
                 <h3 className="text-sm font-semibold text-purple-900">CHỌN MỨC GIÁ</h3>
               </div>
-              <div className="border border-gray-200 p-2 rounded-b-md">
+              <div className="border border-gray-200 p-3 rounded-b-md">
                 {priceRanges.map((range, index) => (
-                  <div key={index} className="flex items-center mb-2">
+                  <div key={index} className="flex items-center mb-2.5">
                     <input
                       type="checkbox"
                       id={`price-${index}`}
                       checked={selectedPriceRange === `${range.min}-${range.max}`}
                       onChange={() => handlePriceRangeChange(`${range.min}-${range.max}`)}
-                      className="mr-1.5 h-3.5 w-3.5"
+                      className="mr-2 h-4 w-4"
                     />
                     <label htmlFor={`price-${index}`} className="text-xs text-gray-700 cursor-pointer">
                       {range.label}
@@ -377,19 +377,19 @@ const ProductPage = () => {
             </div>
 
             {/* Brands */}
-            <div className="mb-4">
-              <div className="bg-purple-100 p-2 rounded-t-md">
+            <div className="mb-5">
+              <div className="bg-purple-100 p-3 rounded-t-md">
                 <h3 className="text-sm font-semibold text-purple-900">THƯƠNG HIỆU</h3>
               </div>
-              <div className="border border-gray-200 p-2 rounded-b-md max-h-48 overflow-y-auto">
+              <div className="border border-gray-200 p-3 rounded-b-md max-h-48 overflow-y-auto">
                 {uniqueBrands.map((brand) => (
-                  <div key={brand} className="flex items-center mb-2">
+                  <div key={brand} className="flex items-center mb-2.5">
                     <input
                       type="checkbox"
                       id={`brand-${brand}`}
                       checked={selectedBrand === brand}
                       onChange={() => handleBrandChange(brand)}
-                      className="mr-1.5 h-3.5 w-3.5"
+                      className="mr-2 h-4 w-4"
                     />
                     <label htmlFor={`brand-${brand}`} className="text-xs text-gray-700 cursor-pointer">
                       {brand}
@@ -400,19 +400,19 @@ const ProductPage = () => {
             </div>
 
             {/* Skin Types */}
-            <div className="mb-4">
-              <div className="bg-purple-100 p-2 rounded-t-md">
+            <div className="mb-5">
+              <div className="bg-purple-100 p-3 rounded-t-md">
                 <h3 className="text-sm font-semibold text-purple-900">LOẠI DA</h3>
               </div>
-              <div className="border border-gray-200 p-2 rounded-b-md">
+              <div className="border border-gray-200 p-3 rounded-b-md">
                 {skinTypes.map((skinType) => (
-                  <div key={skinType} className="flex items-center mb-2">
+                  <div key={skinType} className="flex items-center mb-2.5">
                     <input
                       type="checkbox"
                       id={`skin-${skinType}`}
                       checked={selectedSkinType === skinType}
                       onChange={() => handleSkinTypeChange(skinType)}
-                      className="mr-1.5 h-3.5 w-3.5"
+                      className="mr-2 h-4 w-4"
                     />
                     <label htmlFor={`skin-${skinType}`} className="text-xs text-gray-700 cursor-pointer">
                       {skinType}
@@ -426,7 +426,7 @@ const ProductPage = () => {
           {/* Product Grid */}
           <div className="lg:flex-1">
             {/* Top bar with title and sort */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 pb-3 border-b border-gray-200">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 pb-3 border-b border-gray-200">
               <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">
                 {selectedCategory || selectedProductType || "TẤT CẢ SẢN PHẨM"}
               </h2>
@@ -435,7 +435,7 @@ const ProductPage = () => {
                 <select 
                   value={sortBy} 
                   onChange={handleSortChange}
-                  className="border border-gray-300 rounded px-3 py-1 text-sm"
+                  className="border border-gray-300 rounded px-3 py-1.5 text-sm"
                 >
                   <option value="default">Mặc định</option>
                   <option value="price-asc">Giá: Thấp đến cao</option>
@@ -447,7 +447,7 @@ const ProductPage = () => {
             </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {currentProducts.map((product) => (
             <div key={product.id} className="product-card group relative border border-gray-200 rounded-md overflow-hidden transition-all duration-300 hover:shadow-lg bg-white">
               {/* Brand Logo */}
@@ -471,7 +471,7 @@ const ProductPage = () => {
                     <img 
                       src={product.imageUrl} 
                       alt={product.name} 
-                      className="w-full h-44 object-contain transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-48 object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                     
                     {/* Quick view & Buy overlay (appears on hover) */}
@@ -506,7 +506,7 @@ const ProductPage = () => {
                   {/* Product Info */}
                   <div className="p-4">
                     <Link to={`/product/${product.id}`}>
-                      <h3 className="text-sm font-medium mb-2 h-10 overflow-hidden line-clamp-2 group-hover:text-pink-500 transition">
+                      <h3 className="text-sm font-medium mb-2.5 h-10 overflow-hidden line-clamp-2 group-hover:text-pink-500 transition">
                         {product.name}
                       </h3>
                     </Link>
@@ -517,7 +517,7 @@ const ProductPage = () => {
                       {product.discount > 0 && (
                         <>
                           <span className="text-gray-400 text-xs line-through">{formatPrice(product.originalPrice)}đ</span>
-                          <span className="ml-2 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded">
+                          <span className="ml-2 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-sm">
                             -{product.discount}%
                           </span>
                         </>
