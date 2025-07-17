@@ -1,41 +1,25 @@
-import { AppProvider } from "./context/AppContext";
-
-// Import pages
-import HomePage from "./components/HomePage";
-import WishlistPage from "./components/WishlistPage";
-import CartPage from "./components/CartPage";
-import SearchPage from "./components/SearchPage";
-import LoginPage from "./components/LoginPage";
-import RegisterPage from "./components/RegisterPage";
-import AboutPage from "./pages/AboutPage";
-import ContactPage from "./pages/ContactPage";
+import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import './index.css'
+import HomePage from './pages/HomePage'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
+import ProductPage from './pages/ProductPage'
+import { AppProvider } from './context/AppContext'
 
 function App() {
-  // Simple routing based on pathname
-  const path = window.location.pathname;
-
-  const renderPage = () => {
-    switch (path) {
-      case "/wishlist":
-        return <WishlistPage />;
-      case "/cart":
-        return <CartPage />;
-      case "/search":
-        return <SearchPage />;
-      case "/login":
-        return <LoginPage />;
-      case "/register":
-        return <RegisterPage />;
-      case "/about":
-        return <AboutPage />;
-      case "/contact":
-        return <ContactPage />;
-      default:
-        return <HomePage />;
-    }
-  };
-
-  return <AppProvider>{renderPage()}</AppProvider>;
+  return (
+    <AppProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/products" element={<ProductPage />} />
+        </Routes>
+      </Router>
+    </AppProvider>
+  )
 }
 
-export default App;
+export default App

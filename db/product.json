@@ -1,0 +1,352 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Kem dưỡng La Roche Posay B5 Cicaplast dạng Cream",
+            "brand": "La Roche Posay",
+            "price": 280000,
+            "originalPrice": 320000,
+            "discount": 12,
+            "category": "Kem dưỡng da",
+            "origin": "Pháp",
+            "type": "Kem dưỡng",
+            "skinType": "Mọi loại da",
+            "volume": "40ml",
+            "ingredients": [
+                "Panthenol",
+                "Madecassoside",
+                "Zinc Gluconate",
+                "Silica"
+            ],
+            "description": "Kem dưỡng ẩm thần thánh dạng làm mưa làm gió trong giới skincare. Giúp làm lành vết thương, phục hồi da và hạn chế nhiễm khuẩn, giảm tình trạng tấy đỏ, mụn.",
+            "benefits": [
+                "Dưỡng ẩm, làm trẻ hóa và làm dịu da",
+                "Làm lành vết thương, phục hồi da",
+                "Hạn chế nhiễm khuẩn, giảm tình trạng tấy đỏ, mụn"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/laroche-b5-cicaplast.jpg",
+            "tags": [
+                "BEST SELLER"
+            ],
+            "gifts": [
+                "3 miếng mặt nạ dát sét Cattier",
+                "Bông tẩy trang 40 miếng"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Kem dưỡng ẩm Paula's Choice Skin Recovery Replenishing Moisturizer",
+            "brand": "Paula's Choice",
+            "price": 850000,
+            "originalPrice": 850000,
+            "discount": 0,
+            "category": "Kem dưỡng da",
+            "type": "Kem dưỡng ẩm",
+            "skinType": "Da khô, nhạy cảm",
+            "volume": "60ml",
+            "ingredients": [
+                "Hyaluronic Acid",
+                "Vitamin E",
+                "Antioxidants"
+            ],
+            "description": "Kem dưỡng ẩm phục hồi làn da khô và nhạy cảm, cung cấp độ ẩm sâu và dưỡng chất thiết yếu.",
+            "benefits": [
+                "Phục hồi độ ẩm cho da",
+                "Làm dịu da khô và nhạy cảm",
+                "Chống oxy hóa"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/paulas-choice-recovery.jpg",
+            "tags": [
+                "BEST SELLER"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Kem dưỡng kiềm dầu Bioderma Sébium Hydra",
+            "brand": "Bioderma",
+            "price": 335000,
+            "originalPrice": 335000,
+            "discount": 0,
+            "category": "Kem dưỡng da",
+            "origin": "Pháp",
+            "type": "Kem dưỡng kiềm dầu",
+            "skinType": "Da dầu, da hỗn hợp",
+            "volume": "40ml",
+            "ingredients": [
+                "Glycerin",
+                "Zinc Gluconate",
+                "Vitamin E"
+            ],
+            "description": "Kem dưỡng kiềm dầu dành riêng cho làn da dầu mụn, cung cấp độ ẩm mà không gây bóng nhờn.",
+            "benefits": [
+                "Kiềm dầu hiệu quả",
+                "Cấp ẩm cho da dầu",
+                "Không gây bít tắc lỗ chân lông"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/bioderma-sebium-hydra.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Kem dưỡng cấp ẩm Kiehl's Calendula Serum-Infused Water Cream",
+            "brand": "Kiehl's",
+            "price": 815000,
+            "originalPrice": 1350000,
+            "discount": 40,
+            "category": "Kem dưỡng da",
+            "origin": "Mỹ",
+            "type": "Kem dưỡng ẩm",
+            "skinType": "Da thường đến da dầu",
+            "volume": "50ml",
+            "ingredients": [
+                "Calendula Extract",
+                "Glycerin",
+                "Hyaluronic Acid"
+            ],
+            "description": "Kem dưỡng cấp ẩm làn da căng mịn với công thức nhẹ nhàng, thấm nhanh và không gây nhờn rít.",
+            "benefits": [
+                "Cấp ẩm tức thì",
+                "Làm dịu da",
+                "Cải thiện kết cấu da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/kiehls-calendula.jpg",
+            "tags": []
+        },
+        {
+            "id": 5,
+            "name": "Tinh chất sáng da Serum Vichy Liftactiv Specialist",
+            "brand": "Vichy",
+            "price": 1275000,
+            "originalPrice": 1310000,
+            "discount": 3,
+            "category": "Serum",
+            "origin": "Pháp",
+            "type": "Serum chống lão hóa",
+            "skinType": "Mọi loại da",
+            "volume": "30ml",
+            "ingredients": [
+                "Vitamin C",
+                "Hyaluronic Acid",
+                "Peptides"
+            ],
+            "description": "Tinh chất chống lão hóa cao cấp từ Vichy, giúp làm sáng da, mờ nếp nhăn và cải thiện đàn hồi da.",
+            "benefits": [
+                "Làm sáng da",
+                "Giảm nếp nhăn",
+                "Tăng độ đàn hồi"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/vichy-liftactiv.jpg",
+            "tags": [
+                "EXCLUSIVE"
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Tẩy da chết vật lý Bioderma Sebium Gel Gommant",
+            "brand": "Bioderma",
+            "price": 390000,
+            "originalPrice": 390000,
+            "discount": 0,
+            "category": "Tẩy tế bào chết",
+            "origin": "Pháp",
+            "type": "Gel tẩy da chết",
+            "skinType": "Da dầu, da hỗn hợp",
+            "volume": "100ml",
+            "ingredients": [
+                "Salicylic Acid",
+                "Zinc Gluconate",
+                "Microbeads"
+            ],
+            "description": "Gel tẩy tế bào chết nhẹ nhàng, loại bỏ tế bào chết và bã nhờn, giúp thông thoáng lỗ chân lông.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Loại bỏ tế bào chết",
+                "Kiểm soát dầu"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/bioderma-sebium-gel.jpg",
+            "tags": []
+        },
+        {
+            "id": 7,
+            "name": "Tẩy da chết Paula's Choice Skin Perfecting Gel Exfoliant",
+            "brand": "Paula's Choice",
+            "price": 339000,
+            "originalPrice": 339000,
+            "discount": 0,
+            "category": "Tẩy tế bào chết",
+            "origin": "Mỹ",
+            "type": "Gel tẩy da chết",
+            "skinType": "Mọi loại da",
+            "volume": "100ml",
+            "ingredients": [
+                "BHA",
+                "Salicylic Acid",
+                "Green Tea Extract"
+            ],
+            "description": "Gel tẩy da chết hóa học với BHA, giúp loại bỏ tế bào chết và thông thoáng lỗ chân lông hiệu quả.",
+            "benefits": [
+                "Làm sạch sâu",
+                "Thông thoáng lỗ chân lông",
+                "Làm mịn bề mặt da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/paulas-choice-exfoliant.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ]
+        },
+        {
+            "id": 8,
+            "name": "Simple Smoothing Facial Scrub",
+            "brand": "Simple",
+            "price": 75000,
+            "originalPrice": 75000,
+            "discount": 0,
+            "category": "Tẩy tế bào chết",
+            "origin": "Anh",
+            "type": "Sữa rửa mặt tẩy tế bào chết",
+            "skinType": "Da nhạy cảm",
+            "volume": "75ml",
+            "ingredients": [
+                "Rice Granules",
+                "Vitamin E",
+                "Pro-Vitamin B5"
+            ],
+            "description": "Sữa rửa mặt tẩy tế bào chết nhẹ nhàng, không chứa hương liệu, phù hợp với da nhạy cảm.",
+            "benefits": [
+                "Làm sạch nhẹ nhàng",
+                "Loại bỏ tế bào chết",
+                "Không gây kích ứng"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/simple-facial-scrub.jpg",
+            "tags": [
+                "BEST SELLER"
+            ]
+        },
+        {
+            "id": 9,
+            "name": "Tinh chất La Roche-Posay Hyalu B5 Serum phục hồi da",
+            "brand": "La Roche Posay",
+            "price": 770000,
+            "originalPrice": 770000,
+            "discount": 0,
+            "category": "Serum",
+            "origin": "Pháp",
+            "type": "Serum dưỡng ẩm",
+            "skinType": "Mọi loại da",
+            "volume": "30ml",
+            "ingredients": [
+                "Hyaluronic Acid",
+                "Vitamin B5",
+                "Madecassoside"
+            ],
+            "description": "Serum cấp nước và phục hồi da chuyên sâu, giúp làm đầy nếp nhăn và tái tạo hàng rào bảo vệ da.",
+            "benefits": [
+                "Cấp ẩm chuyên sâu",
+                "Phục hồi da tổn thương",
+                "Làm đầy nếp nhăn"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/laroche-hyalu-b5.jpg",
+            "tags": [
+                "EXCLUSIVE",
+                "BEST SELLER"
+            ]
+        },
+        {
+            "id": 10,
+            "name": "Tinh chất serum Timeless Vitamin B5 làm dịu và phục hồi da",
+            "brand": "Timeless",
+            "price": 395000,
+            "originalPrice": 436000,
+            "discount": 9,
+            "category": "Serum",
+            "origin": "Mỹ",
+            "type": "Serum dưỡng ẩm",
+            "skinType": "Mọi loại da",
+            "volume": "30ml",
+            "ingredients": [
+                "Vitamin B5",
+                "Hyaluronic Acid",
+                "Vitamin E"
+            ],
+            "description": "Serum làm dịu và phục hồi da với Vitamin B5, cung cấp độ ẩm sâu và làm dịu da kích ứng.",
+            "benefits": [
+                "Làm dịu da kích ứng",
+                "Phục hồi da tổn thương",
+                "Cấp ẩm chuyên sâu"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/timeless-b5.jpg",
+            "tags": [
+                "EXCLUSIVE"
+            ]
+        },
+        {
+            "id": 11,
+            "name": "Tinh chất phục hồi Lucentbase B56 Essence Serum",
+            "brand": "Lucentbase",
+            "price": 210000,
+            "originalPrice": 219000,
+            "discount": 4,
+            "category": "Serum",
+            "type": "Tinh chất dưỡng",
+            "skinType": "Mọi loại da",
+            "volume": "30ml",
+            "ingredients": [
+                "Vitamin B5",
+                "Niacinamide",
+                "Peptides"
+            ],
+            "description": "Tinh chất phục hồi và làm sáng da, cải thiện kết cấu da và tăng cường hàng rào bảo vệ da.",
+            "benefits": [
+                "Phục hồi da",
+                "Làm sáng da",
+                "Cải thiện kết cấu da"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/lucentbase-b56.jpg",
+            "tags": []
+        },
+        {
+            "id": 12,
+            "name": "Tinh chất kiềm dầu phục hồi Dr.Wu DermaLab",
+            "brand": "Dr.Wu",
+            "price": 460000,
+            "originalPrice": 460000,
+            "discount": 0,
+            "category": "Serum",
+            "origin": "Đài Loan",
+            "type": "Serum kiềm dầu",
+            "skinType": "Da dầu, da mụn",
+            "volume": "15ml",
+            "ingredients": [
+                "Salicylic Acid",
+                "Niacinamide",
+                "Tea Tree Oil"
+            ],
+            "description": "Tinh chất chuyên biệt dành cho da dầu mụn, giúp kiềm dầu hiệu quả và làm giảm mụn viêm.",
+            "benefits": [
+                "Kiềm dầu",
+                "Giảm mụn",
+                "Se khít lỗ chân lông"
+            ],
+            "status": "Còn hàng",
+            "imageUrl": "/src/img/drwu-dermalab.jpg",
+            "tags": [
+                "BEST SELLER"
+            ]
+        }
+    ]
+}

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Heart, Search, ShoppingCart } from "lucide-react";
-import Header from "./Header";
-import Footer from "./Footer";
-import ProductCard from "./ProductCard";
-import ProductSection from "./ProductSection";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import ProductCard from "../components/ProductCard";
+import ProductSection from "../components/ProductSection";
 
 const HomePage = () => {
   // State for animations and interactions

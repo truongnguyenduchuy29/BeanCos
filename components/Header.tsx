@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Phone, Heart, ShoppingCart, Menu, X, ChevronDown } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -184,14 +185,15 @@ const Header = () => {
                   </a>
                 </li>
                 <li className="relative group">
-                  <button
+                  <Link
+                    to="/products"
                     className="flex items-center text-gray-700 hover:text-blue-500 transition-colors"
                     onMouseEnter={() => setIsProductDropdownOpen(true)}
                     onMouseLeave={() => setIsProductDropdownOpen(false)}
                   >
                     SẢN PHẨM
                     <ChevronDown className="w-4 h-4 ml-1" />
-                  </button>
+                  </Link>
                   
                   {/* Product Dropdown */}
                   {isProductDropdownOpen && (
@@ -207,10 +209,11 @@ const Header = () => {
                             <ul className="space-y-2">
                               {category.items.map((item, itemIndex) => (
                                 <li key={itemIndex}>
-                                  <a href={`/products/${item.toLowerCase().replace(/\s+/g, '-')}`} 
-                                     className="text-sm text-gray-600 hover:text-blue-500 transition-colors block">
+                                  <Link 
+                                    to={`/products?category=${encodeURIComponent(item)}`} 
+                                    className="text-sm text-gray-600 hover:text-blue-500 transition-colors block">
                                     {item}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                             </ul>
@@ -220,11 +223,7 @@ const Header = () => {
                     </div>
                   )}
                 </li>
-                <li>
-                  <a href="/products" className="text-gray-700 hover:text-blue-500 transition-colors">
-                    SẢN PHẨM
-                  </a>
-                </li>
+                {/* Removed duplicate SẢN PHẨM menu item */}
                 <li>
                   <a href="/news" className="text-gray-700 hover:text-blue-500 transition-colors">
                     TIN TỨC
@@ -248,46 +247,26 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t mt-4">
-            <div className="p-4">
-              <ul className="space-y-4">
-                <li>
-                  <a href="/" className="block text-blue-500 font-medium py-2">
-                    TRANG CHỦ
-                  </a>
-                </li>
-                <li>
-                  <a href="/about" className="block text-gray-700 hover:text-blue-500 transition-colors py-2">
-                    GIỚI THIỆU
-                  </a>
-                </li>
-                <li>
-                  <a href="/products" className="block text-gray-700 hover:text-blue-500 transition-colors py-2">
-                    SẢN PHẨM
-                  </a>
-                </li>
-                <li>
-                  <a href="/news" className="block text-gray-700 hover:text-blue-500 transition-colors py-2">
-                    TIN TỨC
-                  </a>
-                </li>
-                <li>
-                  <a href="/routine" className="block text-teal-500 hover:text-teal-600 transition-colors py-2">
-                    ROUTINE SKINCARE
-                  </a>
-                </li>
-                <li>
-                  <a href="/contact" className="block text-gray-700 hover:text-blue-500 transition-colors py-2">
-                    LIÊN HỆ
-                  </a>
-                </li>
-                <li className="border-t pt-4">
-                  <a href="/wishlist" className="flex items-center text-pink-500 py-2">
-                    <Heart className="w-5 h-5 mr-2" />
-                    Yêu thích ({wishlist.length})
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <ul className="py-2">
+              <li className="py-2 px-4 hover:bg-gray-50">
+                <a href="/" className="text-gray-800 font-medium">TRANG CHỦ</a>
+              </li>
+              <li className="py-2 px-4 hover:bg-gray-50">
+                <a href="/about" className="text-gray-800">GIỚI THIỆU</a>
+              </li>
+              <li className="py-2 px-4 hover:bg-gray-50">
+                <Link to="/products" className="text-gray-800">SẢN PHẨM</Link>
+              </li>
+              <li className="py-2 px-4 hover:bg-gray-50">
+                <a href="/news" className="text-gray-800">TIN TỨC</a>
+              </li>
+              <li className="py-2 px-4 hover:bg-gray-50">
+                <a href="/routine" className="text-gray-800">ROUTINE SKINCARE</a>
+              </li>
+              <li className="py-2 px-4 hover:bg-gray-50">
+                <a href="/contact" className="text-gray-800">LIÊN HỆ</a>
+              </li>
+            </ul>
           </div>
         )}
       </header>
