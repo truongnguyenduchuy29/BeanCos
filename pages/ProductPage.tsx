@@ -310,17 +310,17 @@ const ProductPage = () => {
       <div className="container mx-auto px-3 py-4">
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Sidebar Filters */}
-          <div className="lg:w-1/5 mb-4 lg:mb-0">
+          <div className="lg:w-[300px] mb-4 lg:mb-0">
             {/* Categories */}
-            <div className="mb-4">
-              <div className="bg-purple-100 p-2 rounded-t-md">
-                <h3 className="text-sm font-semibold text-purple-900">DANH MỤC SẢN PHẨM</h3>
+            <div className="mb-5">
+              <div className="bg-purple-100 p-2.5 rounded-t-md">
+                <h3 className="text-sm font-bold text-purple-900">DANH MỤC SẢN PHẨM</h3>
               </div>
-              <div className="border border-gray-200 p-2 rounded-b-md">
+              <div className="border border-gray-200 p-3 rounded-b-md">
                 {categories.map((category) => (
-                  <div key={category} className="flex items-center mb-2">
+                  <div key={category} className="flex items-center mb-2.5">
                     <button 
-                      className={`w-full text-left ${selectedCategory === category ? 'text-pink-500' : 'text-gray-700'} text-sm`}
+                      className={`w-full text-left ${selectedCategory === category ? 'text-pink-500 font-medium' : 'text-gray-700'} text-sm hover:text-pink-400 transition-colors`}
                       onClick={() => handleCategoryChange(category)}
                     >
                       {category}
@@ -424,7 +424,7 @@ const ProductPage = () => {
           </div>
 
           {/* Product Grid */}
-          <div className="lg:w-4/5">
+          <div className="lg:flex-1">
             {/* Top bar with title and sort */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4 pb-3 border-b border-gray-200">
               <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">
@@ -446,24 +446,22 @@ const ProductPage = () => {
               </div>
             </div>
 
-            {/* Product Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {currentProducts.map((product) => (
-                <div key={product.id} className="product-card group relative border border-gray-200 rounded-md overflow-hidden transition-all duration-300 hover:shadow-md bg-white">
-                  {/* Brand Logo */}
-                  <div className="absolute top-2 left-2 z-10">
-                    <div className="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center">
-                      <img 
-                        src={brands.find(b => b.name === product.brand)?.imageUrl || "/src/img/logo.webp"} 
-                        alt={product.brand} 
-                        className="max-h-4 max-w-7"
-                      />
-                    </div>
-                  </div>
-                  
-                  {/* Wishlist button */}
-                  <button className="absolute top-2 right-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-3.5 h-3.5 text-gray-500 hover:text-pink-500">
+        {/* Product Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {currentProducts.map((product) => (
+            <div key={product.id} className="product-card group relative border border-gray-200 rounded-md overflow-hidden transition-all duration-300 hover:shadow-lg bg-white">
+              {/* Brand Logo */}
+              <div className="absolute top-2 left-2 z-10">
+                <div className="w-12 h-7 bg-white border border-gray-200 rounded flex items-center justify-center">
+                  <img 
+                    src={brands.find(b => b.name === product.brand)?.imageUrl || "/src/img/logo.webp"} 
+                    alt={product.brand} 
+                    className="max-h-5 max-w-8"
+                  />
+                </div>
+              </div>                  {/* Wishlist button */}
+                  <button className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition-all shadow-sm hover:shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 text-gray-500 hover:text-pink-500">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                   </button>
@@ -473,17 +471,17 @@ const ProductPage = () => {
                     <img 
                       src={product.imageUrl} 
                       alt={product.name} 
-                      className="w-full h-40 object-contain transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-44 object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                     
                     {/* Quick view & Buy overlay (appears on hover) */}
                     <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
-                      <Link to={`/product/${product.id}`} className="mb-2 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-pink-100 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 text-pink-500">
+                      <Link to={`/product/${product.id}`} className="mb-3 w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-pink-100 transition-colors shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-pink-500">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                       </Link>
-                      <button className="px-4 py-1 bg-pink-500 text-white text-xs font-medium rounded hover:bg-pink-600 transition-colors">
+                      <button className="px-5 py-1.5 bg-pink-500 text-white text-sm font-medium rounded hover:bg-pink-600 transition-colors shadow-md">
                         Mua ngay
                       </button>
                     </div>
@@ -493,12 +491,12 @@ const ProductPage = () => {
                   {product.tags && product.tags.length > 0 && (
                     <div className="absolute top-10 left-0">
                       {product.tags.includes("BEST SELLER") && (
-                        <span className="block bg-red-600 text-white text-[10px] px-2 py-0.5 mb-0.5">
+                        <span className="block bg-red-600 text-white text-[11px] px-2 py-0.5 mb-0.5 font-medium">
                           BEST SELLER
                         </span>
                       )}
                       {product.tags.includes("EXCLUSIVE") && (
-                        <span className="block bg-blue-800 text-white text-[10px] px-2 py-0.5">
+                        <span className="block bg-blue-800 text-white text-[11px] px-2 py-0.5 font-medium">
                           EXCLUSIVE
                         </span>
                       )}
@@ -506,20 +504,20 @@ const ProductPage = () => {
                   )}
 
                   {/* Product Info */}
-                  <div className="p-3">
+                  <div className="p-4">
                     <Link to={`/product/${product.id}`}>
-                      <h3 className="text-xs font-medium mb-1 h-8 overflow-hidden line-clamp-2 group-hover:text-pink-500 transition">
+                      <h3 className="text-sm font-medium mb-2 h-10 overflow-hidden line-clamp-2 group-hover:text-pink-500 transition">
                         {product.name}
                       </h3>
                     </Link>
                     
-                    <div className="flex items-baseline">
-                      <span className="text-red-600 font-semibold text-sm mr-1">{formatPrice(product.price)}đ</span>
+                    <div className="flex items-baseline flex-wrap">
+                      <span className="text-red-600 font-bold text-base mr-2">{formatPrice(product.price)}đ</span>
                       
                       {product.discount > 0 && (
                         <>
-                          <span className="text-gray-400 text-[11px] line-through">{formatPrice(product.originalPrice)}đ</span>
-                          <span className="ml-1 bg-red-600 text-white text-[10px] px-1 rounded">
+                          <span className="text-gray-400 text-xs line-through">{formatPrice(product.originalPrice)}đ</span>
+                          <span className="ml-2 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded">
                             -{product.discount}%
                           </span>
                         </>
@@ -528,14 +526,14 @@ const ProductPage = () => {
 
                     {/* Gift info */}
                     {product.gifts && product.gifts.length > 0 && (
-                      <div className="mt-1 border border-red-200 rounded p-1 bg-red-50">
+                      <div className="mt-2 border border-red-200 rounded p-1.5 bg-red-50">
                         <div className="flex items-center">
-                          <span className="text-red-500 mr-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <span className="text-red-500 mr-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
                             </svg>
                           </span>
-                          <span className="text-[10px] text-red-500 line-clamp-1">
+                          <span className="text-xs text-red-500 line-clamp-1 font-medium">
                             {`${product.gifts.length} quà tặng kèm`}
                           </span>
                         </div>
@@ -548,17 +546,17 @@ const ProductPage = () => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="mt-5 mb-[30px] flex justify-center">
-                <div className="flex space-x-2">
+              <div className="mt-8 mb-[40px] flex justify-center">
+                <div className="flex space-x-3">
                   {Array.from({ length: totalPages }, (_, index) => (
                     <button
                       key={index + 1}
                       onClick={() => setCurrentPage(index + 1)}
-                      className={`w-9 h-9 flex items-center justify-center text-base rounded ${
+                      className={`w-10 h-10 flex items-center justify-center text-base rounded-md ${
                         currentPage === index + 1
-                          ? "bg-pink-500 text-white"
-                          : "border border-gray-300 hover:bg-gray-100"
-                      }`}
+                          ? "bg-pink-500 text-white font-medium shadow-md"
+                          : "border border-gray-300 hover:bg-gray-100 text-gray-600"
+                      } transition-all duration-200`}
                     >
                       {index + 1}
                     </button>
