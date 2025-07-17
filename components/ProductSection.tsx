@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import productData from "../db/product.json";
 
 const ProductSection = () => {
   const [showSection, setShowSection] = useState(false);
@@ -888,82 +889,43 @@ const ProductSection = () => {
     },
   ];
 
-  const products = [
-    {
-      id: 1,
-      name: "Tinh chất sáng da Serum Vichy Liftactiv Specialist",
-      price: 1275000,
-      originalPrice: 1310000,
-      discount: 3,
-      image: "../src/img/slider_1.webp",
-      brand: "VICHY",
-      brandImage: "../src/img/thuonghieu_15.jpg",
-      tags: ["EXCLUSIVE"],
-      gift: "Có 3 lựa chọn quà tặng khi mua hàng",
-      sold: 156,
-    },
-    {
-      id: 2,
-      name: "Tẩy da chết vật lý Bioderma Sebium Gel Gommant",
-      price: 390000,
-      originalPrice: 390000,
-      discount: 0,
-      image: "../src/img/slider_1.webp",
-      brand: "BIODERMA",
-      brandImage: "../src/img/bioderma-logo.png",
-      tags: [],
-      gift: "Có 3 lựa chọn quà tặng khi mua hàng",
-      sold: 89,
-    },
-    {
-      id: 3,
-      name: "Tẩy da chết Paula's Choice Skin Perfecting Gel Exfoliant",
-      price: 339000,
-      originalPrice: 390000,
-      discount: 13,
-      image: "../src/img/slider_1.webp",
-      brand: "PAULA'S CHOICE",
-      brandImage: "../src/img/1.png",
-      tags: ["EXCLUSIVE", "BEST SELLER"],
-      gift: "Có 3 lựa chọn quà tặng khi mua hàng",
-      sold: 245,
-    },
-    {
-      id: 4,
-      name: "Simple Smoothing Facial Scrub",
-      price: 75000,
-      originalPrice: 95000,
-      discount: 21,
-      image: "../src/img/slider_1.webp",
-      brand: "SIMPLE",
-      brandImage: "../src/img/images.png",
-      tags: ["BEST SELLER"],
-      gift: "Có 2 lựa chọn quà tặng khi mua hàng",
-      sold: 178,
-    },
-    {
-      id: 5,
-      name: "Tinh chất La Roche-Posay Hyalu B5 Serum phục hồi da",
-      price: 770000,
-      originalPrice: 890000,
-      discount: 13,
-      image: "../src/img/slider_1.webp",
-      brand: "LA ROCHE-POSAY",
-      brandImage: "../src/img/thuonghieu_11.jpg",
-      tags: ["EXCLUSIVE", "BEST SELLER"],
-      gift: "Có 1 lựa chọn quà tặng khi mua hàng",
-      sold: 324,
-    },
-  ];
+  // Get products from JSON data 
+  const products = productData.products.slice(0, 5).map(product => ({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    originalPrice: product.originalPrice,
+    discount: product.discount,
+    image: product.imageUrl,
+    brand: product.brand,
+    brandImage: "../src/img/bioderma-logo.png", // Default brand image
+    tags: product.tags || [],
+    gift: `Có ${Math.floor(Math.random() * 3) + 1} lựa chọn quà tặng khi mua hàng`,
+    sold: Math.floor(Math.random() * 300) + 50,
+  }));
 
+  // Get categories from JSON data (unique categories)
   const categories = [
-    { name: "Tẩy trang", url: "#" },
-    { name: "Kem dưỡng da", url: "#" },
-    { name: "Sữa rửa mặt", url: "#" },
-    { name: "Toner nước cân bằng", url: "#" },
-    { name: "Treatment đặc trị", url: "#" },
-    { name: "Serum trị mụn", url: "#" },
-  ];
+    ...new Set(productData.products.map(product => product.category))
+  ].slice(0, 6).map(category => ({
+    name: category,
+    url: "#"
+  }));
+
+  // Get body care products from JSON data (different from skincare products)
+  const bodyCareProducts = productData.products.slice(5, 10).map(product => ({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    originalPrice: product.originalPrice,
+    discount: product.discount,
+    image: product.imageUrl,
+    brand: product.brand,
+    brandImage: "../src/img/bioderma-logo.png", // Default brand image
+    tags: product.tags || [],
+    gift: `Có ${Math.floor(Math.random() * 3) + 1} lựa chọn quà tặng khi mua hàng`,
+    sold: Math.floor(Math.random() * 300) + 50,
+  }));
 
   const banners = [
     {
@@ -1327,450 +1289,130 @@ const ProductSection = () => {
             </button>
 
             <div className="product-grid">
-              {/* Product 1 */}
-              <div
-                className="product-item"
-                style={{ opacity: 1, transform: "translateY(0)" }}
-              >
-                <button className="wishlist-button">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              {bodyCareProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="product-item"
+                  style={{
+                    opacity: 0,
+                    transform: "translateY(20px)",
+                    transition: "opacity 0.5s, transform 0.5s",
+                  }}
+                >
+                  {/* Wishlist Button */}
+                  <button className="wishlist-button">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                  </button>
+
+                  {/* Brand Badge */}
+                  <div className="brand-badge">
+                    <img src={product.brandImage} alt={product.brand} />
+                  </div>
+
+                  {/* Product Image */}
+                  <div className="product-image-container">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="product-image"
                     />
-                  </svg>
-                </button>
 
-                <div className="brand-badge">
-                  <img src="../src/img/thuonghieu_5.jpg" alt="La Roche-Posay" />
-                </div>
-
-                <div className="product-image-container">
-                  <img
-                    src="../src/img/slider_1.webp"
-                    alt="Tinh chất La Roche-Posay"
-                    className="product-image"
-                  />
-
-                  {/* Hover Overlay */}
-                  <div className="product-hover-overlay">
-                    <div className="hover-buttons">
-                      <button className="search-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-5 h-5 text-blue-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          />
-                        </svg>
-                      </button>
-                      <button className="buy-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-4 h-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <circle cx="9" cy="21" r="1"></circle>
-                          <circle cx="20" cy="21" r="1"></circle>
-                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                        <span>Mua ngay</span>
-                      </button>
+                    {/* Hover Overlay */}
+                    <div className="product-hover-overlay">
+                      <div className="hover-buttons">
+                        <button className="search-button">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-5 h-5 text-blue-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                          </svg>
+                        </button>
+                        <button className="buy-button">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                          </svg>
+                          <span>Mua ngay</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="product-tags">
-                  <span className="product-tag exclusive">EXCLUSIVE</span>
-                  <span className="product-tag best-seller">BEST SELLER</span>
-                </div>
-
-                <h3 className="product-name">
-                  Tinh chất La Roche-Posay Hyalu B5 Serum phục hồi da
-                </h3>
-
-                <div className="product-price">
-                  <span className="current-price">770.000₫</span>
-                  <span className="discount-badge">-9%</span>
-                </div>
-
-                <div className="gift-badge">
-                  <span className="gift-icon">🎁</span>
-                  Có 1 lựa chọn quà tặng khi mua hàng
-                </div>
-              </div>
-
-              {/* Product 2 */}
-              <div
-                className="product-item"
-                style={{ opacity: 1, transform: "translateY(0)" }}
-              >
-                <button className="wishlist-button">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                </button>
-
-                <div className="brand-badge">
-                  <img src="../src/img/slider_1.webp" alt="Timeless" />
-                </div>
-
-                <div className="product-image-container">
-                  <img
-                    src="../src/img/slider_1.webp"
-                    alt="Tinh chất serum Timeless"
-                    className="product-image"
-                  />
-
-                  {/* Hover Overlay */}
-                  <div className="product-hover-overlay">
-                    <div className="hover-buttons">
-                      <button className="search-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-5 h-5 text-blue-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
+                  {/* Product Tags */}
+                  <div className="product-tags">
+                    {product.tags &&
+                      product.tags.map((tag, idx) => (
+                        <span
+                          key={idx}
+                          className={`product-tag ${
+                            tag === "EXCLUSIVE"
+                              ? "exclusive"
+                              : tag === "BEST SELLER"
+                              ? "best-seller"
+                              : ""
+                          }`}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          />
-                        </svg>
-                      </button>
-                      <button className="buy-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-4 h-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <circle cx="9" cy="21" r="1"></circle>
-                          <circle cx="20" cy="21" r="1"></circle>
-                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                        <span>Mua ngay</span>
-                      </button>
-                    </div>
+                          {tag}
+                        </span>
+                      ))}
+                  </div>
+
+                  {/* Product Name */}
+                  <h3 className="product-name">{product.name}</h3>
+
+                  {/* Prices */}
+                  <div className="product-price">
+                    <span className="current-price">
+                      {formatPrice(product.price)}
+                    </span>
+                    {product.discount > 0 && (
+                      <span className="original-price">
+                        {formatPrice(product.originalPrice)}
+                      </span>
+                    )}
+                    {product.discount > 0 && (
+                      <span className="discount-badge">
+                        -{product.discount}%
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Gift Badge */}
+                  <div className="gift-badge">
+                    <span className="gift-icon">🎁</span>
+                    {product.gift}
                   </div>
                 </div>
-
-                <div className="product-tags">
-                  <span className="product-tag exclusive">EXCLUSIVE</span>
-                </div>
-
-                <h3 className="product-name">
-                  Tinh chất serum Timeless Vitamin B5 làm dịu và phục hồi da
-                </h3>
-
-                <div className="product-price">
-                  <span className="current-price">395.000₫</span>
-                  <span className="original-price">436.000₫</span>
-                  <span className="discount-badge">-9%</span>
-                </div>
-
-                <div className="gift-badge">
-                  <span className="gift-icon">🎁</span>
-                  Có 3 lựa chọn quà tặng khi mua hàng
-                </div>
-              </div>
-
-              {/* Product 3 */}
-              <div
-                className="product-item"
-                style={{ opacity: 1, transform: "translateY(0)" }}
-              >
-                <button className="wishlist-button">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                </button>
-
-                <div className="brand-badge">
-                  <img src="../src/img/slider_1.webp" alt="Lucenbase" />
-                </div>
-
-                <div className="product-image-container">
-                  <img
-                    src="../src/img/slider_1.webp"
-                    alt="Tinh chất phục hồi Lucenbase"
-                    className="product-image"
-                  />
-
-                  {/* Hover Overlay */}
-                  <div className="product-hover-overlay">
-                    <div className="hover-buttons">
-                      <button className="search-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-5 h-5 text-blue-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          />
-                        </svg>
-                      </button>
-                      <button className="buy-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-4 h-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <circle cx="9" cy="21" r="1"></circle>
-                          <circle cx="20" cy="21" r="1"></circle>
-                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                        <span>Mua ngay</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="product-tags"></div>
-
-                <h3 className="product-name">
-                  Tinh chất phục hồi Lucenbase B56 Essence Serum
-                </h3>
-
-                <div className="product-price">
-                  <span className="current-price">210.000₫</span>
-                  <span className="original-price">219.000₫</span>
-                  <span className="discount-badge">-4%</span>
-                </div>
-
-                <div className="gift-badge">
-                  <span className="gift-icon">🎁</span>
-                  Có 4 lựa chọn quà tặng khi mua hàng
-                </div>
-              </div>
-
-              {/* Product 4 */}
-              <div
-                className="product-item"
-                style={{ opacity: 1, transform: "translateY(0)" }}
-              >
-                <button className="wishlist-button">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                </button>
-
-                <div className="brand-badge">
-                  <img src="../src/img/slider_1.webp" alt="Dr.Wu" />
-                </div>
-
-                <div className="product-image-container">
-                  <img
-                    src="../src/img/slider_1.webp"
-                    alt="Tinh chất kiềm dầu phục hồi Dr.Wu"
-                    className="product-image"
-                  />
-
-                  {/* Hover Overlay */}
-                  <div className="product-hover-overlay">
-                    <div className="hover-buttons">
-                      <button className="search-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-5 h-5 text-blue-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          />
-                        </svg>
-                      </button>
-                      <button className="buy-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-4 h-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <circle cx="9" cy="21" r="1"></circle>
-                          <circle cx="20" cy="21" r="1"></circle>
-                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                        <span>Mua ngay</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="product-tags">
-                  <span className="product-tag best-seller">BEST SELLER</span>
-                </div>
-
-                <h3 className="product-name">
-                  Tinh chất kiềm dầu phục hồi Dr.Wu DermaLab
-                </h3>
-
-                <div className="product-price">
-                  <span className="current-price">460.000₫</span>
-                </div>
-
-                <div className="gift-badge">
-                  <span className="gift-icon">🎁</span>
-                  Có 3 lựa chọn quà tặng khi mua hàng
-                </div>
-              </div>
-
-              {/* Product 5 */}
-              <div
-                className="product-item"
-                style={{ opacity: 1, transform: "translateY(0)" }}
-              >
-                <button className="wishlist-button">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                </button>
-
-                <div className="brand-badge">
-                  <img src="../src/img/slider_1.webp" alt="SVR" />
-                </div>
-
-                <div className="product-image-container">
-                  <img
-                    src="../src/img/slider_1.webp"
-                    alt="Toner giảm mụn SVR Sebiaclear"
-                    className="product-image"
-                  />
-
-                  {/* Hover Overlay */}
-                  <div className="product-hover-overlay">
-                    <div className="hover-buttons">
-                      <button className="search-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-5 h-5 text-blue-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          />
-                        </svg>
-                      </button>
-                      <button className="buy-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-4 h-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <circle cx="9" cy="21" r="1"></circle>
-                          <circle cx="20" cy="21" r="1"></circle>
-                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                        <span>Mua ngay</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="product-tags">
-                  <span className="product-tag exclusive">EXCLUSIVE</span>
-                  <span className="product-tag best-seller">BEST SELLER</span>
-                </div>
-
-                <h3 className="product-name">
-                  Toner giảm mụn SVR Sebiaclear Micro Peel cân bằng da
-                </h3>
-
-                <div className="product-price">
-                  <span className="current-price">285.000₫</span>
-                </div>
-
-                <div className="gift-badge">
-                  <span className="gift-icon">🎁</span>
-                  Có 1 lựa chọn quà tặng khi mua hàng
-                </div>
-              </div>
+              ))}
             </div>
 
             <button className="navigation-button next">

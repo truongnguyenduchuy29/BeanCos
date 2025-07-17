@@ -4,11 +4,15 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import ProductSection from "../components/ProductSection";
+import productData from "../db/product.json";
 
 const HomePage = () => {
   // State for animations and interactions
   const [showSection, setShowSection] = useState(false);
   const [activeTab, setActiveTab] = useState("cleanser");
+
+  // Product data from JSON
+  const products = productData.products;
 
   // Flash Sale countdown state
   const [countdown, setCountdown] = useState({
@@ -69,129 +73,38 @@ const HomePage = () => {
     { name: "Sản phẩm khác", image: "../src/img/danhmuc_14.jpg" },
   ];
 
-  // Flash Sale products data
-  const flashSaleProducts = [
-    {
-      id: 1,
-      name: "Nước cân bằng ngừa mụn La Roche-Posay Effaclar Astringent Lotion",
-      image: "../src/img/slider_1.webp",
-      brand: "LA ROCHE-POSAY",
-      brandLogo: "../src/img/thuonghieu_10.jpg",
-      currentPrice: 305000,
-      originalPrice: 380000,
-      discount: 20,
-      sold: 218,
-      gifts: 2,
-      labels: ["EXCLUSIVE", "BEST SELLER"],
-      soldPercentage: 75,
-    },
-    {
-      id: 2,
-      name: "Sữa Rửa Mặt Cerave Hydrating Facial Cleanser",
-      image: "../src/img/slider_1.webp",
-      brand: "CERAVE",
-      brandLogo: "../src/img/thuonghieu_5.jpg",
-      currentPrice: 287000,
-      originalPrice: 287000,
-      discount: 0,
-      sold: 160,
-      gifts: 3,
-      labels: ["EXCLUSIVE", "BEST SELLER"],
-      soldPercentage: 60,
-    },
-    {
-      id: 3,
-      name: "Simple Kind To Skin Soothing Facial Toner",
-      image: "../src/img/slider_1.webp",
-      brand: "SIMPLE",
-      brandLogo: "../src/img/images.png",
-      currentPrice: 80000,
-      originalPrice: 135000,
-      discount: 41,
-      sold: 166,
-      gifts: 1,
-      labels: ["EXCLUSIVE"],
-      soldPercentage: 65,
-    },
-    {
-      id: 4,
-      name: "Sữa rửa mặt ngừa mụn La Roche-Posay Effaclar Purifying Foaming Gel",
-      image: "../src/img/slider_1.webp",
-      brand: "LA ROCHE-POSAY",
-      brandLogo: "../src/img/thuonghieu_10.jpg",
-      currentPrice: 290000,
-      originalPrice: 355000,
-      discount: 18,
-      sold: 259,
-      gifts: 2,
-      labels: ["BEST SELLER"],
-      soldPercentage: 80,
-    },
-    {
-      id: 5,
-      name: "Simple Kind To Skin Refreshing Facial Wash",
-      image: "../src/img/slider_1.webp",
-      brand: "SIMPLE",
-      brandLogo: "../src/img/images.png",
-      currentPrice: 95000,
-      originalPrice: 105000,
-      discount: 10,
-      sold: 170,
-      gifts: 4,
-      labels: ["EXCLUSIVE", "BEST SELLER"],
-      soldPercentage: 70,
-    },
-  ];
+  // Get flash sale products from JSON data (products with discount > 0)
+  const flashSaleProducts = products
+    .filter((product) => product.discount > 0)
+    .slice(0, 5)
+    .map((product) => ({
+      id: product.id,
+      name: product.name,
+      image: product.imageUrl,
+      brand: product.brand,
+      brandLogo: "../src/img/bioderma-logo.png", // Default brand logo
+      currentPrice: product.price,
+      originalPrice: product.originalPrice,
+      discount: product.discount,
+      sold: Math.floor(Math.random() * 300) + 100, // Random sold count
+      gifts: Math.floor(Math.random() * 5) + 1, // Random gift count
+      labels: product.tags || [],
+      soldPercentage: Math.floor(Math.random() * 80) + 20, // Random percentage
+    }));
 
-  const personalizedProducts = [
-    {
-      id: 6,
-      name: "Tẩy trang SVR Sebiaclear Eau Micellaire sạch sâu",
-      price: "395.000₫",
-      originalPrice: "450.000₫",
-      discount: "-13%",
-      image: "../src/img/slider_1.webp",
-      brand: "SVR",
-      tags: ["BEST SELLER"],
-    },
-    {
-      id: 7,
-      name: "Tẩy trang sạch sâu La Roche Posay Effaclar Micellar Water",
-      price: "395.000₫",
-      originalPrice: "450.000₫",
-      discount: "-13%",
-      image: "../src/img/slider_1.webp",
-      brand: "La Roche-Posay",
-      tags: ["EXCLUSIVE", "BEST SELLER"],
-    },
-    {
-      id: 8,
-      name: "L'Oreal Paris 3in1 Micellar Water Tím",
-      price: "195.000₫",
-      originalPrice: "240.000₫",
-      discount: "-19%",
-      image: "../src/img/slider_1.webp",
-      brand: "L'OREAL",
-    },
-    {
-      id: 9,
-      name: "Dầu tẩy trang Hada Labo Advanced Nourish Hyaluronic...",
-      price: "170.000₫",
-      originalPrice: "205.000₫",
-      discount: "-17%",
-      image: "../src/img/slider_1.webp",
-    },
-    {
-      id: 10,
-      name: "Tẩy trang bioderma Sensibio H2O Solution Micellaire dịu nhẹ",
-      price: "160.000₫",
-      originalPrice: "190.000₫",
-      discount: "-16%",
-      image: "../src/img/slider_1.webp",
-      brand: "BIODERMA",
-      tags: ["BEST SELLER"],
-    },
-  ];
+  // Get personalized products from JSON data (first 5 products)
+  const personalizedProducts = products.slice(0, 5).map((product) => ({
+    id: product.id,
+    name: product.name,
+    price: `${product.price.toLocaleString()}₫`,
+    originalPrice: product.originalPrice
+      ? `${product.originalPrice.toLocaleString()}₫`
+      : undefined,
+    discount: product.discount > 0 ? `-${product.discount}%` : undefined,
+    image: product.imageUrl,
+    brand: product.brand,
+    tags: product.tags || [],
+  }));
 
   const formatFlashSalePrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
