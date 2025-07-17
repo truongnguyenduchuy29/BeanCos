@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Heart, Search, ShoppingCart } from "lucide-react";
+import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
@@ -92,19 +93,77 @@ const HomePage = () => {
       soldPercentage: Math.floor(Math.random() * 80) + 20, // Random percentage
     }));
 
-  // Get personalized products from JSON data (first 5 products)
-  const personalizedProducts = products.slice(0, 5).map((product) => ({
-    id: product.id,
-    name: product.name,
-    price: `${product.price.toLocaleString()}₫`,
-    originalPrice: product.originalPrice
-      ? `${product.originalPrice.toLocaleString()}₫`
-      : undefined,
-    discount: product.discount > 0 ? `-${product.discount}%` : undefined,
-    image: product.imageUrl,
-    brand: product.brand,
-    tags: product.tags || [],
-  }));
+  // Định nghĩa ánh xạ giữa tab ID và loại sản phẩm
+  const tabToProductType: Record<string, string> = {
+    cleanser: "Tẩy trang",
+    "face-wash": "Sữa rửa mặt",
+    toner: "Toner",
+  };
+
+  // Lọc sản phẩm dựa vào tab được chọn
+  const getFilteredProducts = (type: string) => {
+    // Xác định loại sản phẩm theo tab
+    const productType = tabToProductType[type];
+
+    // Lọc sản phẩm theo type
+    const filteredProducts = products
+      .filter((product) => {
+        // Dựa vào activeTab, có thể lọc theo type hoặc category hoặc một tiêu chí khác
+        if (type === "cleanser") {
+          return (
+            product.category?.includes("Tẩy trang") ||
+            product.type?.includes("Tẩy trang")
+          );
+        } else if (type === "face-wash") {
+          return (
+            product.category?.includes("Sữa rửa mặt") ||
+            product.type?.includes("Sữa rửa mặt")
+          );
+        } else if (type === "toner") {
+          return (
+            product.category?.includes("Toner") ||
+            product.type?.includes("Toner")
+          );
+        }
+        return false;
+      })
+      .slice(0, 5);
+
+    // Nếu không có sản phẩm phù hợp, trả về 5 sản phẩm đầu tiên với nhãn theo tab
+    if (filteredProducts.length === 0) {
+      return products.slice(0, 5).map((product) => ({
+        id: product.id,
+        name: product.name,
+        price: `${product.price.toLocaleString()}₫`,
+        originalPrice: product.originalPrice
+          ? `${product.originalPrice.toLocaleString()}₫`
+          : undefined,
+        discount: product.discount > 0 ? `-${product.discount}%` : undefined,
+        image: product.imageUrl,
+        brand: product.brand,
+        tags: product.tags || [],
+        tabType: productType, // Thêm thông tin về tab để hiển thị
+      }));
+    }
+
+    // Chuyển đổi dữ liệu sản phẩm sang định dạng ProductCard
+    return filteredProducts.map((product) => ({
+      id: product.id,
+      name: product.name,
+      price: `${product.price.toLocaleString()}₫`,
+      originalPrice: product.originalPrice
+        ? `${product.originalPrice.toLocaleString()}₫`
+        : undefined,
+      discount: product.discount > 0 ? `-${product.discount}%` : undefined,
+      image: product.imageUrl,
+      brand: product.brand,
+      tags: product.tags || [],
+      tabType: productType, // Thêm thông tin về tab đang được chọn
+    }));
+  };
+
+  // Lấy danh sách sản phẩm theo tab đang được chọn
+  const personalizedProducts = getFilteredProducts(activeTab);
 
   const formatFlashSalePrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -202,7 +261,7 @@ const HomePage = () => {
 
       {/* Category Section */}
       <section
-        className={`py-6 sm:py-8 lg:py-10 bg-gray-50 transition-all duration-700 ${
+        className={`py-5 sm:py-6 lg:py-8 bg-gray-50 transition-all duration-700 ${
           showSection ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -210,23 +269,23 @@ const HomePage = () => {
           className="mx-auto px-2 sm:px-4"
           style={{ width: "1223px", maxWidth: "100%" }}
         >
-          <div className="flex flex-col items-center mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center text-purple-400 mb-2">
+          <div className="flex flex-col items-center mb-5 sm:mb-6">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-center text-purple-500 mb-2">
               DANH MỤC HOT
             </h2>
-            <div className="relative w-32 sm:w-40 h-6 flex justify-center">
+            <div className="relative w-28 sm:w-36 h-6 flex justify-center">
               <div className="h-0.5 w-full bg-pink-300 absolute top-1/2 transform -translate-y-1/2"></div>
               <div className="bg-gray-50 p-1 z-10 relative">
                 <img
                   src="../src/img/icon_title.png"
                   alt="title decoration"
-                  className="w-5 h-5 sm:w-6 sm:h-6"
+                  className="w-4 h-4 sm:w-5 sm:h-5"
                 />
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3 sm:gap-4 lg:gap-5 mb-4 sm:mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-6">
             {categories.slice(0, 7).map((category, index) => (
               <a
                 key={index}
@@ -242,14 +301,14 @@ const HomePage = () => {
                 }}
               >
                 <div className="flex flex-col items-center">
-                  <div className="bg-purple-100 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
+                  <div className="bg-purple-50 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
                     <img
                       src={category.image}
                       alt={category.name}
                       className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
-                  <span className="text-xs sm:text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
+                  <span className="text-[11px] sm:text-xs md:text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
                     {category.name}
                   </span>
                 </div>
@@ -257,7 +316,7 @@ const HomePage = () => {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3 sm:gap-4 lg:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-2 sm:gap-3 lg:gap-4">
             {categories.slice(7).map((category, index) => (
               <a
                 key={index + 7}
@@ -273,14 +332,14 @@ const HomePage = () => {
                 }}
               >
                 <div className="flex flex-col items-center">
-                  <div className="bg-purple-100 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
+                  <div className="bg-purple-50 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
                     <img
                       src={category.image}
                       alt={category.name}
                       className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
-                  <span className="text-xs sm:text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
+                  <span className="text-[11px] sm:text-xs md:text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
                     {category.name}
                   </span>
                 </div>
@@ -630,21 +689,20 @@ const HomePage = () => {
 
       {/* Product Section */}
       <ProductSection />
-
       {/* Personalized Section */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-8 sm:py-12 bg-gray-50">
         <div
           className="mx-auto px-4"
           style={{ width: "1223px", maxWidth: "100%" }}
         >
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-pink-500 mb-4">
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-pink-500 mb-3 sm:mb-4">
               DÀNH RIÊNG CHO BẠN
             </h2>
-            <div className="w-16 h-1 bg-pink-500 mx-auto"></div>
+            <div className="w-12 sm:w-16 h-1 bg-pink-500 mx-auto"></div>
           </div>
 
-          <div className="flex justify-center mb-8 overflow-x-auto">
+          <div className="flex justify-center mb-6 sm:mb-8 overflow-x-auto pb-1">
             <div className="flex bg-white rounded-lg p-1 shadow-md">
               {[
                 { id: "cleanser", label: "TẨY TRANG" },
@@ -654,7 +712,7 @@ const HomePage = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-8 py-3 rounded-lg font-semibold transition-all ${
+                  className={`px-4 sm:px-8 py-2 sm:py-3 rounded-lg font-semibold text-sm sm:text-base transition-all ${
                     activeTab === tab.id
                       ? "bg-blue-500 text-white shadow-md"
                       : "text-gray-600 hover:text-blue-500"
@@ -666,65 +724,65 @@ const HomePage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
             {personalizedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
 
-          <div className="text-center mt-8">
-            <button
-              className="text-black px-6 py-2 rounded-full font-medium transition-opacity hover:opacity-90"
+          <div className="text-center mt-6 sm:mt-8">
+            <Link
+              to="/products"
+              className="text-black px-6 py-2 rounded-full font-medium text-sm sm:text-base transition-opacity hover:opacity-90 inline-block shadow-sm hover:shadow-md"
               style={{ background: "linear-gradient(90deg, #b5c5ff, #fcd1ff)" }}
             >
               Xem sản phẩm
-            </button>
+            </Link>
           </div>
         </div>
       </section>
-
       {/* News Section */}
-      <section className="py-10 sm:py-12 lg:py-16 bg-gray-50">
+      <section className="py-8 sm:py-10 lg:py-12 bg-gray-50">
         <div className="container mx-auto px-2 sm:px-4 max-w-[1223px]">
-          <div className="text-center mb-8 sm:mb-10 lg:mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-blue-500 mb-3 sm:mb-4">
+          <div className="text-center mb-6 sm:mb-8 lg:mb-10">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-500 mb-2 sm:mb-3">
               TIN NỔI BẬT
             </h2>
-            <div className="w-12 sm:w-16 h-1 bg-pink-500 mx-auto"></div>
+            <div className="w-10 sm:w-12 h-1 bg-pink-500 mx-auto"></div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {newsItems.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2"
+                className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
               >
                 <div className="relative">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-36 sm:h-40 lg:h-48 object-cover"
+                    className="w-full h-32 sm:h-36 lg:h-40 object-cover"
                   />
-                  <div className="absolute top-2 sm:top-4 left-2 sm:left-4">
-                    <div className="bg-blue-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
+                  <div className="absolute top-2 left-2">
+                    <div className="bg-blue-500 text-white px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium">
                       {item.date}
                     </div>
                   </div>
                 </div>
 
-                <div className="p-3 sm:p-4">
+                <div className="p-2 sm:p-3">
                   {item.subtitle && (
-                    <p className="text-xs sm:text-sm text-gray-500 mb-1 sm:mb-2">
+                    <p className="text-[10px] sm:text-xs text-gray-500 mb-1">
                       {item.subtitle}
                     </p>
                   )}
-                  <h3 className="font-bold text-gray-800 mb-2 line-clamp-2 text-sm sm:text-base">
+                  <h3 className="font-semibold text-gray-800 mb-1.5 line-clamp-2 text-xs sm:text-sm">
                     {item.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 line-clamp-3">
+                  <p className="text-[10px] sm:text-xs text-gray-600 mb-2 line-clamp-2">
                     {item.excerpt}
                   </p>
-                  <button className="text-blue-500 hover:text-blue-700 text-xs sm:text-sm font-semibold transition-colors">
+                  <button className="text-blue-500 hover:text-blue-700 text-[10px] sm:text-xs font-medium transition-colors">
                     Đọc tiếp
                   </button>
                 </div>

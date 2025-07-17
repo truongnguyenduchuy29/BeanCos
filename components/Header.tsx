@@ -1,44 +1,59 @@
-import React, { useState } from 'react';
-import { Search, Phone, Heart, ShoppingCart, Menu, X, ChevronDown } from 'lucide-react';
-import { useAppContext } from '../context/AppContext';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  Search,
+  Phone,
+  Heart,
+  ShoppingCart,
+  Menu,
+  X,
+  ChevronDown,
+} from "lucide-react";
+import { useAppContext } from "../context/AppContext";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
-  const { wishlist, cart, searchQuery, setSearchQuery, isAuthenticated, user } = useAppContext();
+  const { wishlist, cart, searchQuery, setSearchQuery, isAuthenticated, user } =
+    useAppContext();
 
   const productCategories = [
     {
-      title: 'CHĂM SÓC DA',
+      title: "CHĂM SÓC DA",
       items: [
-        'Tẩy trang',
-        'Kem dưỡng da',
-        'Sữa rửa mặt',
-        'Toner nước cân bằng',
-        'Treatment đặc trị',
-        'Serum trị mụn'
-      ]
+        "Tẩy trang",
+        "Kem dưỡng da",
+        "Sữa rửa mặt",
+        "Toner nước cân bằng",
+        "Treatment đặc trị",
+        "Serum trị mụn",
+        "Mặt nạ dưỡng da",
+        "Kem chống nắng",
+      ],
     },
     {
-      title: 'CHĂM SÓC CƠ THỂ',
+      title: "TRANG ĐIỂM",
       items: [
-        'Sữa tắm',
-        'Sữa dưỡng thể',
-        'Tẩy tế bào chết',
-        'Kem tẩy lông',
-        'Xịt khử mùi'
-      ]
+        "Trang điểm mặt",
+        "Trang điểm môi",
+        "Trang điểm mắt",
+        "Phấn má hồng",
+        "Kem nền",
+        "Phấn phủ",
+        "Mascara",
+      ],
     },
     {
-      title: 'CHĂM SÓC TÓC',
+      title: "DÀNH CHO NAM",
       items: [
-        'Dầu xả tóc',
-        'Dầu gội',
-        'Kem ủ tóc',
-        'Xịt dưỡng tóc'
-      ]
-    }
+        "Sữa rửa mặt nam",
+        "Kem dưỡng da nam",
+        "Chăm sóc râu",
+        "Chống nắng cho nam",
+        "Toner cho nam",
+        "Serum cho nam",
+      ],
+    },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -51,33 +66,47 @@ const Header = () => {
   return (
     <>
       {/* Top bar */}
-      <div className="bg-purple-300 text-sm text-purple-800 py-2">
+      <div className="bg-purple-200 text-sm text-purple-800 py-1.5 sm:py-2 shadow-sm">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <div>
-            Chào mừng bạn đến với Bean Mỹ Phẩm!
-          </div>
-          <div className="hidden md:flex space-x-6">
-            <a href="#" className="hover:text-purple-600 cursor-pointer">Hệ thống cửa hàng</a>
+          <div className="text-xs sm:text-sm font-medium">Chào mừng bạn đến với Bean Mỹ Phẩm!</div>
+          <div className="hidden md:flex space-x-5 items-center text-xs sm:text-sm">
+            <a href="#" className="hover:text-purple-700 transition-colors cursor-pointer">
+              Hệ thống cửa hàng
+            </a>
             {!isAuthenticated ? (
               <>
-                <a href="/register" className="hover:text-purple-600 cursor-pointer">Đăng ký</a>
-                <a href="/login" className="hover:text-purple-600 cursor-pointer">Đăng nhập</a>
+                <a
+                  href="/register"
+                  className="hover:text-purple-700 transition-colors cursor-pointer"
+                >
+                  Đăng ký
+                </a>
+                <a
+                  href="/login"
+                  className="hover:text-purple-700 transition-colors cursor-pointer"
+                >
+                  Đăng nhập
+                </a>
               </>
             ) : (
-              <span>Xin chào, {user?.name}</span>
+              <span className="font-medium">Xin chào, {user?.name}</span>
             )}
           </div>
         </div>
       </div>
 
       {/* Main header */}
-      <header className="bg-white shadow-sm py-4">
+      <header className="bg-white shadow-sm py-3 sm:py-4">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center">
               <a href="/" className="flex items-center">
-                <img src="../src/img/logo.webp" alt="Bean Mỹ Phẩm" className="h-16" />
+                <img
+                  src="../src/img/logo.webp"
+                  alt="Bean Mỹ Phẩm"
+                  className="h-12 sm:h-14 md:h-16 object-contain"
+                />
               </a>
             </div>
 
@@ -89,50 +118,60 @@ const Header = () => {
                   placeholder="Bạn muốn tìm gì?"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-300"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm shadow-sm"
                 />
-                <button type="submit" className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-purple-200 p-2 rounded-full text-gray-400 hover:text-purple-500">
-                  <Search className="w-5 h-5" />
+                <button
+                  type="submit"
+                  className="absolute right-1.5 top-1/2 transform -translate-y-1/2 bg-purple-100 hover:bg-purple-200 p-1.5 sm:p-2 rounded-full text-purple-500 hover:text-purple-700 transition-colors"
+                >
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </form>
             </div>
 
             {/* Contact and actions */}
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
               <div className="flex items-center text-pink-500">
-                <div className="mr-2">
-                  <Phone className="w-5 h-5" />
+                <div className="mr-2 bg-pink-50 rounded-full p-1.5">
+                  <Phone className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs text-gray-700">Hotline</div>
-                  <div className="text-sm font-semibold">1900 6750</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600">Hotline</div>
+                  <div className="text-xs sm:text-sm font-semibold">1900 6750</div>
                 </div>
               </div>
 
-              <a href="/wishlist" className="flex items-center text-pink-500 hover:text-pink-600 transition-colors">
-                <div className="mr-2 relative">
-                  <Heart className="w-5 h-5" />
-                  <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+              <a
+                href="/wishlist"
+                className="flex items-center text-pink-500 hover:text-pink-600 transition-colors group"
+              >
+                <div className="mr-2 relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-colors">
+                  <Heart className="w-4 h-4" />
+                  <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
                     {wishlist.length}
                   </span>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-700">Yêu thích</div>
-                  <div className="text-sm">sản phẩm</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600">Yêu thích</div>
+                  <div className="text-xs sm:text-sm">sản phẩm</div>
                 </div>
               </a>
 
-              <a href="/cart" className="relative flex items-center text-pink-500 hover:text-pink-600 transition-colors">
-                <div className="relative">
-                  <ShoppingCart className="w-5 h-5" />
+              <a
+                href="/cart"
+                className="relative flex items-center text-pink-500 hover:text-pink-600 transition-colors group"
+              >
+                <div className="relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-colors">
+                  <ShoppingCart className="w-4 h-4" />
                   {cart.length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
                       {cart.reduce((sum, item) => sum + item.quantity, 0)}
                     </span>
                   )}
                 </div>
                 <div className="ml-2">
-                  <div className="text-sm">0 sản phẩm</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600">Giỏ hàng</div>
+                  <div className="text-xs sm:text-sm">0 sản phẩm</div>
                 </div>
               </a>
             </div>
@@ -140,78 +179,94 @@ const Header = () => {
             {/* Mobile menu button */}
             <div className="flex md:hidden items-center">
               <button
-                className="p-2"
+                className="p-1.5 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 {isMobileMenuOpen ? (
-                  <X className="w-6 h-6 text-gray-600" />
+                  <X className="w-5 h-5 text-gray-600" />
                 ) : (
-                  <Menu className="w-6 h-6 text-gray-600" />
+                  <Menu className="w-5 h-5 text-gray-600" />
                 )}
               </button>
             </div>
           </div>
 
           {/* Mobile Search */}
-          <div className="md:hidden mt-4">
+          <div className="md:hidden mt-3">
             <form onSubmit={handleSearch} className="relative">
               <input
                 type="text"
                 placeholder="Bạn muốn tìm gì?"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-300"
+                className="w-full px-3 py-1.5 text-sm border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-300 shadow-sm"
               />
-              <button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-purple-200 p-1 rounded-full text-gray-400">
-                <Search className="w-5 h-5" />
+              <button
+                type="submit"
+                className="absolute right-1.5 top-1/2 transform -translate-y-1/2 bg-purple-100 p-1 rounded-full text-purple-500 hover:bg-purple-200"
+              >
+                <Search className="w-3.5 h-3.5" />
               </button>
             </form>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="bg-white border-t border-b hidden md:block mt-4">
+        <nav className="bg-white border-t border-b hidden md:block mt-3">
           <div className="container mx-auto">
             <div className="flex items-center justify-center">
-              <ul className="flex space-x-10 py-3">
+              <ul className="flex space-x-6 lg:space-x-10">
                 <li>
-                  <a href="/" className="text-blue-500 font-medium border-b-2 border-blue-500 pb-2">
+                  <a
+                    href="/"
+                    className="text-blue-500 font-medium border-b-2 border-blue-500 pb-1.5 text-sm block py-2.5"
+                  >
                     TRANG CHỦ
                   </a>
                 </li>
                 <li>
-                  <a href="/about" className="text-gray-700 hover:text-blue-500 transition-colors">
+                  <a
+                    href="/about"
+                    className="text-gray-700 hover:text-blue-500 transition-colors text-sm font-medium block py-2.5"
+                  >
                     GIỚI THIỆU
                   </a>
                 </li>
                 <li className="relative group">
                   <Link
                     to="/products"
-                    className="flex items-center text-gray-700 hover:text-blue-500 transition-colors"
+                    className="flex items-center text-gray-700 hover:text-blue-500 transition-colors text-sm font-medium pb-2.5 pt-2.5"
                     onMouseEnter={() => setIsProductDropdownOpen(true)}
                     onMouseLeave={() => setIsProductDropdownOpen(false)}
                   >
                     SẢN PHẨM
-                    <ChevronDown className="w-4 h-4 ml-1" />
+                    <ChevronDown className="w-3.5 h-3.5 ml-0.5" />
                   </Link>
-                  
+
                   {/* Product Dropdown */}
                   {isProductDropdownOpen && (
                     <div
-                      className="absolute top-full left-0 bg-white shadow-xl border rounded-lg p-6 z-50 w-max"
+                      className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg border border-gray-100 rounded-lg p-6 z-50"
                       onMouseEnter={() => setIsProductDropdownOpen(true)}
                       onMouseLeave={() => setIsProductDropdownOpen(false)}
+                      style={{ marginTop: '1px', width: '750px', maxWidth: '90vw' }}
                     >
-                      <div className="grid grid-cols-3 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {productCategories.map((category, index) => (
-                          <div key={index} className="min-w-[200px]">
-                            <h3 className="font-bold text-gray-800 mb-3 text-sm">{category.title}</h3>
-                            <ul className="space-y-2">
+                          <div key={index} className="flex flex-col">
+                            <h3 className="font-medium text-blue-600 mb-3 text-sm border-b border-gray-200 pb-1.5 flex items-center">
+                              {category.title}
+                            </h3>
+                            <ul className="grid grid-cols-1 gap-2.5">
                               {category.items.map((item, itemIndex) => (
                                 <li key={itemIndex}>
-                                  <Link 
-                                    to={`/products?category=${encodeURIComponent(item)}`} 
-                                    className="text-sm text-gray-600 hover:text-blue-500 transition-colors block">
+                                  <Link
+                                    to={`/products?category=${encodeURIComponent(
+                                      item
+                                    )}`}
+                                    className="text-sm text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-1.5 py-1 pl-1 rounded-md hover:bg-blue-50/50"
+                                  >
+                                    <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
                                     {item}
                                   </Link>
                                 </li>
@@ -225,17 +280,26 @@ const Header = () => {
                 </li>
                 {/* Removed duplicate SẢN PHẨM menu item */}
                 <li>
-                  <a href="/news" className="text-gray-700 hover:text-blue-500 transition-colors">
+                  <a
+                    href="/news"
+                    className="text-gray-700 hover:text-blue-500 transition-colors text-sm font-medium block py-2.5"
+                  >
                     TIN TỨC
                   </a>
                 </li>
                 <li>
-                  <a href="/routine" className="text-teal-500 hover:text-teal-600 transition-colors">
+                  <a
+                    href="/routine"
+                    className="text-teal-500 hover:text-teal-600 transition-colors text-sm font-medium block py-2.5"
+                  >
                     ROUTINE SKINCARE
                   </a>
                 </li>
                 <li>
-                  <a href="/contact" className="text-gray-700 hover:text-blue-500 transition-colors">
+                  <a
+                    href="/contact"
+                    className="text-gray-700 hover:text-blue-500 transition-colors text-sm font-medium block py-2.5"
+                  >
                     LIÊN HỆ
                   </a>
                 </li>
@@ -246,27 +310,44 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t mt-4">
-            <ul className="py-2">
-              <li className="py-2 px-4 hover:bg-gray-50">
-                <a href="/" className="text-gray-800 font-medium">TRANG CHỦ</a>
+          <div className="md:hidden border-t mt-3 animate-fadeIn">
+            <ul className="py-1">
+              <li className="border-b border-gray-100">
+                <a href="/" className="text-gray-800 font-medium text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                  TRANG CHỦ
+                </a>
               </li>
-              <li className="py-2 px-4 hover:bg-gray-50">
-                <a href="/about" className="text-gray-800">GIỚI THIỆU</a>
+              <li className="border-b border-gray-100">
+                <a href="/about" className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                  GIỚI THIỆU
+                </a>
               </li>
-              <li className="py-2 px-4 hover:bg-gray-50">
-                <Link to="/products" className="text-gray-800">SẢN PHẨM</Link>
+              <li className="border-b border-gray-100">
+                <Link to="/products" className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                  SẢN PHẨM
+                </Link>
               </li>
-              <li className="py-2 px-4 hover:bg-gray-50">
-                <a href="/news" className="text-gray-800">TIN TỨC</a>
+              <li className="border-b border-gray-100">
+                <a href="/news" className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                  TIN TỨC
+                </a>
               </li>
-              <li className="py-2 px-4 hover:bg-gray-50">
-                <a href="/routine" className="text-gray-800">ROUTINE SKINCARE</a>
+              <li className="border-b border-gray-100">
+                <a href="/routine" className="text-teal-600 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                  ROUTINE SKINCARE
+                </a>
               </li>
-              <li className="py-2 px-4 hover:bg-gray-50">
-                <a href="/contact" className="text-gray-800">LIÊN HỆ</a>
+              <li>
+                <a href="/contact" className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                  LIÊN HỆ
+                </a>
               </li>
             </ul>
+            
+            <div className="flex items-center justify-between px-4 py-3 bg-gray-50 mt-1">
+              <a href="/login" className="text-xs text-purple-600 font-medium">Đăng nhập</a>
+              <a href="/register" className="text-xs bg-purple-600 text-white px-3 py-1 rounded-full">Đăng ký</a>
+            </div>
           </div>
         )}
       </header>

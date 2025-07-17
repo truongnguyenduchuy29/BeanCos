@@ -889,8 +889,8 @@ const ProductSection = () => {
     },
   ];
 
-  // Get products from JSON data 
-  const products = productData.products.slice(0, 5).map(product => ({
+  // Get products from JSON data
+  const products = productData.products.slice(0, 5).map((product) => ({
     id: product.id,
     name: product.name,
     price: product.price,
@@ -900,32 +900,21 @@ const ProductSection = () => {
     brand: product.brand,
     brandImage: "../src/img/bioderma-logo.png", // Default brand image
     tags: product.tags || [],
-    gift: `Có ${Math.floor(Math.random() * 3) + 1} lựa chọn quà tặng khi mua hàng`,
+    gift: `Có ${
+      Math.floor(Math.random() * 3) + 1
+    } lựa chọn quà tặng khi mua hàng`,
     sold: Math.floor(Math.random() * 300) + 50,
   }));
 
   // Get categories from JSON data (unique categories)
   const categories = [
-    ...new Set(productData.products.map(product => product.category))
-  ].slice(0, 6).map(category => ({
-    name: category,
-    url: "#"
-  }));
-
-  // Get body care products from JSON data (different from skincare products)
-  const bodyCareProducts = productData.products.slice(5, 10).map(product => ({
-    id: product.id,
-    name: product.name,
-    price: product.price,
-    originalPrice: product.originalPrice,
-    discount: product.discount,
-    image: product.imageUrl,
-    brand: product.brand,
-    brandImage: "../src/img/bioderma-logo.png", // Default brand image
-    tags: product.tags || [],
-    gift: `Có ${Math.floor(Math.random() * 3) + 1} lựa chọn quà tặng khi mua hàng`,
-    sold: Math.floor(Math.random() * 300) + 50,
-  }));
+    ...new Set(productData.products.map((product) => product.category)),
+  ]
+    .slice(0, 6)
+    .map((category) => ({
+      name: category,
+      url: "#",
+    }));
 
   const banners = [
     {
@@ -1240,256 +1229,6 @@ const ProductSection = () => {
           </div>
         </div>
       </div>
-
-      {/* Body Care Section - CHĂM SÓC CƠ THỂ */}
-      <section className="section_product">
-        <div
-          className="mx-auto px-2 sm:px-4"
-          style={{ width: "1223px", maxWidth: "100%" }}
-        >
-          {/* Section Header */}
-          <div className="section-header">
-            <h2 className="section-title">CHĂM SÓC CƠ THỂ</h2>
-            <a href="#" className="view-all">
-              Xem tất cả
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </a>
-          </div>
-
-          {/* Product Grid with Navigation */}
-          <div className="relative">
-            <button className="navigation-button prev">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-
-            <div className="product-grid">
-              {bodyCareProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="product-item"
-                  style={{
-                    opacity: 0,
-                    transform: "translateY(20px)",
-                    transition: "opacity 0.5s, transform 0.5s",
-                  }}
-                >
-                  {/* Wishlist Button */}
-                  <button className="wishlist-button">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
-                  </button>
-
-                  {/* Brand Badge */}
-                  <div className="brand-badge">
-                    <img src={product.brandImage} alt={product.brand} />
-                  </div>
-
-                  {/* Product Image */}
-                  <div className="product-image-container">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="product-image"
-                    />
-
-                    {/* Hover Overlay */}
-                    <div className="product-hover-overlay">
-                      <div className="hover-buttons">
-                        <button className="search-button">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-5 h-5 text-blue-600"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            />
-                          </svg>
-                        </button>
-                        <button className="buy-button">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <circle cx="9" cy="21" r="1"></circle>
-                            <circle cx="20" cy="21" r="1"></circle>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                          </svg>
-                          <span>Mua ngay</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Product Tags */}
-                  <div className="product-tags">
-                    {product.tags &&
-                      product.tags.map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className={`product-tag ${
-                            tag === "EXCLUSIVE"
-                              ? "exclusive"
-                              : tag === "BEST SELLER"
-                              ? "best-seller"
-                              : ""
-                          }`}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                  </div>
-
-                  {/* Product Name */}
-                  <h3 className="product-name">{product.name}</h3>
-
-                  {/* Prices */}
-                  <div className="product-price">
-                    <span className="current-price">
-                      {formatPrice(product.price)}
-                    </span>
-                    {product.discount > 0 && (
-                      <span className="original-price">
-                        {formatPrice(product.originalPrice)}
-                      </span>
-                    )}
-                    {product.discount > 0 && (
-                      <span className="discount-badge">
-                        -{product.discount}%
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Gift Badge */}
-                  <div className="gift-badge">
-                    <span className="gift-icon">🎁</span>
-                    {product.gift}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <button className="navigation-button next">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          </div>
-
-          {/* Additional Banners */}
-          <div className="mt-6 sm:mt-8 grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 px-2 sm:px-0">
-            <a
-              href="#"
-              className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow relative group"
-            >
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10"></div>
-              <img
-                src="../src/img/img_32banner_1.jpg"
-                alt="Da dầu mụn nên dùng mỹ phẩm nào"
-                className="w-full h-auto transform transition-transform duration-500 group-hover:scale-105"
-              />
-            </a>
-            <a
-              href="#"
-              className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow relative group"
-            >
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10"></div>
-              <img
-                src="../src/img/img_32banner_2.jpg"
-                alt="Purging là gì nên làm gì khi da bị"
-                className="w-full h-auto transform transition-transform duration-500 group-hover:scale-105"
-              />
-            </a>
-            <a
-              href="#"
-              className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow relative group"
-            >
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10"></div>
-              <img
-                src="../src/img/img_32banner_3.jpg"
-                alt="Treatment là gì các hoạt chất điều trị mụn"
-                className="w-full h-auto transform transition-transform duration-500 group-hover:scale-105"
-              />
-            </a>
-          </div>
-
-          {/* Category Links for Body Care */}
-          <div className="mt-3 sm:mt-4 flex flex-wrap justify-center gap-1 sm:gap-2 px-2 sm:px-0">
-            <a href="#" className="category-link">
-              Sữa tắm
-            </a>
-            <a href="#" className="category-link">
-              Sữa dưỡng thể
-            </a>
-            <a href="#" className="category-link">
-              Tẩy tế bào chết
-            </a>
-            <a href="#" className="category-link">
-              Xịt khử mùi
-            </a>
-            <a href="#" className="category-link">
-              Kem tẩy lông
-            </a>
-          </div>
-        </div>
-      </section>
     </>
   );
 };
