@@ -206,9 +206,9 @@ const ProductPage = () => {
       <Header />
       
       {/* Breadcrumb */}
-      <div className="bg-gray-100 py-2">
-        <div className="container mx-auto px-3">
-          <nav className="flex items-center text-sm">
+      <div className="bg-gray-100 py-4">
+        <div className="container mx-auto px-4">
+          <nav className="flex items-center text-base">
             <Link to="/" className="text-gray-600 hover:text-pink-500">
               Trang chủ
             </Link>
@@ -219,19 +219,19 @@ const ProductPage = () => {
       </div>
 
       {/* Banner Section */}
-      <div className="container mx-auto px-3 py-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="container mx-auto px-4 py-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {banners.map((banner) => (
             <div key={banner.id} className="relative rounded-md overflow-hidden border border-gray-200">
               <img 
                 src={banner.imageUrl} 
                 alt={banner.title} 
-                className="w-full h-32 object-cover"
+                className="w-full h-36 object-cover"
               />
-              <div className="absolute top-0 left-0 p-3">
-                <h3 className="text-base font-semibold text-green-700">{banner.title}</h3>
-                {banner.subtitle && <p className="text-sm text-green-700">{banner.subtitle}</p>}
-                <button className="mt-1 px-3 py-1 bg-white text-green-700 rounded-full text-xs hover:bg-gray-100 transition">
+              <div className="absolute top-0 left-0 p-4">
+                <h3 className="text-lg font-semibold text-green-700">{banner.title}</h3>
+                {banner.subtitle && <p className="text-base text-green-700">{banner.subtitle}</p>}
+                <button className="mt-2 px-4 py-1.5 bg-white text-green-700 rounded-full text-sm hover:bg-gray-100 transition">
                   {banner.buttonText}
                 </button>
               </div>
@@ -241,40 +241,40 @@ const ProductPage = () => {
       </div>
 
       {/* Brand Carousel */}
-      <div className="container mx-auto px-3 py-4">
-        <h2 className="text-lg font-semibold mb-3">TÌM KIẾM NHIỀU</h2>
+      <div className="container mx-auto px-4 py-5">
+        <h2 className="text-xl font-semibold mb-4">TÌM KIẾM NHIỀU</h2>
         <div className="relative">
           <button 
             onClick={() => scrollBrands('left')} 
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-7 h-7 rounded-full flex items-center justify-center"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
           >
             &lt;
           </button>
           <div 
             ref={brandsRef}
-            className="flex overflow-x-auto scrollbar-hide space-x-3 py-1"
+            className="flex overflow-x-auto scrollbar-hide space-x-4 py-2"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {brands.map((brand) => (
               <div 
                 key={brand.id} 
-                className="flex-none w-20 text-center cursor-pointer"
+                className="flex-none w-24 text-center cursor-pointer"
                 onClick={() => handleBrandChange(brand.name)}
               >
-                <div className={`border ${selectedBrand === brand.name ? 'border-pink-500' : 'border-gray-200'} rounded-lg p-1 mb-1`}>
+                <div className={`border ${selectedBrand === brand.name ? 'border-pink-500' : 'border-gray-200'} rounded-lg p-2 mb-2`}>
                   <img 
                     src={brand.imageUrl} 
                     alt={brand.name} 
-                    className="w-full h-10 object-contain"
+                    className="w-full h-12 object-contain"
                   />
                 </div>
-                <p className="text-xs truncate">{brand.name}</p>
+                <p className="text-sm truncate">{brand.name}</p>
               </div>
             ))}
           </div>
           <button 
             onClick={() => scrollBrands('right')} 
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-7 h-7 rounded-full flex items-center justify-center"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
           >
             &gt;
           </button>
@@ -402,14 +402,14 @@ const ProductPage = () => {
           {/* Product Grid */}
           <div className="lg:w-4/5">
             {/* Top bar with title and sort */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-3 pb-2 border-b border-gray-200">
-              <h2 className="text-lg font-semibold uppercase mb-2 sm:mb-0">TẤT CẢ SẢN PHẨM</h2>
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 pb-3 border-b border-gray-200">
+              <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">TẤT CẢ SẢN PHẨM</h2>
               <div className="flex items-center">
-                <span className="text-xs text-gray-600 mr-1">Sắp xếp:</span>
+                <span className="text-sm text-gray-600 mr-2">Sắp xếp:</span>
                 <select 
                   value={sortBy} 
                   onChange={handleSortChange}
-                  className="border border-gray-300 rounded px-2 py-0.5 text-xs"
+                  className="border border-gray-300 rounded px-3 py-1 text-sm"
                 >
                   <option value="default">Mặc định</option>
                   <option value="price-asc">Giá: Thấp đến cao</option>
@@ -522,13 +522,13 @@ const ProductPage = () => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="mt-4 mb-11 flex justify-center">
-                <div className="flex space-x-1">
+              <div className="mt-5 mb-[30px] flex justify-center">
+                <div className="flex space-x-2">
                   {Array.from({ length: totalPages }, (_, index) => (
                     <button
                       key={index + 1}
                       onClick={() => setCurrentPage(index + 1)}
-                      className={`w-6 h-6 flex items-center justify-center text-xs rounded ${
+                      className={`w-9 h-9 flex items-center justify-center text-base rounded ${
                         currentPage === index + 1
                           ? "bg-pink-500 text-white"
                           : "border border-gray-300 hover:bg-gray-100"
