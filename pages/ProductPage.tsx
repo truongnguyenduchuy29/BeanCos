@@ -201,6 +201,16 @@ const ProductPage = () => {
     setSortBy(event.target.value);
   };
 
+  // Reset all filters to show all products
+  const resetToAllProducts = () => {
+    setSelectedCategory(null);
+    setSelectedProductType(null);
+    setSelectedBrand(null);
+    setSelectedSkinType(null);
+    setSelectedPriceRange(null);
+    setSortBy("default");
+  };
+
   return (
     <div className="product-page bg-gray-50">
       <Header />
@@ -213,7 +223,22 @@ const ProductPage = () => {
               Trang chủ
             </Link>
             <span className="mx-2 text-gray-400">&gt;</span>
-            <span className="text-pink-500">Tất cả sản phẩm</span>
+            {selectedCategory || selectedProductType ? (
+              <>
+                <button 
+                  onClick={resetToAllProducts}
+                  className="text-gray-600 hover:text-pink-500"
+                >
+                  Tất cả sản phẩm
+                </button>
+                <span className="mx-2 text-gray-400">&gt;</span>
+                <span className="text-pink-500">
+                  {selectedCategory || selectedProductType}
+                </span>
+              </>
+            ) : (
+              <span className="text-pink-500">Tất cả sản phẩm</span>
+            )}
           </nav>
         </div>
       </div>
@@ -295,11 +320,10 @@ const ProductPage = () => {
                 {categories.map((category) => (
                   <div key={category} className="flex items-center mb-2">
                     <button 
-                      className={`flex items-center justify-between w-full text-left ${selectedCategory === category ? 'text-pink-500' : 'text-gray-700'} text-sm`}
+                      className={`w-full text-left ${selectedCategory === category ? 'text-pink-500' : 'text-gray-700'} text-sm`}
                       onClick={() => handleCategoryChange(category)}
                     >
-                      <span>{category}</span>
-                      <span>{selectedCategory === category ? '-' : '+'}</span>
+                      {category}
                     </button>
                   </div>
                 ))}
@@ -381,7 +405,7 @@ const ProductPage = () => {
                 <h3 className="text-sm font-semibold text-purple-900">LOẠI DA</h3>
               </div>
               <div className="border border-gray-200 p-2 rounded-b-md">
-                {["Da dầu", "Da khô", "Da nhạy cảm", "Da thường", "Da hỗn hợp"].map((skinType) => (
+                {skinTypes.map((skinType) => (
                   <div key={skinType} className="flex items-center mb-2">
                     <input
                       type="checkbox"
@@ -403,7 +427,9 @@ const ProductPage = () => {
           <div className="lg:w-4/5">
             {/* Top bar with title and sort */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4 pb-3 border-b border-gray-200">
-              <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">TẤT CẢ SẢN PHẨM</h2>
+              <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">
+                {selectedCategory || selectedProductType || "TẤT CẢ SẢN PHẨM"}
+              </h2>
               <div className="flex items-center">
                 <span className="text-sm text-gray-600 mr-2">Sắp xếp:</span>
                 <select 
