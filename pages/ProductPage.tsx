@@ -152,7 +152,7 @@ const ProductPage = () => {
       setSelectedProductType(null);
       setSelectedCategory(null);
     }
-  }, [searchParams, products.length]);
+  }, [searchParams, products]);
 
   // Filter products based on selected filters
   useEffect(() => {

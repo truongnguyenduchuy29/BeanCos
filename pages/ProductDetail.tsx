@@ -654,7 +654,15 @@ const ProductDetail = () => {
                 key={product.id}
                 className="bg-white border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition-shadow"
               >
-                <Link to={`/product/${product.id}`}>
+                <Link 
+                  to={`/product/${product.id}`}
+                  onClick={() => {
+                    // Scroll to top when navigating to a new product
+                    window.scrollTo({
+                      top: 0,
+                      behavior: 'smooth'
+                    });
+                  }}>
                   <div className="p-4">
                     <div className="relative pt-[100%]">
                       <img
@@ -699,7 +707,15 @@ const ProductDetail = () => {
                 key={product.id}
                 className="bg-white border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition-shadow"
               >
-                <Link to={`/product/${product.id}`}>
+                <Link 
+                  to={`/product/${product.id}`}
+                  onClick={() => {
+                    // Scroll to top when navigating to a new product
+                    window.scrollTo({
+                      top: 0,
+                      behavior: 'smooth'
+                    });
+                  }}>
                   <div className="p-4">
                     <div className="relative pt-[100%]">
                       <img
