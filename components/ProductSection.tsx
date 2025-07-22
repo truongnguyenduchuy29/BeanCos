@@ -1065,7 +1065,7 @@ const ProductSection = () => {
           {/* Section Header */}
           <div className="section-header">
             <h2 className="section-title">CHĂM SÓC DA</h2>
-            <a href="#" className="view-all">
+            <Link to="/products" className="view-all">
               Xem tất cả
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -1081,7 +1081,7 @@ const ProductSection = () => {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
 
           {/* Product Grid with Navigation */}
