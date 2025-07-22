@@ -49,6 +49,7 @@ const ProductPage = () => {
   const [sortBy, setSortBy] = useState<string>("default");
   const productsPerPage = 12; // Changed from 8 to 12
   const brandsRef = useRef<HTMLDivElement>(null);
+  const productsRef = useRef<HTMLDivElement>(null); // Add ref for products section
 
   // List of price ranges
   const priceRanges = [
@@ -216,6 +217,11 @@ const ProductPage = () => {
 
     setFilteredProducts(filtered);
     setCurrentPage(1); // Reset to first page when filters change
+    
+    // Scroll to products section when filters change
+    if (productsRef.current) {
+      productsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [
     products,
     selectedCategory,
@@ -268,6 +274,13 @@ const ProductPage = () => {
     } else {
       setSearchParams({});
     }
+    
+    // Scroll to products section
+    setTimeout(() => {
+      if (productsRef.current) {
+        productsRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const handleProductTypeChange = (type: string) => {
@@ -280,6 +293,13 @@ const ProductPage = () => {
     } else {
       setSearchParams({});
     }
+    
+    // Scroll to products section
+    setTimeout(() => {
+      if (productsRef.current) {
+        productsRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const handleBrandChange = (brand: string) => {
@@ -298,6 +318,13 @@ const ProductPage = () => {
     } else {
       setSearchParams({});
     }
+    
+    // Scroll to products section
+    setTimeout(() => {
+      if (productsRef.current) {
+        productsRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const handleSkinTypeChange = (skinType: string) => {
@@ -316,14 +343,35 @@ const ProductPage = () => {
     } else {
       setSearchParams({});
     }
+    
+    // Scroll to products section
+    setTimeout(() => {
+      if (productsRef.current) {
+        productsRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const handlePriceRangeChange = (range: string) => {
     setSelectedPriceRange(selectedPriceRange === range ? null : range);
+    
+    // Scroll to products section
+    setTimeout(() => {
+      if (productsRef.current) {
+        productsRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(event.target.value);
+    
+    // Scroll to products section
+    setTimeout(() => {
+      if (productsRef.current) {
+        productsRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   // Reset all filters to show all products
@@ -334,6 +382,14 @@ const ProductPage = () => {
     setSelectedSkinType(null);
     setSelectedPriceRange(null);
     setSortBy("default");
+    setSearchParams({});
+    
+    // Scroll to products section
+    setTimeout(() => {
+      if (productsRef.current) {
+        productsRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   return (
@@ -592,7 +648,7 @@ const ProductPage = () => {
           </div>
 
           {/* Product Grid */}
-          <div className="lg:flex-1">
+          <div className="lg:flex-1" ref={productsRef}>
             {/* Top bar with title and sort */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 pb-3 border-b border-gray-200">
               <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">
