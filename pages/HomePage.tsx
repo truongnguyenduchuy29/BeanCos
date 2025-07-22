@@ -710,7 +710,7 @@ const HomePage = () => {
                                   labels: product.labels || []
                                 });
                               }}
-                              className="bg-white text-blue-600 rounded-full px-4 py-2 font-medium shadow-sm flex items-center gap-2 hover:bg-blue-50"
+                              className="bg-pink-500 text-white rounded-lg px-4 py-2 font-medium shadow-sm flex items-center gap-2 hover:bg-pink-600 transition-colors"
                             >
                               <ShoppingBag className="w-4 h-4" />
                               <span>Mua ngay</span>

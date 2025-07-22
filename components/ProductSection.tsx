@@ -165,6 +165,21 @@ const ProductSection = () => {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: 16px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        scrollbar-width: thin;
+        scrollbar-color: #e91e63 #f5f5f5;
+      }
+      .product-grid::-webkit-scrollbar {
+        height: 6px;
+      }
+      .product-grid::-webkit-scrollbar-track {
+        background: #f5f5f5;
+        border-radius: 10px;
+      }
+      .product-grid::-webkit-scrollbar-thumb {
+        background-color: #e91e63;
+        border-radius: 10px;
       }
       @media (max-width: 1400px) {
         .product-grid {
@@ -900,7 +915,7 @@ const ProductSection = () => {
   ];
 
   // Get products from JSON data
-  const products = productData.products.slice(0, 5).map((product) => ({
+  const products = productData.products.slice(0, 10).map((product) => ({
     id: product.id,
     name: product.name,
     price: product.price,
@@ -1036,7 +1051,15 @@ const ProductSection = () => {
 
           {/* Product Grid with Navigation */}
           <div className="relative">
-            <button className="navigation-button prev">
+            <button 
+              className="navigation-button prev"
+              onClick={() => {
+                const productGrid = document.querySelector('.product-grid');
+                if (productGrid) {
+                  productGrid.scrollBy({ left: -300, behavior: 'smooth' });
+                }
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -1053,7 +1076,7 @@ const ProductSection = () => {
               </svg>
             </button>
 
-            <div className="product-grid">
+            <div className="product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 230px)', overflowX: 'auto' }}>
               {products.map((product) => (
                 <div
                   key={product.id}
@@ -1178,7 +1201,15 @@ const ProductSection = () => {
               ))}
             </div>
 
-            <button className="navigation-button next">
+            <button 
+              className="navigation-button next"
+              onClick={() => {
+                const productGrid = document.querySelector('.product-grid');
+                if (productGrid) {
+                  productGrid.scrollBy({ left: 300, behavior: 'smooth' });
+                }
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
