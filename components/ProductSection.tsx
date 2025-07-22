@@ -4,6 +4,7 @@ import { useAppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { Heart, Search, ShoppingBag } from "lucide-react";
 import QuickView from "./QuickView";
+import { Link } from "react-router-dom";
 
 const ProductSection = () => {
   const navigate = useNavigate();
@@ -232,6 +233,7 @@ const ProductSection = () => {
         justify-content: center;
         align-items: center;
         height: 180px;
+        z-index: 1;
       }
       @media (max-width: 991px) {
         .product-image-container {
@@ -282,7 +284,7 @@ const ProductSection = () => {
         border: none;
         color: #9e9e9e;
         cursor: pointer;
-        z-index: 2;
+        z-index: 25;
         opacity: 0;
         transition: opacity 0.3s, color 0.3s;
         padding: 4px;
@@ -741,89 +743,10 @@ const ProductSection = () => {
         border-color: #e91e63;
         color: #e91e63;
       }
-      .product-hover-overlay {
-        position: absolute;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: all 0.3s ease;
-        z-index: 5;
-      }
-      .product-item:hover .product-hover-overlay {
-        opacity: 1;
-        background-color: rgba(0, 0, 0, 0.2);
-      }
-      .hover-buttons {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      @media (max-width: 767px) {
-        .hover-buttons {
-          gap: 0.25rem;
-          flex-direction: column;
-        }
-      }
-      .search-button {
-        background-color: white;
-        border-radius: 9999px;
-        padding: 0.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      @media (max-width: 767px) {
-        .search-button {
-          padding: 0.25rem;
-          opacity: 0;
-          transform: translateY(10px);
-        }
-      }
-      .product-item:hover .search-button {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      .search-button:hover {
-        background-color: #f3f4f6;
-      }
-      .buy-button {
-        background-color: white;
-        color: #2563eb;
-        border-radius: 9999px;
-        padding: 0.5rem 1.25rem;
-        font-weight: 500;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      @media (max-width: 767px) {
-        .buy-button {
-          padding: 0.25rem 0.75rem;
-          font-size: 12px;
-          gap: 0.25rem;
-          opacity: 0;
-          transform: translateY(10px);
-        }
-      }
-      .product-item:hover .buy-button {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      .buy-button:hover {
-        background-color: #2563eb;
-        color: white;
-      }
+      
+      
+      
+      
       .add-to-cart-button {
         background-color: white;
         color: #e91e63;
@@ -1141,14 +1064,7 @@ const ProductSection = () => {
                     transition: "opacity 0.5s, transform 0.5s",
                   }}
                 >
-                  {/* Wishlist Button */}
-                  <button 
-                    className={`wishlist-button ${isInWishlist(product.id) ? 'text-red-500' : ''}`}
-                    onClick={(e) => handleToggleWishlist(product, e)}
-                    style={{ opacity: 1 }}
-                  >
-                    <Heart className={`h-6 w-6 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
-                  </button>
+
 
                   {/* Brand Badge */}
                   <div className="brand-badge">
@@ -1156,36 +1072,61 @@ const ProductSection = () => {
                   </div>
 
                   {/* Product Image */}
-                  <a href={`/product/${product.id}`} className="block">
-                    <div className="product-image-container">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="product-image"
-                      />
-
-                      {/* Hover Overlay */}
-                      <div className="product-hover-overlay" style={{ opacity: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
-                        <div className="hover-buttons">
-                          <button 
-                            className="search-button"
-                            onClick={(e) => handleQuickView(product, e)}
-                            style={{ opacity: 1, transform: "translateY(0)" }}
-                          >
-                            <Search className="w-5 h-5 text-blue-600" />
-                          </button>
-                          <button 
-                            className="buy-button"
-                            onClick={(e) => handleBuyNow(product, e)}
-                            style={{ opacity: 1, transform: "translateY(0)" }}
-                          >
-                            <ShoppingBag className="w-4 h-4" />
-                            <span>Mua ngay</span>
-                          </button>
-                        </div>
+                  <div className="relative group">
+                    <Link to={`/product/${product.id}`} className="block">
+                      <div className="product-image-container">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="product-image group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    </Link>
+                    
+                    {/* Wishlist Button */}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleToggleWishlist(product, e);
+                      }}
+                      className={`absolute top-2 right-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 z-20 ${
+                        isInWishlist(product.id) 
+                          ? 'bg-red-500 text-white' 
+                          : 'bg-white text-gray-400 hover:text-red-500 hover:bg-red-50'
+                      } shadow-sm`}
+                    >
+                      <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
+                    </button>
+                    
+                    {/* Add to Cart Button - appears on hover */}
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center z-10">
+                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleQuickView(product, e);
+                          }}
+                          className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100"
+                        >
+                          <Search className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+                        </button>
+                        
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleBuyNow(product, e);
+                          }}
+                          className="bg-pink-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-pink-600 transition-colors flex items-center space-x-1 sm:space-x-2 shadow-md text-xs sm:text-sm"
+                        >
+                          <ShoppingBag className="w-3 h-3 sm:w-4 sm:h-4" />
+                          <span>Mua ngay</span>
+                        </button>
                       </div>
                     </div>
-                  </a>
+                  </div>
 
                   {/* Product Tags */}
                   <div className="product-tags">

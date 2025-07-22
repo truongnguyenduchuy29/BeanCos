@@ -3,7 +3,6 @@ import { Heart, Search, ShoppingBag } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import ProductCard from "../components/ProductCard";
 import ProductSection from "../components/ProductSection";
 import productData from "../db/product.json";
 import { useAppContext } from "../context/AppContext";
