@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import productData from "../db/product.json";
+import { useAppContext } from "../context/AppContext";
+import { Heart, ShoppingBag } from "lucide-react";
+import QuickView from "../components/QuickView";
+
+// Fix the type issues by updating the interfaces and type guards
 
 interface Product {
   id: number;
@@ -40,6 +45,16 @@ interface RelatedProduct {
   tags?: string[];
 }
 
+// Create a type guard function to check if an object is a Product
+function isProduct(obj: Product | RelatedProduct): obj is Product {
+  return 'imageUrl' in obj && 'gifts' in obj;
+}
+
+// Create a type guard function to check if an object is a RelatedProduct
+function isRelatedProduct(obj: Product | RelatedProduct): obj is RelatedProduct {
+  return 'imageUrl' in obj && !('gifts' in obj);
+}
+
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
@@ -55,10 +70,105 @@ const ProductDetail = () => {
   // States for image modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState("");
+  
+  // States for quick view modal
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+  
+  // Get context for wishlist and cart functionality
+  const { addToWishlist, removeFromWishlist, isInWishlist, addToCart } = useAppContext();
+  const navigate = useNavigate();
 
   // Format price with thousand separator
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+  
+  // New functions for handling wishlist, quick view, and buy now
+  const handleToggleWishlist = (productToToggle: Product | RelatedProduct) => {
+    // Format product data to match the wishlist item structure
+    let imageUrl = '';
+    
+    if (isProduct(productToToggle)) {
+      imageUrl = productToToggle.imageUrl;
+    } else if (isRelatedProduct(productToToggle)) {
+      imageUrl = productToToggle.imageUrl;
+    }
+    
+    const wishlistProduct = {
+      id: productToToggle.id,
+      name: productToToggle.name,
+      price: formatPrice(productToToggle.price) + 'đ',
+      originalPrice: productToToggle.originalPrice ? formatPrice(productToToggle.originalPrice) + 'đ' : undefined,
+      discount: productToToggle.discount ? `${productToToggle.discount}%` : undefined,
+      image: imageUrl,
+      brand: productToToggle.brand,
+      tags: productToToggle.tags,
+      gift: isProduct(productToToggle) && productToToggle.gifts ? productToToggle.gifts[0] : undefined
+    };
+    
+    if (isInWishlist(productToToggle.id)) {
+      removeFromWishlist(productToToggle.id);
+    } else {
+      addToWishlist(wishlistProduct);
+    }
+  };
+  
+  const handleQuickView = (productToView: Product) => {
+    setQuickViewProduct(productToView);
+    setIsQuickViewOpen(true);
+  };
+  
+  const handleCloseQuickView = () => {
+    setIsQuickViewOpen(false);
+  };
+  
+  const handleAddToCart = () => {
+    if (!product) return;
+    
+    // Format product data to match the cart item structure
+    const cartProduct = {
+      id: product.id,
+      name: product.name,
+      price: formatPrice(product.price) + 'đ',
+      originalPrice: product.originalPrice ? formatPrice(product.originalPrice) + 'đ' : undefined,
+      discount: product.discount ? `${product.discount}%` : undefined,
+      image: product.imageUrl,
+      brand: product.brand,
+      tags: product.tags,
+      gift: product.gifts ? product.gifts[0] : undefined,
+      quantity: quantity
+    };
+    
+    addToCart(cartProduct);
+  };
+  
+  const handleBuyNow = (productToBuy: Product | RelatedProduct) => {
+    // Format product data to match the cart item structure
+    let imageUrl = '';
+    
+    if (isProduct(productToBuy)) {
+      imageUrl = productToBuy.imageUrl;
+    } else if (isRelatedProduct(productToBuy)) {
+      imageUrl = productToBuy.imageUrl;
+    }
+    
+    const cartProduct = {
+      id: productToBuy.id,
+      name: productToBuy.name,
+      price: formatPrice(productToBuy.price) + 'đ',
+      originalPrice: productToBuy.originalPrice ? formatPrice(productToBuy.originalPrice) + 'đ' : undefined,
+      discount: productToBuy.discount ? `${productToBuy.discount}%` : undefined,
+      image: imageUrl,
+      brand: productToBuy.brand,
+      tags: productToBuy.tags,
+      gift: isProduct(productToBuy) && productToBuy.gifts ? productToBuy.gifts[0] : undefined,
+      quantity: 1
+    };
+    
+    // Add product to cart and navigate to cart page
+    addToCart(cartProduct);
+    navigate('/cart');
   };
 
   // Load product data
@@ -400,24 +510,17 @@ const ProductDetail = () => {
 
                   {/* Add to Cart Button */}
                   <div className="flex space-x-4">
-                    <button className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-md font-medium transition-colors">
+                    <button 
+                      onClick={handleAddToCart}
+                      className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-md font-medium transition-colors"
+                    >
                       THÊM VÀO GIỎ HÀNG
                     </button>
-                    <button className="border border-pink-600 text-pink-600 hover:bg-pink-50 px-4 py-3 rounded-md font-medium transition-colors">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                        />
-                      </svg>
+                    <button 
+                      onClick={() => handleToggleWishlist(product)}
+                      className={`border ${isInWishlist(product.id) ? 'bg-pink-100' : ''} border-pink-600 text-pink-600 hover:bg-pink-50 px-4 py-3 rounded-md font-medium transition-colors`}
+                    >
+                      <Heart className={`h-5 w-5 ${isInWishlist(product.id) ? 'fill-pink-600' : ''}`} />
                     </button>
                   </div>
                 </div>
@@ -729,6 +832,18 @@ const ProductDetail = () => {
                         -{product.discount}%
                       </div>
                     )}
+                    
+                    {/* Wishlist button */}
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleToggleWishlist(product);
+                      }}
+                      className={`absolute top-2 left-2 z-10 w-7 h-7 rounded-full ${isInWishlist(product.id) ? 'bg-pink-500 text-white' : 'bg-white text-gray-500 hover:text-pink-500'} border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition-all shadow-sm hover:shadow-md`}
+                    >
+                      <Heart className={`w-4 h-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
+                    </button>
 
                     {/* Product image with overlay actions */}
                     <img
@@ -738,14 +853,20 @@ const ProductDetail = () => {
                     />
 
                     {/* Overlay actions */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-20">
                       <div className="flex gap-2">
                         {/* Quick view button - Kính lúp */}
                         <button
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            openImageModal(product.imageUrl);
+                            // Find the full product data for quick view
+                            const fullProduct = (productData.products as Product[]).find(
+                              (p) => p.id === product.id
+                            );
+                            if (fullProduct) {
+                              handleQuickView(fullProduct);
+                            }
                           }}
                           className="w-10 h-10 rounded-md bg-white flex items-center justify-center hover:bg-gray-100 transition-colors shadow-md"
                         >
@@ -770,10 +891,11 @@ const ProductDetail = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            // Thêm logic mua ngay ở đây
+                            handleBuyNow(product);
                           }}
                           className="h-10 px-4 rounded-md bg-pink-500 text-white text-sm font-medium flex items-center justify-center hover:bg-pink-600 transition-colors shadow-md"
                         >
+                          <ShoppingBag className="w-3.5 h-3.5 mr-1" />
                           Mua ngay
                         </button>
                       </div>
@@ -828,6 +950,18 @@ const ProductDetail = () => {
                         -{product.discount}%
                       </div>
                     )}
+                    
+                    {/* Wishlist button */}
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleToggleWishlist(product);
+                      }}
+                      className={`absolute top-2 left-2 z-10 w-7 h-7 rounded-full ${isInWishlist(product.id) ? 'bg-pink-500 text-white' : 'bg-white text-gray-500 hover:text-pink-500'} border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition-all shadow-sm hover:shadow-md`}
+                    >
+                      <Heart className={`w-4 h-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
+                    </button>
 
                     {/* Product image with overlay actions */}
                     <img
@@ -837,14 +971,20 @@ const ProductDetail = () => {
                     />
 
                     {/* Overlay actions */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-20">
                       <div className="flex gap-2">
                         {/* Quick view button - Kính lúp */}
                         <button
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            openImageModal(product.imageUrl);
+                            // Find the full product data for quick view
+                            const fullProduct = (productData.products as Product[]).find(
+                              (p) => p.id === product.id
+                            );
+                            if (fullProduct) {
+                              handleQuickView(fullProduct);
+                            }
                           }}
                           className="w-10 h-10 rounded-md bg-white flex items-center justify-center hover:bg-gray-100 transition-colors shadow-md"
                         >
@@ -869,10 +1009,11 @@ const ProductDetail = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            // Thêm logic mua ngay ở đây
+                            handleBuyNow(product);
                           }}
                           className="h-10 px-4 rounded-md bg-pink-500 text-white text-sm font-medium flex items-center justify-center hover:bg-pink-600 transition-colors shadow-md"
                         >
+                          <ShoppingBag className="w-3.5 h-3.5 mr-1" />
                           Mua ngay
                         </button>
                       </div>
@@ -948,6 +1089,15 @@ const ProductDetail = () => {
             />
           </div>
         </div>
+      )}
+      
+      {/* Quick View Modal */}
+      {quickViewProduct && (
+        <QuickView 
+          product={quickViewProduct} 
+          isOpen={isQuickViewOpen} 
+          onClose={handleCloseQuickView} 
+        />
       )}
     </div>
   );
