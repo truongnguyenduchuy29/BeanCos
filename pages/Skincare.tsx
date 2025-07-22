@@ -205,7 +205,15 @@ const Skincare: React.FC = () => {
 
   // Navigate to product page with category filter
   const navigateToProductPage = (category: string = selectedCategory) => {
-    navigate(`/products?category=${encodeURIComponent(category)}`);
+    // Lưu state vào sessionStorage để ProductPage có thể cuộn đến vị trí đúng
+    sessionStorage.setItem('scrollToProducts', 'true');
+    
+    // Xử lý đặc biệt cho Treatment - không lọc theo danh mục
+    if (category === 'Treatment') {
+      navigate('/products');
+    } else {
+      navigate(`/products?category=${encodeURIComponent(category)}`);
+    }
   };
 
   // Add all selected products to cart from all categories
