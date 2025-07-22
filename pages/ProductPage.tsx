@@ -114,6 +114,14 @@ const ProductPage = () => {
 
   const [searchParams] = useSearchParams();
   
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+  
   // Load products from JSON data and check URL parameters
   // First effect to load products from JSON
   useEffect(() => {
@@ -461,7 +469,17 @@ const ProductPage = () => {
       <div className="bg-gray-100 py-4">
         <div className="container mx-auto px-4">
           <nav className="flex items-center text-base">
-            <Link to="/" className="text-gray-600 hover:text-pink-500">
+            <Link 
+              to="/" 
+              className="text-gray-600 hover:text-pink-500"
+              onClick={() => {
+                // Scroll to top when navigating to home page
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
+            >
               Trang chủ
             </Link>
             <span className="mx-2 text-gray-400">&gt;</span>
@@ -817,7 +835,16 @@ const ProductPage = () => {
                   )}
                   {/* Product Info */}
                   <div className="p-4">
-                    <Link to={`/product/${product.id}`}>
+                    <Link 
+                      to={`/product/${product.id}`}
+                      onClick={() => {
+                        // Scroll to top when navigating to product detail
+                        window.scrollTo({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                    >
                       <h3 className="text-sm font-medium mb-2.5 h-10 overflow-hidden line-clamp-2 group-hover:text-pink-500 transition">
                         {product.name}
                       </h3>
@@ -879,7 +906,18 @@ const ProductPage = () => {
                   {Array.from({ length: totalPages }, (_, index) => (
                     <button
                       key={index + 1}
-                      onClick={() => setCurrentPage(index + 1)}
+                      onClick={() => {
+                        setCurrentPage(index + 1);
+                        // Scroll to products section when page changes
+                        setTimeout(() => {
+                          if (productsRef.current) {
+                            productsRef.current.scrollIntoView({ 
+                              behavior: 'smooth', 
+                              block: 'start' 
+                            });
+                          }
+                        }, 100);
+                      }}
                       className={`w-10 h-10 flex items-center justify-center text-base rounded-md ${
                         currentPage === index + 1
                           ? "bg-pink-500 text-white font-medium shadow-md"

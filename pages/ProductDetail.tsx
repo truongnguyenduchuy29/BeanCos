@@ -171,6 +171,14 @@ const ProductDetail = () => {
     navigate('/cart');
   };
 
+  // Scroll to top when component mounts or ID changes
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [id]);
+
   // Load product data
   useEffect(() => {
     if (id) {
@@ -297,11 +305,31 @@ const ProductDetail = () => {
       <div className="bg-gray-100 py-4">
         <div className="mx-auto px-4" style={{ maxWidth: "1230px" }}>
           <nav className="flex items-center text-base">
-            <Link to="/" className="text-gray-600 hover:text-pink-500">
+            <Link 
+              to="/" 
+              className="text-gray-600 hover:text-pink-500"
+              onClick={() => {
+                // Scroll to top when navigating to home page
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
+            >
               Trang chủ
             </Link>
             <span className="mx-2 text-gray-400">&gt;</span>
-            <Link to="/products" className="text-gray-600 hover:text-pink-500">
+            <Link 
+              to="/products" 
+              className="text-gray-600 hover:text-pink-500"
+              onClick={() => {
+                // Scroll to top when navigating to products page
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
+            >
               {product.category}
             </Link>
             <span className="mx-2 text-gray-400">&gt;</span>
