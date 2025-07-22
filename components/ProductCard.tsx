@@ -1,6 +1,7 @@
 import React from 'react';
-import { Heart, ShoppingCart } from 'lucide-react';
+import { Heart, ShoppingCart, Search } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
+import { Link } from 'react-router-dom';
 
 interface Product {
   id: number;
@@ -16,22 +17,49 @@ interface Product {
 
 interface ProductCardProps {
   product: Product;
+  onQuickView?: () => void;
+  onBuyNow?: () => void;
+  onToggleWishlist?: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView, onBuyNow, onToggleWishlist }) => {
   const { addToWishlist, removeFromWishlist, addToCart, isInWishlist } = useAppContext();
   const isWishlisted = isInWishlist(product.id);
 
-  const handleWishlistClick = () => {
-    if (isWishlisted) {
-      removeFromWishlist(product.id);
+  const handleWishlistClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (onToggleWishlist) {
+      onToggleWishlist();
     } else {
-      addToWishlist(product);
+      if (isWishlisted) {
+        removeFromWishlist(product.id);
+      } else {
+        addToWishlist(product);
+      }
     }
   };
 
-  const handleAddToCart = () => {
-    addToCart(product);
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (onBuyNow) {
+      onBuyNow();
+    } else {
+      addToCart(product);
+    }
+  };
+  
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (onQuickView) {
+      onQuickView();
+    }
+    // If no onQuickView prop, do nothing - could add default behavior here if needed
   };
 
   return (
@@ -54,13 +82,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isWishlisted ? 'fill-current' : ''}`} />
         </button>
 
-        <img
-          src={product.image}
-          alt={product.name}
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+        <Link to={`/product/${product.id}`}>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </Link>
         
-        {product.tags && (
+        {product.tags && product.tags.length > 0 && (
           <div className="absolute bottom-2 left-2 flex flex-wrap gap-1">
             {product.tags.map((tag, index) => (
               <span
@@ -79,37 +109,47 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Add to Cart Button - appears on hover */}
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center z-10">
-          <button
-            onClick={handleAddToCart}
-            className="bg-pink-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 flex items-center space-x-1 sm:space-x-2 hover:bg-pink-600 shadow-md text-xs sm:text-sm"
-          >
-            <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span>Thêm vào giỏ</span>
-          </button>
+          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+            <button
+              onClick={handleQuickView}
+              className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100"
+            >
+              <Search className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+            </button>
+            
+            <button
+              onClick={handleAddToCart}
+              className="bg-pink-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-pink-600 transition-colors flex items-center space-x-1 sm:space-x-2 shadow-md text-xs sm:text-sm"
+            >
+              <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span>Thêm vào giỏ</span>
+            </button>
+          </div>
         </div>
       </div>
       
-      <div className="p-2 sm:p-3">
-        <h3 className="text-xs sm:text-sm font-medium text-gray-800 mb-1.5 sm:mb-2 line-clamp-2 h-8 sm:h-10">
-          {product.name}
-        </h3>
+      <div className="p-3 sm:p-4">
+        <Link to={`/product/${product.id}`} className="block">
+          <h3 className="text-sm font-medium text-gray-800 mb-2 line-clamp-2 h-10 group-hover:text-pink-500 transition-colors">
+            {product.name}
+          </h3>
+        </Link>
         
-        <div className="flex items-center flex-wrap gap-1 sm:gap-2 mb-1 sm:mb-2">
-          <span className="text-sm sm:text-base font-bold text-red-500">{product.price}</span>
+        <div className="flex items-center space-x-2 mb-3 flex-wrap">
+          <span className="text-lg font-bold text-red-500">{product.price}</span>
           {product.originalPrice && (
             <>
-              <span className="text-[10px] sm:text-xs text-gray-400 line-through">{product.originalPrice}</span>
-              <span className="text-[10px] sm:text-xs text-red-500 font-semibold">{product.discount}</span>
+              <span className="text-sm text-gray-400 line-through">{product.originalPrice}</span>
+              {product.discount && (
+                <span className="text-sm text-red-500 font-semibold">{product.discount}</span>
+              )}
             </>
           )}
         </div>
         
         {product.gift && (
-          <div className="flex flex-col space-y-1">
-            <div className="bg-pink-50 text-pink-600 text-[10px] sm:text-xs px-2 py-1 rounded flex items-center">
-              <span className="mr-1">🎁</span>
-              {product.gift}
-            </div>
+          <div className="text-xs text-red-500 bg-red-50 p-2 rounded mt-2">
+            🎁 {product.gift}
           </div>
         )}
       </div>

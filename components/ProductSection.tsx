@@ -1,9 +1,20 @@
 import { useState, useEffect } from "react";
 import productData from "../db/product.json";
+import { useAppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
+import { Heart, Search, ShoppingBag } from "lucide-react";
+import QuickView from "./QuickView";
 
 const ProductSection = () => {
+  const navigate = useNavigate();
+  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useAppContext();
+  
   const [showSection, setShowSection] = useState(false);
-
+  
+  // State for quick view modal
+  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+  
   // Add custom CSS to the head
   useEffect(() => {
     // Create style element
@@ -771,8 +782,8 @@ const ProductSection = () => {
       @media (max-width: 767px) {
         .search-button {
           padding: 0.25rem;
-          opacity: 1;
-          transform: translateY(0);
+          opacity: 0;
+          transform: translateY(10px);
         }
       }
       .product-item:hover .search-button {
@@ -801,8 +812,8 @@ const ProductSection = () => {
           padding: 0.25rem 0.75rem;
           font-size: 12px;
           gap: 0.25rem;
-          opacity: 1;
-          transform: translateY(0);
+          opacity: 0;
+          transform: translateY(10px);
         }
       }
       .product-item:hover .buy-button {
@@ -861,6 +872,82 @@ const ProductSection = () => {
 
     return () => clearTimeout(timer);
   }, []);
+  
+  // Functions for handling product interactions
+  const handleQuickView = (product: any, event?: React.MouseEvent) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    
+    // Find the full product data
+    const fullProduct = productData.products.find(p => p.id === product.id);
+    if (fullProduct) {
+      setQuickViewProduct(fullProduct);
+      setIsQuickViewOpen(true);
+    }
+  };
+  
+  const handleCloseQuickView = () => {
+    setIsQuickViewOpen(false);
+  };
+  
+  const handleToggleWishlist = (product: any, event?: React.MouseEvent) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    
+    // Format product for wishlist
+    const wishlistProduct = {
+      id: product.id,
+      name: product.name,
+      price: typeof product.price === 'number' ? formatPrice(product.price) : product.price,
+      originalPrice: product.originalPrice ? 
+        (typeof product.originalPrice === 'number' ? formatPrice(product.originalPrice) : product.originalPrice) : 
+        undefined,
+      discount: product.discount ? 
+        (typeof product.discount === 'number' ? `-${product.discount}%` : product.discount) : 
+        undefined,
+      image: product.image,
+      brand: product.brand,
+      tags: product.tags || [],
+    };
+    
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(wishlistProduct);
+    }
+  };
+  
+  const handleBuyNow = (product: any, event?: React.MouseEvent) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    
+    // Format product for cart
+    const cartProduct = {
+      id: product.id,
+      name: product.name,
+      price: typeof product.price === 'number' ? formatPrice(product.price) : product.price,
+      originalPrice: product.originalPrice ? 
+        (typeof product.originalPrice === 'number' ? formatPrice(product.originalPrice) : product.originalPrice) : 
+        undefined,
+      discount: product.discount ? 
+        (typeof product.discount === 'number' ? `-${product.discount}%` : product.discount) : 
+        undefined,
+      image: product.image,
+      brand: product.brand,
+      tags: product.tags || [],
+      quantity: 1
+    };
+    
+    // Add to cart and navigate
+    addToCart(cartProduct);
+    navigate('/cart');
+  };
 
   const vouchers = [
     {
@@ -1055,21 +1142,12 @@ const ProductSection = () => {
                   }}
                 >
                   {/* Wishlist Button */}
-                  <button className="wishlist-button">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
+                  <button 
+                    className={`wishlist-button ${isInWishlist(product.id) ? 'text-red-500' : ''}`}
+                    onClick={(e) => handleToggleWishlist(product, e)}
+                    style={{ opacity: 1 }}
+                  >
+                    <Heart className={`h-6 w-6 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
                   </button>
 
                   {/* Brand Badge */}
@@ -1078,49 +1156,36 @@ const ProductSection = () => {
                   </div>
 
                   {/* Product Image */}
-                  <div className="product-image-container">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="product-image"
-                    />
+                  <a href={`/product/${product.id}`} className="block">
+                    <div className="product-image-container">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="product-image"
+                      />
 
-                    {/* Hover Overlay */}
-                    <div className="product-hover-overlay">
-                      <div className="hover-buttons">
-                        <button className="search-button">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-5 h-5 text-blue-600"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                      {/* Hover Overlay */}
+                      <div className="product-hover-overlay" style={{ opacity: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
+                        <div className="hover-buttons">
+                          <button 
+                            className="search-button"
+                            onClick={(e) => handleQuickView(product, e)}
+                            style={{ opacity: 1, transform: "translateY(0)" }}
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            />
-                          </svg>
-                        </button>
-                        <button className="buy-button">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                            <Search className="w-5 h-5 text-blue-600" />
+                          </button>
+                          <button 
+                            className="buy-button"
+                            onClick={(e) => handleBuyNow(product, e)}
+                            style={{ opacity: 1, transform: "translateY(0)" }}
                           >
-                            <circle cx="9" cy="21" r="1"></circle>
-                            <circle cx="20" cy="21" r="1"></circle>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                          </svg>
-                          <span>Mua ngay</span>
-                        </button>
+                            <ShoppingBag className="w-4 h-4" />
+                            <span>Mua ngay</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </a>
 
                   {/* Product Tags */}
                   <div className="product-tags">
@@ -1142,7 +1207,9 @@ const ProductSection = () => {
                   </div>
 
                   {/* Product Name */}
-                  <h3 className="product-name">{product.name}</h3>
+                  <a href={`/product/${product.id}`} className="block">
+                    <h3 className="product-name">{product.name}</h3>
+                  </a>
 
                   {/* Prices */}
                   <div className="product-price">
@@ -1229,6 +1296,15 @@ const ProductSection = () => {
           </div>
         </div>
       </div>
+      
+      {/* Quick View Modal */}
+      {quickViewProduct && (
+        <QuickView 
+          product={quickViewProduct} 
+          isOpen={isQuickViewOpen} 
+          onClose={handleCloseQuickView} 
+        />
+      )}
     </>
   );
 };
