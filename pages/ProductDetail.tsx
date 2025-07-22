@@ -40,6 +40,17 @@ interface RelatedProduct {
   tags?: string[];
 }
 
+interface RecommendedProduct {
+  id: number;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  discount?: number;
+  imageUrl: string;
+  linkTo: string;
+  brand?: string;
+}
+
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
@@ -47,6 +58,9 @@ const ProductDetail = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [relatedProducts, setRelatedProducts] = useState<RelatedProduct[]>([]);
   const [viewedProducts, setViewedProducts] = useState<RelatedProduct[]>([]);
+  const [recommendedProducts, setRecommendedProducts] = useState<
+    RecommendedProduct[]
+  >([]);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [productImages, setProductImages] = useState<string[]>([]);
@@ -55,6 +69,30 @@ const ProductDetail = () => {
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
+
+  // Initialize recommended products
+  useEffect(() => {
+    if (productData.products) {
+      // Lấy 5 sản phẩm ngẫu nhiên từ danh sách sản phẩm trong JSON
+      const allProducts = productData.products as Product[];
+      // Lọc một số sản phẩm ngẫu nhiên làm sản phẩm đề xuất
+      const randomProducts = allProducts
+        .sort(() => 0.5 - Math.random()) // Sắp xếp ngẫu nhiên
+        .slice(0, 5) // Lấy 5 sản phẩm đầu tiên
+        .map((p) => ({
+          id: p.id,
+          name: p.name,
+          price: p.price,
+          originalPrice: p.originalPrice,
+          imageUrl: p.imageUrl,
+          linkTo: `/product/${p.id}`,
+          brand: p.brand,
+          discount: p.discount,
+        }));
+
+      setRecommendedProducts(randomProducts);
+    }
+  }, []);
 
   // Load product data
   useEffect(() => {
@@ -191,260 +229,273 @@ const ProductDetail = () => {
 
       {/* Product Detail Section */}
       <div className="mx-auto px-4 py-8" style={{ maxWidth: "1230px" }}>
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Product Images */}
-            <div className="md:w-2/5">
-              <div className="border border-gray-200 rounded-md p-4 mb-4">
-                <img
-                  src={selectedImage}
-                  alt={product.name}
-                  className="w-full h-96 object-contain"
-                />
-              </div>
-              <div className="flex space-x-3 overflow-x-auto py-2">
-                {productImages.map((imageUrl, index) => (
-                  <div
-                    key={index}
-                    className={`border ${
-                      selectedImage === imageUrl
-                        ? "border-pink-500"
-                        : "border-gray-200"
-                    } rounded-md p-2 cursor-pointer w-20 h-20 flex-shrink-0`}
-                    onClick={() => handleImageChange(imageUrl)}
-                  >
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Main product content */}
+          <div className="lg:w-[calc(100%-320px)]">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="flex flex-col md:flex-row gap-8">
+                {/* Product Images */}
+                <div className="md:w-2/5">
+                  <div className="border border-gray-200 rounded-md p-4 mb-4">
                     <img
-                      src={imageUrl}
-                      alt={`${product.name} - Ảnh ${index + 1}`}
-                      className="w-full h-full object-contain"
+                      src={selectedImage}
+                      alt={product.name}
+                      className="w-full h-96 object-contain"
                     />
                   </div>
-                ))}
+                  <div className="flex space-x-3 overflow-x-auto py-2">
+                    {productImages.map((imageUrl, index) => (
+                      <div
+                        key={index}
+                        className={`border ${
+                          selectedImage === imageUrl
+                            ? "border-pink-500"
+                            : "border-gray-200"
+                        } rounded-md p-2 cursor-pointer w-20 h-20 flex-shrink-0`}
+                        onClick={() => handleImageChange(imageUrl)}
+                      >
+                        <img
+                          src={imageUrl}
+                          alt={`${product.name} - Ảnh ${index + 1}`}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Product Info */}
+                <div className="md:w-3/5">
+                  <h1 className="text-2xl font-semibold mb-4">
+                    {product.name}
+                  </h1>
+
+                  <div className="flex items-center mb-4">
+                    <span className="text-gray-700 mr-2">Thương hiệu:</span>
+                    <Link
+                      to={`/brand/${product.brand}`}
+                      className="text-pink-500 hover:underline"
+                    >
+                      {product.brand}
+                    </Link>
+                    <span className="mx-4 text-gray-300">|</span>
+                    <span className="text-gray-700 mr-2">Tình trạng:</span>
+                    <span
+                      className={`${
+                        product.status === "Còn hàng"
+                          ? "text-green-600"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {product.status}
+                    </span>
+                  </div>
+
+                  <div className="mb-6">
+                    <div className="text-2xl font-bold text-pink-600">
+                      {formatPrice(product.price)}đ
+                    </div>
+                    <div className="flex items-center mt-1">
+                      <span className="text-gray-500 line-through mr-2">
+                        {formatPrice(product.originalPrice)}đ
+                      </span>
+                      {product.discount > 0 && (
+                        <span className="bg-red-600 text-white text-xs px-2 py-0.5 rounded">
+                          -{product.discount}%
+                        </span>
+                      )}
+                      <span className="ml-2 text-gray-500 text-sm">
+                        Tiết kiệm:{" "}
+                        {formatPrice(product.originalPrice - product.price)}đ so
+                        với giá thị trường
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Gift Section */}
+                  {product.gifts && product.gifts.length > 0 && (
+                    <div className="mb-6">
+                      <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                        <div className="flex items-center mb-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 text-red-500 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+                            />
+                          </svg>
+                          <h3 className="text-red-600 font-medium">
+                            Quà tặng khuyến mãi
+                          </h3>
+                        </div>
+                        <div className="pl-7">
+                          {product.gifts.map((gift, index) => (
+                            <div key={index} className="flex items-center mb-1">
+                              <input
+                                type="checkbox"
+                                checked
+                                readOnly
+                                className="mr-2 h-4 w-4"
+                              />
+                              <span className="text-sm">{gift}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Quantity and Add to Cart */}
+                  <div className="mb-6">
+                    <div className="flex items-center">
+                      <span className="mr-4">Số lượng:</span>
+                      <div className="flex border border-gray-300 rounded">
+                        <button
+                          onClick={() => handleQuantityChange("decrease")}
+                          className="px-3 py-1 border-r border-gray-300"
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          value={quantity}
+                          onChange={(e) =>
+                            setQuantity(parseInt(e.target.value) || 1)
+                          }
+                          className="w-12 text-center py-1 focus:outline-none"
+                          min="1"
+                        />
+                        <button
+                          onClick={() => handleQuantityChange("increase")}
+                          className="px-3 py-1 border-l border-gray-300"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Add to Cart Button */}
+                  <div className="flex space-x-4">
+                    <button className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-md font-medium transition-colors">
+                      THÊM VÀO GIỎ HÀNG
+                    </button>
+                    <button className="border border-pink-600 text-pink-600 hover:bg-pink-50 px-4 py-3 rounded-md font-medium transition-colors">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
 
-            {/* Product Info */}
-            <div className="md:w-3/5">
-              <h1 className="text-2xl font-semibold mb-4">{product.name}</h1>
-
-              <div className="flex items-center mb-4">
-                <span className="text-gray-700 mr-2">Thương hiệu:</span>
-                <Link
-                  to={`/brand/${product.brand}`}
-                  className="text-pink-500 hover:underline"
-                >
-                  {product.brand}
-                </Link>
-                <span className="mx-4 text-gray-300">|</span>
-                <span className="text-gray-700 mr-2">Tình trạng:</span>
-                <span
-                  className={`${
-                    product.status === "Còn hàng"
-                      ? "text-green-600"
-                      : "text-red-500"
-                  }`}
-                >
-                  {product.status}
-                </span>
-              </div>
-
-              <div className="mb-6">
-                <div className="text-2xl font-bold text-pink-600">
-                  {formatPrice(product.price)}đ
-                </div>
-                <div className="flex items-center mt-1">
-                  <span className="text-gray-500 line-through mr-2">
-                    {formatPrice(product.originalPrice)}đ
-                  </span>
-                  {product.discount > 0 && (
-                    <span className="bg-red-600 text-white text-xs px-2 py-0.5 rounded">
-                      -{product.discount}%
-                    </span>
-                  )}
-                  <span className="ml-2 text-gray-500 text-sm">
-                    Tiết kiệm:{" "}
-                    {formatPrice(product.originalPrice - product.price)}đ so với
-                    giá thị trường
-                  </span>
-                </div>
-              </div>
-
-              {/* Gift Section */}
-              {product.gifts && product.gifts.length > 0 && (
-                <div className="mb-6">
-                  <div className="bg-red-50 border border-red-200 rounded-md p-4">
-                    <div className="flex items-center mb-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-red-500 mr-2"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
-                        />
-                      </svg>
-                      <h3 className="text-red-600 font-medium">
-                        Quà tặng khuyến mãi
-                      </h3>
-                    </div>
-                    <div className="pl-7">
-                      {product.gifts.map((gift, index) => (
-                        <div key={index} className="flex items-center mb-1">
-                          <input
-                            type="checkbox"
-                            checked
-                            readOnly
-                            className="mr-2 h-4 w-4"
-                          />
-                          <span className="text-sm">{gift}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Quantity and Add to Cart */}
-              <div className="mb-6">
+          {/* Sidebar */}
+          <div className="lg:w-[320px]">
+            {/* Company Policies Sidebar */}
+            <div className="bg-white rounded-lg shadow-sm p-5 mb-6">
+              <h3 className="text-lg font-bold mb-4 text-purple-900 uppercase">
+                Chính sách của chúng tôi
+              </h3>
+              <div className="space-y-4">
                 <div className="flex items-center">
-                  <span className="mr-4">Số lượng:</span>
-                  <div className="flex border border-gray-300 rounded">
-                    <button
-                      onClick={() => handleQuantityChange("decrease")}
-                      className="px-3 py-1 border-r border-gray-300"
+                  <div className="min-w-[40px] h-10 flex items-center justify-center mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-purple-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                     >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      value={quantity}
-                      onChange={(e) =>
-                        setQuantity(parseInt(e.target.value) || 1)
-                      }
-                      className="w-12 text-center py-1 focus:outline-none"
-                      min="1"
-                    />
-                    <button
-                      onClick={() => handleQuantityChange("increase")}
-                      className="px-3 py-1 border-l border-gray-300"
-                    >
-                      +
-                    </button>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
                   </div>
+                  <span className="text-gray-700">
+                    Miễn phí vận chuyển tại TP.HCM
+                  </span>
                 </div>
-              </div>
-
-              {/* Add to Cart Button */}
-              <div className="flex space-x-4">
-                <button className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-md font-medium transition-colors">
-                  THÊM VÀO GIỎ HÀNG
-                </button>
-                <button className="border border-pink-600 text-pink-600 hover:bg-pink-50 px-4 py-3 rounded-md font-medium transition-colors">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Company Policies */}
-              <div className="mt-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 flex items-center justify-center mr-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-blue-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm">
-                      Miễn phí vận chuyển tại TP.HCM
-                    </span>
+                <div className="flex items-center">
+                  <div className="min-w-[40px] h-10 flex items-center justify-center mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-purple-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                      />
+                    </svg>
                   </div>
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 flex items-center justify-center mr-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-blue-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm">
-                      Bảo hành chính hãng toàn quốc
-                    </span>
+                  <span className="text-gray-700">
+                    Bảo hành chính hãng toàn quốc
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <div className="min-w-[40px] h-10 flex items-center justify-center mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-purple-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
                   </div>
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 flex items-center justify-center mr-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-blue-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm">Cam kết chính hãng 100%</span>
+                  <span className="text-gray-700">Cam kết chính hãng 100%</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="min-w-[40px] h-10 flex items-center justify-center mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-purple-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"
+                      />
+                    </svg>
                   </div>
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 flex items-center justify-center mr-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-blue-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm">1 đổi 1 nếu mỹ phẩm lỗi</span>
-                  </div>
+                  <span className="text-gray-700">1 đổi 1 nếu mỹ phẩm lỗi</span>
                 </div>
               </div>
             </div>
@@ -654,15 +705,16 @@ const ProductDetail = () => {
                 key={product.id}
                 className="bg-white border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition-shadow"
               >
-                <Link 
+                <Link
                   to={`/product/${product.id}`}
                   onClick={() => {
                     // Scroll to top when navigating to a new product
                     window.scrollTo({
                       top: 0,
-                      behavior: 'smooth'
+                      behavior: "smooth",
                     });
-                  }}>
+                  }}
+                >
                   <div className="p-4">
                     <div className="relative pt-[100%]">
                       <img
@@ -707,15 +759,16 @@ const ProductDetail = () => {
                 key={product.id}
                 className="bg-white border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition-shadow"
               >
-                <Link 
+                <Link
                   to={`/product/${product.id}`}
                   onClick={() => {
                     // Scroll to top when navigating to a new product
                     window.scrollTo({
                       top: 0,
-                      behavior: 'smooth'
+                      behavior: "smooth",
                     });
-                  }}>
+                  }}
+                >
                   <div className="p-4">
                     <div className="relative pt-[100%]">
                       <img
