@@ -7,12 +7,33 @@ import ProductSection from "../components/ProductSection";
 import productData from "../db/product.json";
 import { useAppContext } from "../context/AppContext";
 import QuickView from "../components/QuickView";
+
+interface HomePageProduct {
+  id: number;
+  name: string;
+  price: number;
+  originalPrice: number;
+  discount: number;
+  imageUrl: string;
+  brand: string;
+  tags: string[];
+  category: string;
+  volume: string;
+  type: string;
+  skinType: string;
+  ingredients: string[];
+  description: string;
+  benefits: string[];
+  status: string;
+  gifts?: string[];
+}
+
 const HomePage = () => {
   const navigate = useNavigate();
   const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useAppContext();
   
   // State for quick view modal
-  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+  const [quickViewProduct, setQuickViewProduct] = useState<HomePageProduct | null>(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
   
   // State for animations and interactions
@@ -64,7 +85,7 @@ const HomePage = () => {
   }, []);
   
   // Functions for handling product interactions
-  const handleQuickView = useCallback((product: any) => {
+  const handleQuickView = useCallback((product: { id: number }) => {
     // Find the full product data
     const fullProduct = products.find(p => p.id === product.id);
     if (fullProduct) {
@@ -77,26 +98,27 @@ const HomePage = () => {
     setIsQuickViewOpen(false);
   }, []);
   
-  const handleToggleWishlist = useCallback((product: any, event?: React.MouseEvent) => {
+  const handleToggleWishlist = useCallback((product: { id: number; name: string; price?: number | string; currentPrice?: number; originalPrice?: number | string; discount?: number | string; image?: string; imageUrl?: string; brand: string; tags?: string[]; labels?: string[] }, event?: React.MouseEvent) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
     
     // Format product for wishlist
+    const price = product.price || product.currentPrice || 0;
     const wishlistProduct = {
       id: product.id,
       name: product.name,
-      price: typeof product.price === 'string' ? product.price : `${formatFlashSalePrice(product.price)}đ`,
+      price: typeof price === 'string' ? price : `${formatFlashSalePrice(price)}đ`,
       originalPrice: product.originalPrice ? 
         (typeof product.originalPrice === 'string' ? product.originalPrice : `${formatFlashSalePrice(product.originalPrice)}đ`) : 
         undefined,
       discount: product.discount ? 
         (typeof product.discount === 'string' ? product.discount : `-${product.discount}%`) : 
         undefined,
-      image: product.image || product.imageUrl,
+      image: product.image || product.imageUrl || '',
       brand: product.brand,
-      tags: product.tags || product.labels,
+      tags: product.tags || product.labels || [],
     };
     
     if (isInWishlist(product.id)) {
@@ -106,26 +128,27 @@ const HomePage = () => {
     }
   }, [addToWishlist, removeFromWishlist, isInWishlist]);
   
-  const handleBuyNow = useCallback((product: any, event?: React.MouseEvent) => {
+  const handleBuyNow = useCallback((product: { id: number; name: string; price?: number | string; currentPrice?: number; originalPrice?: number | string; discount?: number | string; image?: string; imageUrl?: string; brand: string; tags?: string[]; labels?: string[] }, event?: React.MouseEvent) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
     
     // Format product for cart
+    const price = product.price || product.currentPrice || 0;
     const cartProduct = {
       id: product.id,
       name: product.name,
-      price: typeof product.price === 'string' ? product.price : `${formatFlashSalePrice(product.price)}đ`,
+      price: typeof price === 'string' ? price : `${formatFlashSalePrice(price)}đ`,
       originalPrice: product.originalPrice ? 
         (typeof product.originalPrice === 'string' ? product.originalPrice : `${formatFlashSalePrice(product.originalPrice)}đ`) : 
         undefined,
       discount: product.discount ? 
         (typeof product.discount === 'string' ? product.discount : `-${product.discount}%`) : 
         undefined,
-      image: product.image || product.imageUrl,
+      image: product.image || product.imageUrl || '',
       brand: product.brand,
-      tags: product.tags || product.labels,
+      tags: product.tags || product.labels || [],
       quantity: 1
     };
     

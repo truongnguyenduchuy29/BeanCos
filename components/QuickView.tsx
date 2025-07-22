@@ -24,7 +24,7 @@ interface QuickViewProps {
 }
 
 const QuickView: React.FC<QuickViewProps> = ({ product, onClose, isOpen }) => {
-  const { addToCart, addToWishlist, isInWishlist } = useAppContext();
+  const { addToCart, addToWishlist } = useAppContext();
   
   if (!isOpen) return null;
   

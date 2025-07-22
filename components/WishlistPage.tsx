@@ -1,14 +1,24 @@
-import React from 'react';
 import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
+interface WishlistProduct {
+  id: number;
+  name: string;
+  price: string;
+  originalPrice?: string;
+  discount?: string;
+  image: string;
+  brand?: string;
+  tags?: string[];
+}
+
 const WishlistPage = () => {
   const { wishlist, removeFromWishlist, addToCart } = useAppContext();
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: WishlistProduct) => {
     addToCart(product);
   };
 

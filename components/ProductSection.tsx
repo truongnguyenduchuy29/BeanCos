@@ -6,16 +6,37 @@ import { Heart, Search, ShoppingBag } from "lucide-react";
 import QuickView from "./QuickView";
 import { Link } from "react-router-dom";
 
+interface QuickViewProduct {
+  id: number;
+  name: string;
+  price: number;
+  originalPrice: number;
+  discount: number;
+  imageUrl: string;
+  brand: string;
+  tags: string[];
+  category: string;
+  type: string;
+  skinType: string;
+  volume: string;
+  ingredients: string[];
+  description: string;
+  benefits: string[];
+  status: string;
+  gifts?: string[];
+}
+
 const ProductSection = () => {
   const navigate = useNavigate();
-  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useAppContext();
-  
+  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } =
+    useAppContext();
+
   const [showSection, setShowSection] = useState(false);
-  
+
   // State for quick view modal
-  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+  const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
-  
+
   // Add custom CSS to the head
   useEffect(() => {
     // Create style element
@@ -810,81 +831,95 @@ const ProductSection = () => {
 
     return () => clearTimeout(timer);
   }, []);
-  
+
   // Functions for handling product interactions
-  const handleQuickView = (product: any, event?: React.MouseEvent) => {
+  const handleQuickView = (product: { id: number }, event?: React.MouseEvent) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
-    
+
     // Find the full product data
-    const fullProduct = productData.products.find(p => p.id === product.id);
+    const fullProduct = productData.products.find((p) => p.id === product.id);
     if (fullProduct) {
-      setQuickViewProduct(fullProduct);
+      setQuickViewProduct(fullProduct as QuickViewProduct);
       setIsQuickViewOpen(true);
     }
   };
-  
+
   const handleCloseQuickView = () => {
     setIsQuickViewOpen(false);
   };
-  
-  const handleToggleWishlist = (product: any, event?: React.MouseEvent) => {
+
+  const handleToggleWishlist = (product: { id: number; name: string; price: number | string; originalPrice?: number; discount?: number; image?: string; imageUrl?: string; brand: string; tags?: string[] }, event?: React.MouseEvent) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
-    
+
     // Format product for wishlist
     const wishlistProduct = {
       id: product.id,
       name: product.name,
-      price: typeof product.price === 'number' ? formatPrice(product.price) : product.price,
-      originalPrice: product.originalPrice ? 
-        (typeof product.originalPrice === 'number' ? formatPrice(product.originalPrice) : product.originalPrice) : 
-        undefined,
-      discount: product.discount ? 
-        (typeof product.discount === 'number' ? `-${product.discount}%` : product.discount) : 
-        undefined,
-      image: product.image,
+      price:
+        typeof product.price === "number"
+          ? formatPrice(product.price) + 'đ'
+          : product.price,
+      originalPrice: product.originalPrice
+        ? typeof product.originalPrice === "number"
+          ? formatPrice(product.originalPrice) + 'đ'
+          : product.originalPrice
+        : undefined,
+      discount: product.discount
+        ? typeof product.discount === "number"
+          ? `-${product.discount}%`
+          : product.discount
+        : undefined,
+      image: product.image || product.imageUrl || '',
       brand: product.brand,
       tags: product.tags || [],
     };
-    
+
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
     } else {
       addToWishlist(wishlistProduct);
     }
   };
-  
-  const handleBuyNow = (product: any, event?: React.MouseEvent) => {
+
+  const handleBuyNow = (product: { id: number; name: string; price: number | string; originalPrice?: number; discount?: number; image?: string; imageUrl?: string; brand: string; tags?: string[] }, event?: React.MouseEvent) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
-    
+
     // Format product for cart
     const cartProduct = {
       id: product.id,
       name: product.name,
-      price: typeof product.price === 'number' ? formatPrice(product.price) : product.price,
-      originalPrice: product.originalPrice ? 
-        (typeof product.originalPrice === 'number' ? formatPrice(product.originalPrice) : product.originalPrice) : 
-        undefined,
-      discount: product.discount ? 
-        (typeof product.discount === 'number' ? `-${product.discount}%` : product.discount) : 
-        undefined,
-      image: product.image,
+      price:
+        typeof product.price === "number"
+          ? formatPrice(product.price) + 'đ'
+          : product.price,
+      originalPrice: product.originalPrice
+        ? typeof product.originalPrice === "number"
+          ? formatPrice(product.originalPrice) + 'đ'
+          : product.originalPrice
+        : undefined,
+      discount: product.discount
+        ? typeof product.discount === "number"
+          ? `-${product.discount}%`
+          : product.discount
+        : undefined,
+      image: product.image || product.imageUrl || '',
       brand: product.brand,
       tags: product.tags || [],
-      quantity: 1
+      quantity: 1,
     };
-    
+
     // Add to cart and navigate
     addToCart(cartProduct);
-    navigate('/cart');
+    navigate("/cart");
   };
 
   const vouchers = [
@@ -1051,12 +1086,12 @@ const ProductSection = () => {
 
           {/* Product Grid with Navigation */}
           <div className="relative">
-            <button 
+            <button
               className="navigation-button prev"
               onClick={() => {
-                const productGrid = document.querySelector('.product-grid');
+                const productGrid = document.querySelector(".product-grid");
                 if (productGrid) {
-                  productGrid.scrollBy({ left: -300, behavior: 'smooth' });
+                  productGrid.scrollBy({ left: -300, behavior: "smooth" });
                 }
               }}
             >
@@ -1076,7 +1111,14 @@ const ProductSection = () => {
               </svg>
             </button>
 
-            <div className="product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 230px)', overflowX: 'auto' }}>
+            <div
+              className="product-grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(10, 230px)",
+                overflowX: "auto",
+              }}
+            >
               {products.map((product) => (
                 <div
                   key={product.id}
@@ -1087,8 +1129,6 @@ const ProductSection = () => {
                     transition: "opacity 0.5s, transform 0.5s",
                   }}
                 >
-
-
                   {/* Brand Badge */}
                   <div className="brand-badge">
                     <img src={product.brandImage} alt={product.brand} />
@@ -1105,7 +1145,7 @@ const ProductSection = () => {
                         />
                       </div>
                     </Link>
-                    
+
                     {/* Wishlist Button */}
                     <button
                       onClick={(e) => {
@@ -1114,14 +1154,18 @@ const ProductSection = () => {
                         handleToggleWishlist(product, e);
                       }}
                       className={`absolute top-2 right-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 z-20 ${
-                        isInWishlist(product.id) 
-                          ? 'bg-red-500 text-white' 
-                          : 'bg-white text-gray-400 hover:text-red-500 hover:bg-red-50'
+                        isInWishlist(product.id)
+                          ? "bg-red-500 text-white"
+                          : "bg-white text-gray-400 hover:text-red-500 hover:bg-red-50"
                       } shadow-sm`}
                     >
-                      <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
+                      <Heart
+                        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
+                          isInWishlist(product.id) ? "fill-current" : ""
+                        }`}
+                      />
                     </button>
-                    
+
                     {/* Add to Cart Button - appears on hover */}
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center z-10">
                       <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
@@ -1135,7 +1179,7 @@ const ProductSection = () => {
                         >
                           <Search className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                         </button>
-                        
+
                         <button
                           onClick={(e) => {
                             e.preventDefault();
@@ -1201,12 +1245,12 @@ const ProductSection = () => {
               ))}
             </div>
 
-            <button 
+            <button
               className="navigation-button next"
               onClick={() => {
-                const productGrid = document.querySelector('.product-grid');
+                const productGrid = document.querySelector(".product-grid");
                 if (productGrid) {
-                  productGrid.scrollBy({ left: 300, behavior: 'smooth' });
+                  productGrid.scrollBy({ left: 300, behavior: "smooth" });
                 }
               }}
             >
@@ -1268,13 +1312,13 @@ const ProductSection = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Quick View Modal */}
       {quickViewProduct && (
-        <QuickView 
-          product={quickViewProduct} 
-          isOpen={isQuickViewOpen} 
-          onClose={handleCloseQuickView} 
+        <QuickView
+          product={quickViewProduct}
+          isOpen={isQuickViewOpen}
+          onClose={handleCloseQuickView}
         />
       )}
     </>

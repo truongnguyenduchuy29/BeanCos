@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, SlidersHorizontal } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import Header from '../components/Header';
@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 
 const SearchPage = () => {
-  const { searchQuery, setSearchQuery } = useAppContext();
+  const { setSearchQuery } = useAppContext();
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('default');
   const [priceRange, setPriceRange] = useState('all');
@@ -14,7 +14,7 @@ const SearchPage = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   // Mock products data - in real app, this would come from API
-  const allProducts = [
+  const allProducts = useMemo(() => [
     {
       id: 1,
       name: 'Tinh chất sáng da Serum Vichy Liftactiv Specialist',
@@ -61,7 +61,7 @@ const SearchPage = () => {
       tags: ['EXCLUSIVE', 'BEST SELLER'],
       gift: 'Có 1 lựa chọn quà tặng khi mua hàng'
     },
-  ];
+  ], []);
 
   const [filteredProducts, setFilteredProducts] = useState(allProducts);
 
@@ -126,7 +126,7 @@ const SearchPage = () => {
     }
 
     setFilteredProducts(filtered);
-  }, [localSearchQuery, sortBy, priceRange, selectedBrand]);
+  }, [localSearchQuery, sortBy, priceRange, selectedBrand, allProducts]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
