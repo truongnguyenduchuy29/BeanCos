@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import productData from "../db/product.json";
 
 interface Product {
@@ -100,12 +100,29 @@ const ProductPage = () => {
     },
   ];
 
-  // Load products from JSON data
+  const [searchParams] = useSearchParams();
+  
+  // Load products from JSON data and check URL parameters
   useEffect(() => {
     // Type assertion to ensure the products match the Product interface
     setProducts(productData.products as Product[]);
+    
+    // Check for category in URL parameters
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      // Set the product type based on the URL parameter
+      setSelectedProductType(categoryParam);
+      
+      // Reset other filters when coming from a link with a category parameter
+      setSelectedCategory(null);
+      setSelectedBrand(null);
+      setSelectedSkinType(null);
+      setSelectedPriceRange(null);
+    }
+    
+    // Set filtered products after setting URL parameters
     setFilteredProducts(productData.products as Product[]);
-  }, []);
+  }, [searchParams]);
 
   // Filter products based on selected filters
   useEffect(() => {
@@ -118,9 +135,22 @@ const ProductPage = () => {
     }
 
     if (selectedProductType) {
+      // Check both type and category fields to handle special cases like "Toner"
+      const beforeFilter = filtered.length;
       filtered = filtered.filter(
-        (product) => product.type === selectedProductType
+        (product) => 
+          product.type === selectedProductType || 
+          product.category === selectedProductType
       );
+      console.log(`Filtered by type/category "${selectedProductType}": ${beforeFilter} → ${filtered.length} products`);
+      
+      // If no products found, show a message
+      if (filtered.length === 0) {
+        console.log(`No products found for "${selectedProductType}". Available types:`, 
+          [...new Set(products.map(p => p.type))]);
+        console.log(`Available categories:`, 
+          [...new Set(products.map(p => p.category))]);
+      }
     }
 
     if (selectedBrand) {
@@ -505,8 +535,25 @@ const ProductPage = () => {
             </div>
 
             {/* Product Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {currentProducts.map((product) => (
+            {currentProducts.length === 0 ? (
+              <div className="text-center py-16 border border-dashed border-gray-300 rounded-md">
+                <div className="text-5xl mb-3">😕</div>
+                <h3 className="text-lg font-medium text-gray-700 mb-2">
+                  Không tìm thấy sản phẩm nào
+                </h3>
+                <p className="text-gray-500 mb-4">
+                  Không tìm thấy sản phẩm nào phù hợp với bộ lọc của bạn.
+                </p>
+                <button
+                  onClick={resetToAllProducts}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+                >
+                  Xem tất cả sản phẩm
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                {currentProducts.map((product) => (
                 <div
                   key={product.id}
                   className="product-card group relative border border-gray-200 rounded-md overflow-hidden transition-all duration-300 hover:shadow-lg bg-white"
@@ -644,7 +691,8 @@ const ProductPage = () => {
                   </div>
                 </div>
               ))}
-            </div>
+              </div>
+            )}
 
             {/* Pagination */}
             {totalPages > 1 && (

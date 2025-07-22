@@ -23,35 +23,17 @@ const Header = () => {
       items: [
         "Tẩy trang",
         "Kem dưỡng da",
+        "Kem dưỡng",
+        "Kem dưỡng ẩm",
+        "Kem dưỡng kiềm dầu",
         "Sữa rửa mặt",
-        "Toner nước cân bằng",
-        "Treatment đặc trị",
-        "Serum trị mụn",
-        "Mặt nạ dưỡng da",
-        "Kem chống nắng",
-      ],
-    },
-    {
-      title: "TRANG ĐIỂM",
-      items: [
-        "Trang điểm mặt",
-        "Trang điểm môi",
-        "Trang điểm mắt",
-        "Phấn má hồng",
-        "Kem nền",
-        "Phấn phủ",
-        "Mascara",
-      ],
-    },
-    {
-      title: "DÀNH CHO NAM",
-      items: [
-        "Sữa rửa mặt nam",
-        "Kem dưỡng da nam",
-        "Chăm sóc râu",
-        "Chống nắng cho nam",
-        "Toner cho nam",
-        "Serum cho nam",
+        "Toner",
+        "Serum dưỡng ẩm",
+        "Serum kiềm dầu",
+        "Serum chống lão hóa",
+        "Nước cân bằng",
+        "Gel tẩy da chết",
+        "Sữa rửa mặt tẩy tế bào chết",
       ],
     },
   ];
@@ -68,9 +50,14 @@ const Header = () => {
       {/* Top bar */}
       <div className="bg-purple-200 text-sm text-purple-800 py-1.5 sm:py-2 shadow-sm">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <div className="text-xs sm:text-sm font-medium">Chào mừng bạn đến với Bean Mỹ Phẩm!</div>
+          <div className="text-xs sm:text-sm font-medium">
+            Chào mừng bạn đến với Bean Mỹ Phẩm!
+          </div>
           <div className="hidden md:flex space-x-5 items-center text-xs sm:text-sm">
-            <a href="#" className="hover:text-purple-700 transition-colors cursor-pointer">
+            <a
+              href="#"
+              className="hover:text-purple-700 transition-colors cursor-pointer"
+            >
               Hệ thống cửa hàng
             </a>
             {!isAuthenticated ? (
@@ -136,8 +123,12 @@ const Header = () => {
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[10px] sm:text-xs text-gray-600">Hotline</div>
-                  <div className="text-xs sm:text-sm font-semibold">1900 6750</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600">
+                    Hotline
+                  </div>
+                  <div className="text-xs sm:text-sm font-semibold">
+                    1900 6750
+                  </div>
                 </div>
               </div>
 
@@ -152,7 +143,9 @@ const Header = () => {
                   </span>
                 </div>
                 <div>
-                  <div className="text-[10px] sm:text-xs text-gray-600">Yêu thích</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600">
+                    Yêu thích
+                  </div>
                   <div className="text-xs sm:text-sm">sản phẩm</div>
                 </div>
               </a>
@@ -170,7 +163,9 @@ const Header = () => {
                   )}
                 </div>
                 <div className="ml-2">
-                  <div className="text-[10px] sm:text-xs text-gray-600">Giỏ hàng</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600">
+                    Giỏ hàng
+                  </div>
                   <div className="text-xs sm:text-sm">0 sản phẩm</div>
                 </div>
               </a>
@@ -249,7 +244,11 @@ const Header = () => {
                       className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg border border-gray-100 rounded-lg p-6 z-50"
                       onMouseEnter={() => setIsProductDropdownOpen(true)}
                       onMouseLeave={() => setIsProductDropdownOpen(false)}
-                      style={{ marginTop: '1px', width: '750px', maxWidth: '90vw' }}
+                      style={{
+                        marginTop: "1px",
+                        width: "750px",
+                        maxWidth: "90vw",
+                      }}
                     >
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {productCategories.map((category, index) => (
@@ -313,40 +312,65 @@ const Header = () => {
           <div className="md:hidden border-t mt-3 animate-fadeIn">
             <ul className="py-1">
               <li className="border-b border-gray-100">
-                <a href="/" className="text-gray-800 font-medium text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                <a
+                  href="/"
+                  className="text-gray-800 font-medium text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
+                >
                   TRANG CHỦ
                 </a>
               </li>
               <li className="border-b border-gray-100">
-                <a href="/about" className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                <a
+                  href="/about"
+                  className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
+                >
                   GIỚI THIỆU
                 </a>
               </li>
               <li className="border-b border-gray-100">
-                <Link to="/products" className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                <Link
+                  to="/products"
+                  className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
+                >
                   SẢN PHẨM
                 </Link>
               </li>
               <li className="border-b border-gray-100">
-                <a href="/news" className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                <a
+                  href="/news"
+                  className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
+                >
                   TIN TỨC
                 </a>
               </li>
               <li className="border-b border-gray-100">
-                <a href="/routine" className="text-teal-600 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                <a
+                  href="/routine"
+                  className="text-teal-600 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
+                >
                   ROUTINE SKINCARE
                 </a>
               </li>
               <li>
-                <a href="/contact" className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors">
+                <a
+                  href="/contact"
+                  className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
+                >
                   LIÊN HỆ
                 </a>
               </li>
             </ul>
-            
+
             <div className="flex items-center justify-between px-4 py-3 bg-gray-50 mt-1">
-              <a href="/login" className="text-xs text-purple-600 font-medium">Đăng nhập</a>
-              <a href="/register" className="text-xs bg-purple-600 text-white px-3 py-1 rounded-full">Đăng ký</a>
+              <a href="/login" className="text-xs text-purple-600 font-medium">
+                Đăng nhập
+              </a>
+              <a
+                href="/register"
+                className="text-xs bg-purple-600 text-white px-3 py-1 rounded-full"
+              >
+                Đăng ký
+              </a>
             </div>
           </div>
         )}
