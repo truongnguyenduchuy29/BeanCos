@@ -53,13 +53,77 @@ const Skincare: React.FC = () => {
 
   // Categories based on the images
   const categories = [
-    { id: 1, name: 'Tẩy trang', icon: '🧖‍♀️' },
-    { id: 2, name: 'Sữa rửa mặt', icon: '🧼' },
-    { id: 3, name: 'Toner', icon: '💧' },
-    { id: 4, name: 'Serum', icon: '💉' },
-    { id: 5, name: 'Treatment', icon: '✨' },
-    { id: 6, name: 'Kem dưỡng da', icon: '🧴' },
+    { 
+      id: 1, 
+      name: 'Tẩy trang', 
+      imageUrl: 'https://bizweb.dktcdn.net/100/490/275/themes/913829/assets/skin_danhmuc_1.jpg?1753153721916' 
+    },
+    { 
+      id: 2, 
+      name: 'Sữa rửa mặt', 
+      imageUrl: 'https://bizweb.dktcdn.net/100/490/275/themes/913829/assets/skin_danhmuc_2.jpg?1753153721916' 
+    },
+    { 
+      id: 3, 
+      name: 'Toner', 
+      imageUrl: 'https://bizweb.dktcdn.net/100/490/275/themes/913829/assets/skin_danhmuc_3.jpg?1753153721916' 
+    },
+    { 
+      id: 4, 
+      name: 'Serum', 
+      imageUrl: 'https://bizweb.dktcdn.net/100/490/275/themes/913829/assets/skin_danhmuc_4.jpg?1753153721916' 
+    },
+    { 
+      id: 5, 
+      name: 'Treatment', 
+      imageUrl: 'https://bizweb.dktcdn.net/100/490/275/themes/913829/assets/skin_danhmuc_5.jpg?1753153721916' 
+    },
+    { 
+      id: 6, 
+      name: 'Kem dưỡng da', 
+      imageUrl: 'https://bizweb.dktcdn.net/100/490/275/themes/913829/assets/skin_danhmuc_6.jpg?1753153721916' 
+    },
   ];
+  
+  // Hàm để lấy sản phẩm ngẫu nhiên từ các danh mục khác cho Treatment
+  const getRandomProductsForTreatment = () => {
+    const otherCategories = ['Tẩy trang', 'Sữa rửa mặt', 'Toner', 'Serum', 'Kem dưỡng da'];
+    const allProducts = productData.products;
+    const treatmentProducts: Product[] = [];
+    
+    // Chọn ngẫu nhiên 4 sản phẩm từ các danh mục khác
+    for (let i = 0; i < 4; i++) {
+      // Chọn ngẫu nhiên một danh mục
+      const randomCategoryIndex = Math.floor(Math.random() * otherCategories.length);
+      const randomCategory = otherCategories[randomCategoryIndex];
+      
+      // Lọc các sản phẩm thuộc danh mục đã chọn
+      const categoryProducts = allProducts.filter(p => p.category === randomCategory);
+      
+      if (categoryProducts.length > 0) {
+        // Chọn ngẫu nhiên một sản phẩm từ danh mục đó
+        const randomProductIndex = Math.floor(Math.random() * categoryProducts.length);
+        const randomProduct = categoryProducts[randomProductIndex];
+        
+        // Thêm vào danh sách sản phẩm Treatment và đảm bảo không trùng lặp
+        if (!treatmentProducts.some(p => p.id === randomProduct.id)) {
+          treatmentProducts.push(randomProduct);
+        }
+      }
+    }
+    
+    // Đảm bảo có đủ 4 sản phẩm
+    while (treatmentProducts.length < 4 && allProducts.length > 0) {
+      const randomIndex = Math.floor(Math.random() * allProducts.length);
+      const randomProduct = allProducts[randomIndex];
+      
+      if (!treatmentProducts.some(p => p.id === randomProduct.id)) {
+        treatmentProducts.push(randomProduct);
+      }
+    }
+    
+    return treatmentProducts;
+  };
 
   // Tải và lưu trữ sản phẩm cho tất cả các danh mục khi component khởi tạo
   useEffect(() => {
@@ -73,11 +137,17 @@ const Skincare: React.FC = () => {
       'Kem dưỡng da': []
     };
     
+    // Lấy sản phẩm cho các danh mục thông thường
     categories.forEach(category => {
-      productsMap[category.name] = allProducts
-        .filter(product => product.category === category.name)
-        .slice(0, 4); // Chỉ lấy tối đa 4 sản phẩm cho mỗi danh mục
+      if (category.name !== 'Treatment') {
+        productsMap[category.name] = allProducts
+          .filter(product => product.category === category.name)
+          .slice(0, 4); // Chỉ lấy tối đa 4 sản phẩm cho mỗi danh mục
+      }
     });
+    
+    // Lấy sản phẩm ngẫu nhiên cho danh mục Treatment
+    productsMap['Treatment'] = getRandomProductsForTreatment();
     
     setProductsByCategory(productsMap);
     
@@ -200,7 +270,13 @@ const Skincare: React.FC = () => {
                   : 'bg-purple-100 hover:bg-purple-200 text-purple-800 hover:text-purple-900'}`}
               onClick={() => handleCategoryClick(category.name)}
             >
-              <div className="text-4xl mb-2">{category.icon}</div>
+              <div className="w-16 h-16 mb-2 rounded-full overflow-hidden">
+                <img 
+                  src={category.imageUrl}
+                  alt={category.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="text-center font-medium">{category.name}</div>
             </div>
           ))}
