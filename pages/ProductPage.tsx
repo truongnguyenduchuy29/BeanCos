@@ -103,39 +103,72 @@ const ProductPage = () => {
   const [searchParams] = useSearchParams();
   
   // Load products from JSON data and check URL parameters
+  // First effect to load products from JSON
   useEffect(() => {
-    // Type assertion to ensure the products match the Product interface
-    setProducts(productData.products as Product[]);
+    console.log("Loading products from JSON");
+    const loadedProducts = productData.products as Product[];
+    setProducts(loadedProducts);
+    setFilteredProducts(loadedProducts);
+  }, []);
+  
+  // Second effect to handle URL parameters
+  useEffect(() => {
+    if (products.length === 0) return; // Skip if products not loaded
     
     // Check for category in URL parameters
     const categoryParam = searchParams.get('category');
+    console.log(`URL parameter: category=${categoryParam}`);
+    
     if (categoryParam) {
-      // Set the product type based on the URL parameter
-      setSelectedProductType(categoryParam);
+      // First check if it matches any product categories
+      const productsWithCategory = products.filter(p => p.category === categoryParam);
       
-      // Reset other filters when coming from a link with a category parameter
-      setSelectedCategory(null);
+      if (productsWithCategory.length > 0) {
+        console.log(`Found ${productsWithCategory.length} products with category "${categoryParam}"`);
+        setSelectedCategory(categoryParam);
+        setSelectedProductType(null);
+      } else {
+        // Try matching as product type
+        const productsWithType = products.filter(p => p.type === categoryParam);
+        if (productsWithType.length > 0) {
+          console.log(`Found ${productsWithType.length} products with type "${categoryParam}"`);
+          setSelectedProductType(categoryParam);
+          setSelectedCategory(null);
+        } else {
+          // Last resort - check if it matches either
+          console.log(`Trying fallback matching for "${categoryParam}"`);
+          setSelectedProductType(categoryParam);
+          setSelectedCategory(null);
+        }
+      }
+      
+      // Reset other filters
       setSelectedBrand(null);
       setSelectedSkinType(null);
       setSelectedPriceRange(null);
+    } else {
+      // If no category in URL, reset filters
+      setSelectedProductType(null);
+      setSelectedCategory(null);
     }
-    
-    // Set filtered products after setting URL parameters
-    setFilteredProducts(productData.products as Product[]);
-  }, [searchParams]);
+  }, [searchParams, products.length]);
 
   // Filter products based on selected filters
   useEffect(() => {
     let filtered = [...products];
 
     if (selectedCategory) {
+      console.log(`Filtering by category: "${selectedCategory}"`);
+      const beforeFilter = filtered.length;
       filtered = filtered.filter(
         (product) => product.category === selectedCategory
       );
+      console.log(`Filtered by category "${selectedCategory}": ${beforeFilter} → ${filtered.length} products`);
     }
 
     if (selectedProductType) {
       // Check both type and category fields to handle special cases like "Toner"
+      console.log(`Filtering by product type: "${selectedProductType}"`);
       const beforeFilter = filtered.length;
       filtered = filtered.filter(
         (product) => 
@@ -221,21 +254,68 @@ const ProductPage = () => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
+  // Navigate to new URL with search params
+  const [, setSearchParams] = useSearchParams();
+  
   // Handle filter changes
   const handleCategoryChange = (category: string) => {
-    setSelectedCategory(selectedCategory === category ? null : category);
+    const newCategory = selectedCategory === category ? null : category;
+    setSelectedCategory(newCategory);
+    
+    // Update URL when category changes
+    if (newCategory) {
+      setSearchParams({ category: newCategory });
+    } else {
+      setSearchParams({});
+    }
   };
 
   const handleProductTypeChange = (type: string) => {
-    setSelectedProductType(selectedProductType === type ? null : type);
+    const newType = selectedProductType === type ? null : type;
+    setSelectedProductType(newType);
+    
+    // Update URL when product type changes
+    if (newType) {
+      setSearchParams({ category: newType });
+    } else {
+      setSearchParams({});
+    }
   };
 
   const handleBrandChange = (brand: string) => {
-    setSelectedBrand(selectedBrand === brand ? null : brand);
+    const newBrand = selectedBrand === brand ? null : brand;
+    setSelectedBrand(newBrand);
+    
+    // Clear category and product type filters when selecting a brand
+    if (newBrand) {
+      setSelectedCategory(null);
+      setSelectedProductType(null);
+      setSearchParams({ brand: newBrand });
+    } else if (selectedCategory) {
+      setSearchParams({ category: selectedCategory });
+    } else if (selectedProductType) {
+      setSearchParams({ category: selectedProductType });
+    } else {
+      setSearchParams({});
+    }
   };
 
   const handleSkinTypeChange = (skinType: string) => {
-    setSelectedSkinType(selectedSkinType === skinType ? null : skinType);
+    const newSkinType = selectedSkinType === skinType ? null : skinType;
+    setSelectedSkinType(newSkinType);
+    
+    // Update URL parameters
+    if (newSkinType) {
+      setSearchParams({ skinType: newSkinType });
+    } else if (selectedCategory) {
+      setSearchParams({ category: selectedCategory });
+    } else if (selectedProductType) {
+      setSearchParams({ category: selectedProductType });
+    } else if (selectedBrand) {
+      setSearchParams({ brand: selectedBrand });
+    } else {
+      setSearchParams({});
+    }
   };
 
   const handlePriceRangeChange = (range: string) => {

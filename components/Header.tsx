@@ -33,6 +33,13 @@ const Header = () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, [isProductDropdownOpen]);
+  
+  // Reset dropdown state when URL changes (by using searchParams from React Router)
+  const location = window.location;
+  
+  useEffect(() => {
+    setIsProductDropdownOpen(false);
+  }, [location.pathname, location.search]);
 
   const productCategories = [
     {
@@ -292,7 +299,11 @@ const Header = () => {
                                       item
                                     )}`}
                                     className="text-sm text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-2 py-1.5 pl-2 rounded-md hover:bg-blue-50/50"
-                                    onClick={() => setIsProductDropdownOpen(false)}
+                                    onClick={() => {
+                                      // Ensure dropdown closes properly on category click
+                                      setIsProductDropdownOpen(false);
+                                      // Allow default navigation behavior
+                                    }}
                                   >
                                     <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
                                     {item}
