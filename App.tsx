@@ -9,7 +9,7 @@ import ProductDetail from './pages/ProductDetail'
 import { AppProvider } from './context/AppContext'
 import CartPage from './components/CartPage'
 import WishlistPage from './components/WishlistPage'
-
+import Skincare from './pages/Skincare'
 function App() {
   return (
     <AppProvider>
@@ -22,6 +22,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/routine" element={<Skincare />} />
         </Routes>
       </Router>
     </AppProvider>

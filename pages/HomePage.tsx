@@ -7,7 +7,6 @@ import ProductSection from "../components/ProductSection";
 import productData from "../db/product.json";
 import { useAppContext } from "../context/AppContext";
 import QuickView from "../components/QuickView";
-
 const HomePage = () => {
   const navigate = useNavigate();
   const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useAppContext();
@@ -346,7 +345,7 @@ const HomePage = () => {
       >
         <div
           className="mx-auto px-2 sm:px-4"
-          style={{ width: "1223px", maxWidth: "100%" }}
+          style={{ width: "1000px", maxWidth: "100%" }}
         >
           <div className="flex flex-col items-center mb-5 sm:mb-6">
             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-center text-purple-500 mb-2">
@@ -371,7 +370,7 @@ const HomePage = () => {
                 href={`/category/${category.name
                   .toLowerCase()
                   .replace(/\s+/g, "-")}`}
-                className="group category-item"
+                className="category-item"
                 style={{
                   opacity: 0,
                   transform: "translateY(20px)",
@@ -380,14 +379,14 @@ const HomePage = () => {
                 }}
               >
                 <div className="flex flex-col items-center">
-                  <div className="bg-purple-50 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
+                  <div className="bg-purple-50 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden shadow-sm">
                     <img
                       src={category.image}
                       alt={category.name}
-                      className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                      className="max-w-full max-h-full object-contain"
                     />
                   </div>
-                  <span className="text-[11px] sm:text-xs md:text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
+                  <span className="text-[11px] sm:text-xs md:text-sm text-center font-medium text-gray-800 line-clamp-2">
                     {category.name}
                   </span>
                 </div>
@@ -402,7 +401,7 @@ const HomePage = () => {
                 href={`/category/${category.name
                   .toLowerCase()
                   .replace(/\s+/g, "-")}`}
-                className="group category-item"
+                className="category-item"
                 style={{
                   opacity: 0,
                   transform: "translateY(20px)",
@@ -411,14 +410,14 @@ const HomePage = () => {
                 }}
               >
                 <div className="flex flex-col items-center">
-                  <div className="bg-purple-50 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden transition-transform transform group-hover:scale-105 shadow-sm group-hover:shadow-md">
+                  <div className="bg-purple-50 rounded-lg p-2 sm:p-3 mb-2 w-full aspect-square flex items-center justify-center overflow-hidden shadow-sm">
                     <img
                       src={category.image}
                       alt={category.name}
-                      className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                      className="max-w-full max-h-full object-contain"
                     />
                   </div>
-                  <span className="text-[11px] sm:text-xs md:text-sm text-center font-medium text-gray-800 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
+                  <span className="text-[11px] sm:text-xs md:text-sm text-center font-medium text-gray-800 line-clamp-2">
                     {category.name}
                   </span>
                 </div>
