@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Search,
   Phone,
@@ -16,6 +16,23 @@ const Header = () => {
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
   const { wishlist, cart, searchQuery, setSearchQuery, isAuthenticated, user } =
     useAppContext();
+    
+  // Add global click handler to close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setIsProductDropdownOpen(false);
+    };
+    
+    // Add event listener when dropdown is open
+    if (isProductDropdownOpen) {
+      document.addEventListener('click', handleClickOutside);
+    }
+    
+    // Cleanup function
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isProductDropdownOpen]);
 
   const productCategories = [
     {
@@ -233,6 +250,13 @@ const Header = () => {
                     className="flex items-center text-gray-700 hover:text-blue-500 transition-colors text-sm font-medium pb-2.5 pt-2.5"
                     onMouseEnter={() => setIsProductDropdownOpen(true)}
                     onMouseLeave={() => setIsProductDropdownOpen(false)}
+                    onClick={(e) => {
+                      // Allow navigating to /products when clicking directly on the link
+                      // but don't close dropdown on hover/mouseover
+                      if (e.type === 'click') {
+                        setIsProductDropdownOpen(false);
+                      }
+                    }}
                   >
                     SẢN PHẨM
                     <ChevronDown className="w-3.5 h-3.5 ml-0.5" />
@@ -241,31 +265,36 @@ const Header = () => {
                   {/* Product Dropdown */}
                   {isProductDropdownOpen && (
                     <div
-                      className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg border border-gray-100 rounded-lg p-6 z-50"
+                      className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg border border-gray-100 rounded-lg p-8 z-50"
                       onMouseEnter={() => setIsProductDropdownOpen(true)}
                       onMouseLeave={() => setIsProductDropdownOpen(false)}
+                      onClick={(e) => {
+                        // Don't close if clicking inside the dropdown itself
+                        e.stopPropagation();
+                      }}
                       style={{
                         marginTop: "1px",
-                        width: "750px",
+                        width: "600px",
                         maxWidth: "90vw",
                       }}
                     >
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="flex justify-center w-full">
                         {productCategories.map((category, index) => (
-                          <div key={index} className="flex flex-col">
-                            <h3 className="font-medium text-blue-600 mb-3 text-sm border-b border-gray-200 pb-1.5 flex items-center">
+                          <div key={index} className="flex flex-col w-full max-w-md">
+                            <h3 className="font-medium text-blue-600 mb-4 text-base border-b border-gray-200 pb-2 text-center">
                               {category.title}
                             </h3>
-                            <ul className="grid grid-cols-1 gap-2.5">
+                            <ul className="grid grid-cols-2 gap-x-6 gap-y-3">
                               {category.items.map((item, itemIndex) => (
                                 <li key={itemIndex}>
                                   <Link
                                     to={`/products?category=${encodeURIComponent(
                                       item
                                     )}`}
-                                    className="text-sm text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-1.5 py-1 pl-1 rounded-md hover:bg-blue-50/50"
+                                    className="text-sm text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-2 py-1.5 pl-2 rounded-md hover:bg-blue-50/50"
+                                    onClick={() => setIsProductDropdownOpen(false)}
                                   >
-                                    <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
+                                    <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
                                     {item}
                                   </Link>
                                 </li>
