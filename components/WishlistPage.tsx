@@ -3,6 +3,7 @@ import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 const WishlistPage = () => {
   const { wishlist, removeFromWishlist, addToCart } = useAppContext();
@@ -37,12 +38,12 @@ const WishlistPage = () => {
             <p className="text-gray-500 mb-6">
               Hãy thêm những sản phẩm bạn yêu thích để dễ dàng tìm lại sau này
             </p>
-            <a
-              href="/"
+            <Link
+              to="/products"
               className="bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition-colors inline-block"
             >
               Khám phá sản phẩm
-            </a>
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">

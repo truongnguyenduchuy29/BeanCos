@@ -156,8 +156,8 @@ const Header = () => {
                 </div>
               </div>
 
-              <a
-                href="/wishlist"
+              <Link
+                to="/wishlist"
                 className="flex items-center text-pink-500 hover:text-pink-600 transition-colors group"
               >
                 <div className="mr-2 relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-colors">
@@ -172,27 +172,25 @@ const Header = () => {
                   </div>
                   <div className="text-xs sm:text-sm">sản phẩm</div>
                 </div>
-              </a>
+              </Link>
 
-              <a
-                href="/cart"
-                className="relative flex items-center text-pink-500 hover:text-pink-600 transition-colors group"
+              <Link
+                to="/cart"
+                className="flex items-center text-pink-500 hover:text-pink-600 transition-colors group"
               >
-                <div className="relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-colors">
+                <div className="mr-2 relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-colors">
                   <ShoppingCart className="w-4 h-4" />
-                  {cart.length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
-                      {cart.reduce((sum, item) => sum + item.quantity, 0)}
-                    </span>
-                  )}
+                  <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
+                    {cart.reduce((sum, item) => sum + item.quantity, 0)}
+                  </span>
                 </div>
-                <div className="ml-2">
+                <div>
                   <div className="text-[10px] sm:text-xs text-gray-600">
                     Giỏ hàng
                   </div>
-                  <div className="text-xs sm:text-sm">0 sản phẩm</div>
+                  <div className="text-xs sm:text-sm">của bạn</div>
                 </div>
-              </a>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
@@ -350,56 +348,89 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t mt-3 animate-fadeIn">
-            <ul className="py-1">
-              <li className="border-b border-gray-100">
-                <a
-                  href="/"
-                  className="text-gray-800 font-medium text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
+            {/* Mobile Menu Items */}
+            <div className="mt-5 space-y-4 px-2">
+              <Link
+                to="/"
+                className="block py-2 text-gray-700 hover:text-pink-500 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Trang chủ
+              </Link>
+              <div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsProductDropdownOpen(!isProductDropdownOpen);
+                  }}
+                  className="flex items-center justify-between w-full py-2 text-gray-700 hover:text-pink-500 transition-colors"
                 >
-                  TRANG CHỦ
-                </a>
-              </li>
-              <li className="border-b border-gray-100">
-                <a
-                  href="/about"
-                  className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
-                >
-                  GIỚI THIỆU
-                </a>
-              </li>
-              <li className="border-b border-gray-100">
-                <Link
-                  to="/products"
-                  className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
-                >
-                  SẢN PHẨM
-                </Link>
-              </li>
-              <li className="border-b border-gray-100">
-                <a
-                  href="/news"
-                  className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
-                >
-                  TIN TỨC
-                </a>
-              </li>
-              <li className="border-b border-gray-100">
-                <a
-                  href="/routine"
-                  className="text-teal-600 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
-                >
-                  ROUTINE SKINCARE
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/contact"
-                  className="text-gray-800 text-sm block py-2 px-4 hover:bg-gray-50 transition-colors"
-                >
-                  LIÊN HỆ
-                </a>
-              </li>
-            </ul>
+                  <span>Sản phẩm</span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${
+                      isProductDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {isProductDropdownOpen && (
+                  <div className="ml-4 mt-2 space-y-2">
+                    {productCategories.map((category) => (
+                      <div key={category.title}>
+                        <h3 className="font-medium text-gray-900 py-1">
+                          {category.title}
+                        </h3>
+                        <div className="ml-2 space-y-1">
+                          {category.items.map((item) => (
+                            <Link
+                              key={item}
+                              to={`/products?category=${encodeURIComponent(
+                                item
+                              )}`}
+                              className="block py-1 text-sm text-gray-600 hover:text-pink-500 transition-colors"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              {item}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <Link
+                to="/about"
+                className="block py-2 text-gray-700 hover:text-pink-500 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Giới thiệu
+              </Link>
+              <Link
+                to="/contact"
+                className="block py-2 text-gray-700 hover:text-pink-500 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Liên hệ
+              </Link>
+              
+              {/* Add links for Wishlist and Cart */}
+              <Link
+                to="/wishlist"
+                className="flex items-center py-2 text-gray-700 hover:text-pink-500 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Heart className="w-4 h-4 mr-2" />
+                <span>Yêu thích ({wishlist.length})</span>
+              </Link>
+              <Link
+                to="/cart"
+                className="flex items-center py-2 text-gray-700 hover:text-pink-500 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                <span>Giỏ hàng ({cart.reduce((sum, item) => sum + item.quantity, 0)})</span>
+              </Link>
+            </div>
 
             <div className="flex items-center justify-between px-4 py-3 bg-gray-50 mt-1">
               <a href="/login" className="text-xs text-purple-600 font-medium">

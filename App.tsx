@@ -7,6 +7,8 @@ import ContactPage from './pages/ContactPage'
 import ProductPage from './pages/ProductPage'
 import ProductDetail from './pages/ProductDetail'
 import { AppProvider } from './context/AppContext'
+import CartPage from './components/CartPage'
+import WishlistPage from './components/WishlistPage'
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
         </Routes>
       </Router>
     </AppProvider>

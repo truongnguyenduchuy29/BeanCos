@@ -1,8 +1,11 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useState, useEffect, useRef } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import productData from "../db/product.json";
+import { useAppContext } from "../context/AppContext";
+import { Heart, Search, ShoppingBag } from "lucide-react";
+import QuickView from "../components/QuickView";
 
 interface Product {
   id: number;
@@ -50,6 +53,14 @@ const ProductPage = () => {
   const productsPerPage = 12; // Changed from 8 to 12
   const brandsRef = useRef<HTMLDivElement>(null);
   const productsRef = useRef<HTMLDivElement>(null); // Add ref for products section
+  
+  // New state for QuickView modal
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+  
+  // Get context for wishlist and cart functionality
+  const { addToWishlist, removeFromWishlist, isInWishlist, addToCart } = useAppContext();
+  const navigate = useNavigate();
 
   // List of price ranges
   const priceRanges = [
@@ -392,6 +403,56 @@ const ProductPage = () => {
     }, 100);
   };
 
+  // New functions for wishlist, cart, and quick view
+  const handleToggleWishlist = (product: Product) => {
+    // Format product data to match the wishlist item structure
+    const wishlistProduct = {
+      id: product.id,
+      name: product.name,
+      price: formatPrice(product.price) + 'đ',
+      originalPrice: product.originalPrice ? formatPrice(product.originalPrice) + 'đ' : undefined,
+      discount: product.discount ? `${product.discount}%` : undefined,
+      image: product.imageUrl,
+      brand: product.brand,
+      tags: product.tags,
+      gift: product.gifts ? product.gifts[0] : undefined
+    };
+    
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(wishlistProduct);
+    }
+  };
+  
+  const handleQuickView = (product: Product) => {
+    setQuickViewProduct(product);
+    setIsQuickViewOpen(true);
+  };
+  
+  const handleCloseQuickView = () => {
+    setIsQuickViewOpen(false);
+  };
+  
+  const handleBuyNow = (product: Product) => {
+    // Format product data to match the cart item structure
+    const cartProduct = {
+      id: product.id,
+      name: product.name,
+      price: formatPrice(product.price) + 'đ',
+      originalPrice: product.originalPrice ? formatPrice(product.originalPrice) + 'đ' : undefined,
+      discount: product.discount ? `${product.discount}%` : undefined,
+      image: product.imageUrl,
+      brand: product.brand,
+      tags: product.tags,
+      gift: product.gifts ? product.gifts[0] : undefined
+    };
+    
+    // Add product to cart and navigate to cart page
+    addToCart(cartProduct);
+    navigate('/cart');
+  };
+
   return (
     <div className="product-page bg-gray-50">
       <Header />
@@ -708,21 +769,11 @@ const ProductPage = () => {
                     </div>
                   </div>{" "}
                   {/* Wishlist button */}
-                  <button className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition-all shadow-sm hover:shadow-md">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      className="w-4 h-4 text-gray-500 hover:text-pink-500"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
+                  <button 
+                    onClick={() => handleToggleWishlist(product)}
+                    className={`absolute top-2 right-2 z-10 w-7 h-7 rounded-full ${isInWishlist(product.id) ? 'bg-pink-500 text-white' : 'bg-white text-gray-500 hover:text-pink-500'} border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition-all shadow-sm hover:shadow-md`}
+                  >
+                    <Heart className={`w-4 h-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
                   </button>
                   {/* Product Image Container */}
                   <div className="pt-10 px-3 pb-3 relative overflow-hidden">
@@ -734,27 +785,18 @@ const ProductPage = () => {
 
                     {/* Quick view & Buy overlay (appears on hover) */}
                     <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
-                      <Link
-                        to={`/product/${product.id}`}
+                      <button
+                        onClick={() => handleQuickView(product)}
                         className="mb-3 w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-pink-100 transition-colors shadow-md"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          className="w-5 h-5 text-pink-500"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          />
-                        </svg>
-                      </Link>
-                      <button className="px-5 py-1.5 bg-pink-500 text-white text-sm font-medium rounded hover:bg-pink-600 transition-colors shadow-md">
-                        Mua ngay
+                        <Search className="w-5 h-5 text-pink-500" />
+                      </button>
+                      <button 
+                        onClick={() => handleBuyNow(product)}
+                        className="px-5 py-1.5 bg-pink-500 text-white text-sm font-medium rounded hover:bg-pink-600 transition-colors shadow-md flex items-center space-x-1"
+                      >
+                        <ShoppingBag className="w-3.5 h-3.5" />
+                        <span>Mua ngay</span>
                       </button>
                     </div>
                   </div>
@@ -853,7 +895,16 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
-
+      
+      {/* Quick View Modal */}
+      {quickViewProduct && (
+        <QuickView 
+          product={quickViewProduct} 
+          isOpen={isQuickViewOpen} 
+          onClose={handleCloseQuickView} 
+        />
+      )}
+      
       <Footer />
     </div>
   );

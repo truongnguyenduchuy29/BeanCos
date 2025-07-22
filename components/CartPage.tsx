@@ -3,6 +3,7 @@ import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 const CartPage = () => {
   const { cart, removeFromCart, updateCartQuantity } = useAppContext();
@@ -48,13 +49,13 @@ const CartPage = () => {
             <p className="text-gray-500 mb-6">
               Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm
             </p>
-            <a
-              href="/"
+            <Link
+              to="/products"
               className="bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition-colors inline-flex items-center"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
               Tiếp tục mua sắm
-            </a>
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -145,13 +146,13 @@ const CartPage = () => {
                   Thanh toán
                 </button>
                 
-                <a
-                  href="/"
+                <Link
+                  to="/products"
                   className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition-colors font-semibold flex items-center justify-center"
                 >
                   <ArrowLeft className="w-5 h-5 mr-2" />
                   Tiếp tục mua sắm
-                </a>
+                </Link>
                 
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg">
                   <p className="text-sm text-blue-700">
