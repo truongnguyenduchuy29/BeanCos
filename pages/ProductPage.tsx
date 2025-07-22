@@ -38,10 +38,14 @@ const ProductPage = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedProductType, setSelectedProductType] = useState<string | null>(null);
+  const [selectedProductType, setSelectedProductType] = useState<string | null>(
+    null
+  );
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [selectedSkinType, setSelectedSkinType] = useState<string | null>(null);
-  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
+    null
+  );
   const [sortBy, setSortBy] = useState<string>("default");
   const productsPerPage = 12; // Changed from 8 to 12
   const brandsRef = useRef<HTMLDivElement>(null);
@@ -108,11 +112,15 @@ const ProductPage = () => {
     let filtered = [...products];
 
     if (selectedCategory) {
-      filtered = filtered.filter((product) => product.category === selectedCategory);
+      filtered = filtered.filter(
+        (product) => product.category === selectedCategory
+      );
     }
 
     if (selectedProductType) {
-      filtered = filtered.filter((product) => product.type === selectedProductType);
+      filtered = filtered.filter(
+        (product) => product.type === selectedProductType
+      );
     }
 
     if (selectedBrand) {
@@ -120,12 +128,16 @@ const ProductPage = () => {
     }
 
     if (selectedSkinType) {
-      filtered = filtered.filter((product) => product.skinType.includes(selectedSkinType));
+      filtered = filtered.filter((product) =>
+        product.skinType.includes(selectedSkinType)
+      );
     }
 
     if (selectedPriceRange) {
       const [min, max] = selectedPriceRange.split("-").map(Number);
-      filtered = filtered.filter((product) => product.price >= min && product.price <= max);
+      filtered = filtered.filter(
+        (product) => product.price >= min && product.price <= max
+      );
     }
 
     // Sort products
@@ -168,7 +180,10 @@ const ProductPage = () => {
   // Handle pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   // Format price with thousand separator
@@ -214,7 +229,7 @@ const ProductPage = () => {
   return (
     <div className="product-page bg-gray-50">
       <Header />
-      
+
       {/* Breadcrumb */}
       <div className="bg-gray-100 py-4">
         <div className="container mx-auto px-4">
@@ -225,7 +240,7 @@ const ProductPage = () => {
             <span className="mx-2 text-gray-400">&gt;</span>
             {selectedCategory || selectedProductType ? (
               <>
-                <button 
+                <button
                   onClick={resetToAllProducts}
                   className="text-gray-600 hover:text-pink-500"
                 >
@@ -247,15 +262,22 @@ const ProductPage = () => {
       <div className="container mx-auto px-4 py-5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {banners.map((banner) => (
-            <div key={banner.id} className="relative rounded-md overflow-hidden border border-gray-200">
-              <img 
-                src={banner.imageUrl} 
-                alt={banner.title} 
+            <div
+              key={banner.id}
+              className="relative rounded-md overflow-hidden border border-gray-200"
+            >
+              <img
+                src={banner.imageUrl}
+                alt={banner.title}
                 className="w-full h-36 object-cover"
               />
               <div className="absolute top-0 left-0 p-4">
-                <h3 className="text-lg font-semibold text-green-700">{banner.title}</h3>
-                {banner.subtitle && <p className="text-base text-green-700">{banner.subtitle}</p>}
+                <h3 className="text-lg font-semibold text-green-700">
+                  {banner.title}
+                </h3>
+                {banner.subtitle && (
+                  <p className="text-base text-green-700">{banner.subtitle}</p>
+                )}
                 <button className="mt-2 px-4 py-1.5 bg-white text-green-700 rounded-full text-sm hover:bg-gray-100 transition">
                   {banner.buttonText}
                 </button>
@@ -269,27 +291,33 @@ const ProductPage = () => {
       <div className="container mx-auto px-4 py-5">
         <h2 className="text-xl font-semibold mb-4">TÌM KIẾM NHIỀU</h2>
         <div className="relative">
-          <button 
-            onClick={() => scrollBrands('left')} 
+          <button
+            onClick={() => scrollBrands("left")}
             className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
           >
             &lt;
           </button>
-          <div 
+          <div
             ref={brandsRef}
             className="flex overflow-x-auto scrollbar-hide space-x-4 py-2"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {brands.map((brand) => (
-              <div 
-                key={brand.id} 
+              <div
+                key={brand.id}
                 className="flex-none w-24 text-center cursor-pointer"
                 onClick={() => handleBrandChange(brand.name)}
               >
-                <div className={`border ${selectedBrand === brand.name ? 'border-pink-500' : 'border-gray-200'} rounded-lg p-2 mb-2`}>
-                  <img 
-                    src={brand.imageUrl} 
-                    alt={brand.name} 
+                <div
+                  className={`border ${
+                    selectedBrand === brand.name
+                      ? "border-pink-500"
+                      : "border-gray-200"
+                  } rounded-lg p-2 mb-2`}
+                >
+                  <img
+                    src={brand.imageUrl}
+                    alt={brand.name}
                     className="w-full h-12 object-contain"
                   />
                 </div>
@@ -297,8 +325,8 @@ const ProductPage = () => {
               </div>
             ))}
           </div>
-          <button 
-            onClick={() => scrollBrands('right')} 
+          <button
+            onClick={() => scrollBrands("right")}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
           >
             &gt;
@@ -307,20 +335,26 @@ const ProductPage = () => {
       </div>
 
       {/* Main Content with Sidebar and Products */}
-      <div className="container mx-auto px-4 py-6">
+      <div className="mx-auto px-4 py-6" style={{ maxWidth: "1300px" }}>
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar Filters */}
           <div className="lg:w-[280px] mb-4 lg:mb-0">
             {/* Categories */}
             <div className="mb-5">
               <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-bold text-purple-900">DANH MỤC SẢN PHẨM</h3>
+                <h3 className="text-sm font-bold text-purple-900">
+                  DANH MỤC SẢN PHẨM
+                </h3>
               </div>
               <div className="border border-gray-200 p-3 rounded-b-md">
                 {categories.map((category) => (
                   <div key={category} className="flex items-center mb-2.5">
-                    <button 
-                      className={`w-full text-left ${selectedCategory === category ? 'text-pink-500 font-medium' : 'text-gray-700'} text-sm hover:text-pink-400 transition-colors`}
+                    <button
+                      className={`w-full text-left ${
+                        selectedCategory === category
+                          ? "text-pink-500 font-medium"
+                          : "text-gray-700"
+                      } text-sm hover:text-pink-400 transition-colors`}
                       onClick={() => handleCategoryChange(category)}
                     >
                       {category}
@@ -333,7 +367,9 @@ const ProductPage = () => {
             {/* Product Types */}
             <div className="mb-5">
               <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-semibold text-purple-900">LOẠI SẢN PHẨM</h3>
+                <h3 className="text-sm font-semibold text-purple-900">
+                  LOẠI SẢN PHẨM
+                </h3>
               </div>
               <div className="border border-gray-200 p-3 rounded-b-md max-h-48 overflow-y-auto">
                 {productTypes.map((type) => (
@@ -345,7 +381,10 @@ const ProductPage = () => {
                       onChange={() => handleProductTypeChange(type)}
                       className="mr-2 h-4 w-4"
                     />
-                    <label htmlFor={`type-${type}`} className="text-xs text-gray-700 cursor-pointer">
+                    <label
+                      htmlFor={`type-${type}`}
+                      className="text-xs text-gray-700 cursor-pointer"
+                    >
                       {type}
                     </label>
                   </div>
@@ -356,7 +395,9 @@ const ProductPage = () => {
             {/* Price Range */}
             <div className="mb-5">
               <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-semibold text-purple-900">CHỌN MỨC GIÁ</h3>
+                <h3 className="text-sm font-semibold text-purple-900">
+                  CHỌN MỨC GIÁ
+                </h3>
               </div>
               <div className="border border-gray-200 p-3 rounded-b-md">
                 {priceRanges.map((range, index) => (
@@ -364,11 +405,18 @@ const ProductPage = () => {
                     <input
                       type="checkbox"
                       id={`price-${index}`}
-                      checked={selectedPriceRange === `${range.min}-${range.max}`}
-                      onChange={() => handlePriceRangeChange(`${range.min}-${range.max}`)}
+                      checked={
+                        selectedPriceRange === `${range.min}-${range.max}`
+                      }
+                      onChange={() =>
+                        handlePriceRangeChange(`${range.min}-${range.max}`)
+                      }
                       className="mr-2 h-4 w-4"
                     />
-                    <label htmlFor={`price-${index}`} className="text-xs text-gray-700 cursor-pointer">
+                    <label
+                      htmlFor={`price-${index}`}
+                      className="text-xs text-gray-700 cursor-pointer"
+                    >
                       {range.label}
                     </label>
                   </div>
@@ -379,7 +427,9 @@ const ProductPage = () => {
             {/* Brands */}
             <div className="mb-5">
               <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-semibold text-purple-900">THƯƠNG HIỆU</h3>
+                <h3 className="text-sm font-semibold text-purple-900">
+                  THƯƠNG HIỆU
+                </h3>
               </div>
               <div className="border border-gray-200 p-3 rounded-b-md max-h-48 overflow-y-auto">
                 {uniqueBrands.map((brand) => (
@@ -391,7 +441,10 @@ const ProductPage = () => {
                       onChange={() => handleBrandChange(brand)}
                       className="mr-2 h-4 w-4"
                     />
-                    <label htmlFor={`brand-${brand}`} className="text-xs text-gray-700 cursor-pointer">
+                    <label
+                      htmlFor={`brand-${brand}`}
+                      className="text-xs text-gray-700 cursor-pointer"
+                    >
                       {brand}
                     </label>
                   </div>
@@ -402,7 +455,9 @@ const ProductPage = () => {
             {/* Skin Types */}
             <div className="mb-5">
               <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-semibold text-purple-900">LOẠI DA</h3>
+                <h3 className="text-sm font-semibold text-purple-900">
+                  LOẠI DA
+                </h3>
               </div>
               <div className="border border-gray-200 p-3 rounded-b-md">
                 {skinTypes.map((skinType) => (
@@ -414,7 +469,10 @@ const ProductPage = () => {
                       onChange={() => handleSkinTypeChange(skinType)}
                       className="mr-2 h-4 w-4"
                     />
-                    <label htmlFor={`skin-${skinType}`} className="text-xs text-gray-700 cursor-pointer">
+                    <label
+                      htmlFor={`skin-${skinType}`}
+                      className="text-xs text-gray-700 cursor-pointer"
+                    >
                       {skinType}
                     </label>
                   </div>
@@ -432,8 +490,8 @@ const ProductPage = () => {
               </h2>
               <div className="flex items-center">
                 <span className="text-sm text-gray-600 mr-2">Sắp xếp:</span>
-                <select 
-                  value={sortBy} 
+                <select
+                  value={sortBy}
                   onChange={handleSortChange}
                   className="border border-gray-300 rounded px-3 py-1.5 text-sm"
                 >
@@ -446,39 +504,70 @@ const ProductPage = () => {
               </div>
             </div>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {currentProducts.map((product) => (
-            <div key={product.id} className="product-card group relative border border-gray-200 rounded-md overflow-hidden transition-all duration-300 hover:shadow-lg bg-white">
-              {/* Brand Logo */}
-              <div className="absolute top-2 left-2 z-10">
-                <div className="w-12 h-7 bg-white border border-gray-200 rounded flex items-center justify-center">
-                  <img 
-                    src={brands.find(b => b.name === product.brand)?.imageUrl || "/src/img/logo.webp"} 
-                    alt={product.brand} 
-                    className="max-h-5 max-w-8"
-                  />
-                </div>
-              </div>                  {/* Wishlist button */}
+            {/* Product Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {currentProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="product-card group relative border border-gray-200 rounded-md overflow-hidden transition-all duration-300 hover:shadow-lg bg-white"
+                >
+                  {/* Brand Logo */}
+                  <div className="absolute top-2 left-2 z-10">
+                    <div className="w-12 h-7 bg-white border border-gray-200 rounded flex items-center justify-center">
+                      <img
+                        src={
+                          brands.find((b) => b.name === product.brand)
+                            ?.imageUrl || "/src/img/logo.webp"
+                        }
+                        alt={product.brand}
+                        className="max-h-5 max-w-8"
+                      />
+                    </div>
+                  </div>{" "}
+                  {/* Wishlist button */}
                   <button className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition-all shadow-sm hover:shadow-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 text-gray-500 hover:text-pink-500">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="w-4 h-4 text-gray-500 hover:text-pink-500"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
                     </svg>
                   </button>
-
                   {/* Product Image Container */}
                   <div className="pt-10 px-3 pb-3 relative overflow-hidden">
-                    <img 
-                      src={product.imageUrl} 
-                      alt={product.name} 
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
                       className="w-full h-48 object-contain transition-transform duration-500 group-hover:scale-105"
                     />
-                    
+
                     {/* Quick view & Buy overlay (appears on hover) */}
                     <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
-                      <Link to={`/product/${product.id}`} className="mb-3 w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-pink-100 transition-colors shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-pink-500">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      <Link
+                        to={`/product/${product.id}`}
+                        className="mb-3 w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-pink-100 transition-colors shadow-md"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="w-5 h-5 text-pink-500"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          />
                         </svg>
                       </Link>
                       <button className="px-5 py-1.5 bg-pink-500 text-white text-sm font-medium rounded hover:bg-pink-600 transition-colors shadow-md">
@@ -486,7 +575,6 @@ const ProductPage = () => {
                       </button>
                     </div>
                   </div>
-
                   {/* Tags (Best Seller, Exclusive) */}
                   {product.tags && product.tags.length > 0 && (
                     <div className="absolute top-10 left-0">
@@ -502,7 +590,6 @@ const ProductPage = () => {
                       )}
                     </div>
                   )}
-
                   {/* Product Info */}
                   <div className="p-4">
                     <Link to={`/product/${product.id}`}>
@@ -510,13 +597,17 @@ const ProductPage = () => {
                         {product.name}
                       </h3>
                     </Link>
-                    
+
                     <div className="flex items-baseline flex-wrap">
-                      <span className="text-red-600 font-bold text-base mr-2">{formatPrice(product.price)}đ</span>
-                      
+                      <span className="text-red-600 font-bold text-base mr-2">
+                        {formatPrice(product.price)}đ
+                      </span>
+
                       {product.discount > 0 && (
                         <>
-                          <span className="text-gray-400 text-xs line-through">{formatPrice(product.originalPrice)}đ</span>
+                          <span className="text-gray-400 text-xs line-through">
+                            {formatPrice(product.originalPrice)}đ
+                          </span>
                           <span className="ml-2 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-sm">
                             -{product.discount}%
                           </span>
@@ -529,8 +620,19 @@ const ProductPage = () => {
                       <div className="mt-2 border border-red-200 rounded p-1.5 bg-red-50">
                         <div className="flex items-center">
                           <span className="text-red-500 mr-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+                              />
                             </svg>
                           </span>
                           <span className="text-xs text-red-500 line-clamp-1 font-medium">
