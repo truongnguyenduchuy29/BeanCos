@@ -40,17 +40,6 @@ interface RelatedProduct {
   tags?: string[];
 }
 
-interface RecommendedProduct {
-  id: number;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  discount?: number;
-  imageUrl: string;
-  linkTo: string;
-  brand?: string;
-}
-
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
@@ -58,41 +47,19 @@ const ProductDetail = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [relatedProducts, setRelatedProducts] = useState<RelatedProduct[]>([]);
   const [viewedProducts, setViewedProducts] = useState<RelatedProduct[]>([]);
-  const [recommendedProducts, setRecommendedProducts] = useState<
-    RecommendedProduct[]
-  >([]);
+
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [productImages, setProductImages] = useState<string[]>([]);
+
+  // States for image modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState("");
 
   // Format price with thousand separator
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
-
-  // Initialize recommended products
-  useEffect(() => {
-    if (productData.products) {
-      // Lấy 5 sản phẩm ngẫu nhiên từ danh sách sản phẩm trong JSON
-      const allProducts = productData.products as Product[];
-      // Lọc một số sản phẩm ngẫu nhiên làm sản phẩm đề xuất
-      const randomProducts = allProducts
-        .sort(() => 0.5 - Math.random()) // Sắp xếp ngẫu nhiên
-        .slice(0, 5) // Lấy 5 sản phẩm đầu tiên
-        .map((p) => ({
-          id: p.id,
-          name: p.name,
-          price: p.price,
-          originalPrice: p.originalPrice,
-          imageUrl: p.imageUrl,
-          linkTo: `/product/${p.id}`,
-          brand: p.brand,
-          discount: p.discount,
-        }));
-
-      setRecommendedProducts(randomProducts);
-    }
-  }, []);
 
   // Load product data
   useEffect(() => {
@@ -198,6 +165,12 @@ const ProductDetail = () => {
     }, 100);
   };
 
+  // Function to open image modal
+  const openImageModal = (imageUrl: string) => {
+    setModalImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -236,12 +209,32 @@ const ProductDetail = () => {
               <div className="flex flex-col md:flex-row gap-8">
                 {/* Product Images */}
                 <div className="md:w-2/5">
-                  <div className="border border-gray-200 rounded-md p-4 mb-4">
+                  <div
+                    className="border border-gray-200 rounded-md p-4 mb-4 cursor-pointer relative group"
+                    onClick={() => openImageModal(selectedImage)}
+                  >
                     <img
                       src={selectedImage}
                       alt={product.name}
                       className="w-full h-96 object-contain"
                     />
+                    {/* Zoom icon overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-20">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-12 w-12 text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                        />
+                      </svg>
+                    </div>
                   </div>
                   <div className="flex space-x-3 overflow-x-auto py-2">
                     {productImages.map((imageUrl, index) => (
@@ -251,7 +244,7 @@ const ProductDetail = () => {
                           selectedImage === imageUrl
                             ? "border-pink-500"
                             : "border-gray-200"
-                        } rounded-md p-2 cursor-pointer w-20 h-20 flex-shrink-0`}
+                        } rounded-md p-2 cursor-pointer w-20 h-20 flex-shrink-0 hover:border-pink-400 relative group/thumb`}
                         onClick={() => handleImageChange(imageUrl)}
                       >
                         <img
@@ -259,6 +252,29 @@ const ProductDetail = () => {
                           alt={`${product.name} - Ảnh ${index + 1}`}
                           className="w-full h-full object-contain"
                         />
+                        {/* Zoom button overlay */}
+                        <div
+                          className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center opacity-0 group-hover/thumb:opacity-100 transition-opacity"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openImageModal(imageUrl);
+                          }}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 text-white"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                          </svg>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -703,27 +719,77 @@ const ProductDetail = () => {
             {relatedProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition-shadow"
+                className="bg-white border border-gray-200 rounded-md overflow-hidden hover:shadow-lg transition-all duration-300 group"
               >
-                <Link
-                  to={`/product/${product.id}`}
-                  onClick={() => {
-                    // Scroll to top when navigating to a new product
-                    window.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    });
-                  }}
-                >
-                  <div className="p-4">
-                    <div className="relative pt-[100%]">
-                      <img
-                        src={product.imageUrl}
-                        alt={product.name}
-                        className="absolute top-0 left-0 w-full h-full object-contain"
-                      />
+                <div className="p-4">
+                  <div className="relative pt-[100%] overflow-hidden">
+                    {/* Discount badge */}
+                    {product.discount > 0 && (
+                      <div className="absolute top-0 right-0 z-10 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-bl-sm">
+                        -{product.discount}%
+                      </div>
+                    )}
+
+                    {/* Product image with overlay actions */}
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="absolute top-0 left-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    />
+
+                    {/* Overlay actions */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="flex gap-2">
+                        {/* Quick view button - Kính lúp */}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openImageModal(product.imageUrl);
+                          }}
+                          className="w-10 h-10 rounded-md bg-white flex items-center justify-center hover:bg-gray-100 transition-colors shadow-md"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 text-gray-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                          </svg>
+                        </button>
+
+                        {/* Quick buy button - Mua ngay */}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            // Thêm logic mua ngay ở đây
+                          }}
+                          className="h-10 px-4 rounded-md bg-pink-500 text-white text-sm font-medium flex items-center justify-center hover:bg-pink-600 transition-colors shadow-md"
+                        >
+                          Mua ngay
+                        </button>
+                      </div>
                     </div>
-                    <h3 className="mt-3 text-sm font-medium h-10 overflow-hidden line-clamp-2 hover:text-pink-500 transition-colors">
+                  </div>
+
+                  <Link
+                    to={`/product/${product.id}`}
+                    onClick={() => {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }}
+                  >
+                    <h3 className="mt-3 text-sm font-medium h-10 overflow-hidden line-clamp-2 group-hover:text-pink-500 transition-colors">
                       {product.name}
                     </h3>
                     <div className="mt-2 flex items-baseline flex-wrap">
@@ -731,18 +797,13 @@ const ProductDetail = () => {
                         {formatPrice(product.price)}đ
                       </span>
                       {product.discount > 0 && (
-                        <>
-                          <span className="text-gray-400 text-xs line-through">
-                            {formatPrice(product.originalPrice)}đ
-                          </span>
-                          <span className="ml-2 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-sm">
-                            -{product.discount}%
-                          </span>
-                        </>
+                        <span className="text-gray-400 text-xs line-through">
+                          {formatPrice(product.originalPrice)}đ
+                        </span>
                       )}
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
@@ -757,27 +818,77 @@ const ProductDetail = () => {
             {viewedProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition-shadow"
+                className="bg-white border border-gray-200 rounded-md overflow-hidden hover:shadow-lg transition-all duration-300 group"
               >
-                <Link
-                  to={`/product/${product.id}`}
-                  onClick={() => {
-                    // Scroll to top when navigating to a new product
-                    window.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    });
-                  }}
-                >
-                  <div className="p-4">
-                    <div className="relative pt-[100%]">
-                      <img
-                        src={product.imageUrl}
-                        alt={product.name}
-                        className="absolute top-0 left-0 w-full h-full object-contain"
-                      />
+                <div className="p-4">
+                  <div className="relative pt-[100%] overflow-hidden">
+                    {/* Discount badge */}
+                    {product.discount > 0 && (
+                      <div className="absolute top-0 right-0 z-10 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-bl-sm">
+                        -{product.discount}%
+                      </div>
+                    )}
+
+                    {/* Product image with overlay actions */}
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="absolute top-0 left-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    />
+
+                    {/* Overlay actions */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="flex gap-2">
+                        {/* Quick view button - Kính lúp */}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openImageModal(product.imageUrl);
+                          }}
+                          className="w-10 h-10 rounded-md bg-white flex items-center justify-center hover:bg-gray-100 transition-colors shadow-md"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 text-gray-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                          </svg>
+                        </button>
+
+                        {/* Quick buy button - Mua ngay */}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            // Thêm logic mua ngay ở đây
+                          }}
+                          className="h-10 px-4 rounded-md bg-pink-500 text-white text-sm font-medium flex items-center justify-center hover:bg-pink-600 transition-colors shadow-md"
+                        >
+                          Mua ngay
+                        </button>
+                      </div>
                     </div>
-                    <h3 className="mt-3 text-sm font-medium h-10 overflow-hidden line-clamp-2 hover:text-pink-500 transition-colors">
+                  </div>
+
+                  <Link
+                    to={`/product/${product.id}`}
+                    onClick={() => {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }}
+                  >
+                    <h3 className="mt-3 text-sm font-medium h-10 overflow-hidden line-clamp-2 group-hover:text-pink-500 transition-colors">
                       {product.name}
                     </h3>
                     <div className="mt-2 flex items-baseline flex-wrap">
@@ -785,18 +896,13 @@ const ProductDetail = () => {
                         {formatPrice(product.price)}đ
                       </span>
                       {product.discount > 0 && (
-                        <>
-                          <span className="text-gray-400 text-xs line-through">
-                            {formatPrice(product.originalPrice)}đ
-                          </span>
-                          <span className="ml-2 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-sm">
-                            -{product.discount}%
-                          </span>
-                        </>
+                        <span className="text-gray-400 text-xs line-through">
+                          {formatPrice(product.originalPrice)}đ
+                        </span>
                       )}
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
@@ -804,6 +910,45 @@ const ProductDetail = () => {
       </div>
 
       <Footer />
+
+      {/* Image Modal */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div className="relative max-w-4xl max-h-[90vh] overflow-hidden bg-white rounded-lg p-2">
+            <button
+              className="absolute top-2 right-2 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsModalOpen(false);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-700"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <img
+              src={modalImage}
+              alt="Xem chi tiết sản phẩm"
+              className="max-w-full max-h-[80vh] object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
