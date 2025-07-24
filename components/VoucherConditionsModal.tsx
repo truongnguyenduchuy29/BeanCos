@@ -54,7 +54,12 @@ const VoucherConditionsModal: React.FC<VoucherConditionsModalProps> = ({
   // Get applicable products from the voucher
   const applicableProducts = productData.products.filter(product =>
     voucher.applicableProducts.includes(product.id)
-  ).filter(product => product && product.name && product.price); // Filter out invalid products
+  ).filter(product => product && product.name && product.price) // Filter out invalid products
+  .map(product => ({
+    ...product,
+    // Ensure discount is properly handled
+    discount: product.discount && Number(product.discount) > 0 ? product.discount : undefined
+  }));
 
   const formatPrice = (price: number) => {
     if (!price || price === 0) return '0₫';
@@ -93,7 +98,23 @@ const VoucherConditionsModal: React.FC<VoucherConditionsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+      <style>
+        {`
+          /* Hide any unwanted '0' text that might appear */
+          .voucher-modal span:empty::after {
+            content: none !important;
+          }
+          .voucher-modal div:empty::after {
+            content: none !important;
+          }
+          /* Ensure no pseudo elements show '0' */
+          .voucher-modal *::before,
+          .voucher-modal *::after {
+            content: none !important;
+          }
+        `}
+      </style>
+      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto voucher-modal">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <div>
@@ -169,11 +190,13 @@ const VoucherConditionsModal: React.FC<VoucherConditionsModalProps> = ({
                     alt={product.name}
                     className="w-full h-48 object-cover"
                   />
-                  {product.discount && product.discount > 0 && (
+                  {/* Only show discount badge if discount is valid and > 0 */}
+                  {product.discount && Number(product.discount) > 0 && (
                     <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">
                       -{product.discount}%
                     </div>
                   )}
+                  {/* Remove any potential unwanted elements */}
                 </div>
 
                 {/* Product Info */}
