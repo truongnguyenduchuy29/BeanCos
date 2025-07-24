@@ -80,6 +80,18 @@ const ProductSection = () => {
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [copiedVoucherCode, setCopiedVoucherCode] = useState("");
+  const [toastPosition, setToastPosition] = useState({ x: 0, y: 0 });
+
+  // Auto close toast after duration
+  useEffect(() => {
+    if (isToastOpen) {
+      const timer = setTimeout(() => {
+        setIsToastOpen(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isToastOpen]);
 
   // Add timer state for each voucher
   useEffect(() => {
@@ -467,7 +479,16 @@ const ProductSection = () => {
     setIsQuickViewOpen(false);
   };
 
-  const handleCopyVoucher = (voucher: VoucherData) => {
+  const handleCopyVoucher = (voucher: VoucherData, event?: React.MouseEvent) => {
+    // Get button position if event is provided
+    if (event) {
+      const buttonRect = (event.target as HTMLElement).getBoundingClientRect();
+      setToastPosition({
+        x: buttonRect.left + buttonRect.width / 2,
+        y: buttonRect.top
+      });
+    }
+
     // Check if voucher is still active and not expired
     if (!voucher.isActive || voucher.expiresAt <= Date.now()) {
       setToastMessage("Voucher đã hết hạn!");
@@ -507,7 +528,7 @@ const ProductSection = () => {
     setCopiedVoucher(voucher.id);
 
     // Show success toast
-    setToastMessage("Đã sao chép mã voucher");
+    setToastMessage("Đã sao chép mã");
     setCopiedVoucherCode(randomCode);
     setIsToastOpen(true);
 
@@ -764,7 +785,7 @@ const ProductSection = () => {
 
                     <div className="flex justify-between items-center mt-2 flex-wrap gap-1">
                       <button
-                        onClick={() => handleCopyVoucher(voucher)}
+                        onClick={(e) => handleCopyVoucher(voucher, e)}
                         disabled={!voucher.isActive || !voucherTimers[voucher.id]}
                         className={`text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all duration-1000 transform ${
                           !voucher.isActive || !voucherTimers[voucher.id]
@@ -1116,6 +1137,7 @@ const ProductSection = () => {
         isOpen={isToastOpen}
         message={toastMessage}
         voucherCode={copiedVoucherCode}
+        position={toastPosition}
         onClose={() => setIsToastOpen(false)}
         duration={3000}
       />
