@@ -801,13 +801,13 @@ const ProductPage = () => {
                 <div className="text-5xl mb-3">😕</div>
                 <h3 className="text-lg font-medium text-gray-700 mb-2">
                   {searchParams.get('search') 
-                    ? `Không tìm thấy sản phẩm nào với từ khóa "${searchParams.get('search')}"` 
+                    ? `Không tìm thấy sản phẩm nào cho "${searchParams.get('search')}"` 
                     : "Không tìm thấy sản phẩm nào"
                   }
                 </h3>
                 <p className="text-gray-500 mb-4">
                   {searchParams.get('search') 
-                    ? "Hãy thử tìm kiếm với từ khóa khác hoặc xem tất cả sản phẩm." 
+                    ? `Không có sản phẩm nào phù hợp với từ khóa "${searchParams.get('search')}". Hãy thử tìm kiếm với từ khóa khác hoặc xem tất cả sản phẩm.` 
                     : "Không tìm thấy sản phẩm nào phù hợp với bộ lọc của bạn."
                   }
                 </p>

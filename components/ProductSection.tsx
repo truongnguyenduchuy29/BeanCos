@@ -59,7 +59,8 @@ const ProductSection = () => {
   const [showSection, setShowSection] = useState(false);
 
   // Quick View States
-  const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
+  const [quickViewProduct, setQuickViewProduct] =
+    useState<QuickViewProduct | null>(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
   // Modal States
@@ -71,10 +72,14 @@ const ProductSection = () => {
 
   // State for voucher conditions modal
   const [isConditionsModalOpen, setIsConditionsModalOpen] = useState(false);
-  const [selectedVoucher, setSelectedVoucher] = useState<VoucherData | null>(null);
+  const [selectedVoucher, setSelectedVoucher] = useState<VoucherData | null>(
+    null
+  );
 
   // State for voucher timers
-  const [voucherTimers, setVoucherTimers] = useState<{[key: string]: number}>({});
+  const [voucherTimers, setVoucherTimers] = useState<{ [key: string]: number }>(
+    {}
+  );
 
   // State for toast modal
   const [isToastOpen, setIsToastOpen] = useState(false);
@@ -97,14 +102,14 @@ const ProductSection = () => {
   useEffect(() => {
     const updateTimers = () => {
       const now = Date.now();
-      const newTimers: {[key: string]: number} = {};
-      
-      currentVouchers.forEach(voucher => {
+      const newTimers: { [key: string]: number } = {};
+
+      currentVouchers.forEach((voucher) => {
         if (voucher.isActive && voucher.expiresAt > now) {
           newTimers[voucher.id] = Math.max(0, voucher.expiresAt - now);
         }
       });
-      
+
       setVoucherTimers(newTimers);
     };
 
@@ -117,7 +122,7 @@ const ProductSection = () => {
   const formatTimeRemaining = (milliseconds: number): string => {
     const minutes = Math.floor(milliseconds / (1000 * 60));
     const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   // Add custom CSS to the head
@@ -479,13 +484,16 @@ const ProductSection = () => {
     setIsQuickViewOpen(false);
   };
 
-  const handleCopyVoucher = (voucher: VoucherData, event?: React.MouseEvent) => {
+  const handleCopyVoucher = (
+    voucher: VoucherData,
+    event?: React.MouseEvent
+  ) => {
     // Get button position if event is provided
     if (event) {
       const buttonRect = (event.target as HTMLElement).getBoundingClientRect();
       setToastPosition({
         x: buttonRect.left + buttonRect.width / 2,
-        y: buttonRect.top
+        y: buttonRect.top,
       });
     }
 
@@ -666,16 +674,6 @@ const ProductSection = () => {
     sold: Math.floor(Math.random() * 300) + 50,
   }));
 
-  // Get categories from JSON data (unique categories)
-  const categories = [
-    ...new Set(productData.products.map((product) => product.category)),
-  ]
-    .slice(0, 6)
-    .map((category) => ({
-      name: category,
-      url: "#",
-    }));
-
   const banners = [
     {
       id: 1,
@@ -715,7 +713,7 @@ const ProductSection = () => {
               <div
                 key={voucher.id}
                 className={`border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-1000 transform ${
-                  voucher.isActive && voucherTimers[voucher.id] 
+                  voucher.isActive && voucherTimers[voucher.id]
                     ? "border-pink-300 bg-gradient-to-r from-pink-50 to-purple-50 animate-pulse scale-100"
                     : "border-gray-300 bg-gray-100 opacity-75 scale-95"
                 }`}
@@ -726,13 +724,29 @@ const ProductSection = () => {
                       className={`w-16 h-16 sm:w-20 sm:h-20 ${
                         voucher.color
                       } rounded-lg flex items-center justify-center font-bold text-xl sm:text-2xl shadow-sm border border-pink-100 transition-all duration-1000 ${
-                        voucher.isActive && voucherTimers[voucher.id] ? "animate-bounce" : "opacity-50"
+                        voucher.isActive && voucherTimers[voucher.id]
+                          ? "animate-bounce"
+                          : "opacity-50"
                       }`}
                     >
                       {voucher.discount === "0K" ? (
-                        <span className={`${voucher.isActive && voucherTimers[voucher.id] ? "text-pink-600" : "text-gray-400"}`}>0K</span>
+                        <span
+                          className={`${
+                            voucher.isActive && voucherTimers[voucher.id]
+                              ? "text-pink-600"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          0K
+                        </span>
                       ) : (
-                        <span className={`${voucher.isActive && voucherTimers[voucher.id] ? "text-pink-600" : "text-gray-400"}`}>
+                        <span
+                          className={`${
+                            voucher.isActive && voucherTimers[voucher.id]
+                              ? "text-pink-600"
+                              : "text-gray-400"
+                          }`}
+                        >
                           {voucher.discount}
                         </span>
                       )}
@@ -741,7 +755,9 @@ const ProductSection = () => {
                   <div className="flex flex-col flex-grow min-w-0">
                     <div
                       className={`font-bold text-sm sm:text-lg truncate transition-all duration-1000 ${
-                        voucher.isActive && voucherTimers[voucher.id] ? "text-green-600" : "text-gray-400"
+                        voucher.isActive && voucherTimers[voucher.id]
+                          ? "text-green-600"
+                          : "text-gray-400"
                       }`}
                     >
                       NHẬP MÃ: {voucher.code}
@@ -763,7 +779,12 @@ const ProductSection = () => {
                             <div
                               className="h-2 rounded-full bg-red-500 transition-all duration-1000"
                               style={{
-                                width: `${Math.max(0, (voucherTimers[voucher.id] / (15 * 60 * 1000)) * 100)}%`,
+                                width: `${Math.max(
+                                  0,
+                                  (voucherTimers[voucher.id] /
+                                    (15 * 60 * 1000)) *
+                                    100
+                                )}%`,
                               }}
                             ></div>
                           </div>
@@ -786,7 +807,9 @@ const ProductSection = () => {
                     <div className="flex justify-between items-center mt-2 flex-wrap gap-1">
                       <button
                         onClick={(e) => handleCopyVoucher(voucher, e)}
-                        disabled={!voucher.isActive || !voucherTimers[voucher.id]}
+                        disabled={
+                          !voucher.isActive || !voucherTimers[voucher.id]
+                        }
                         className={`text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all duration-1000 transform ${
                           !voucher.isActive || !voucherTimers[voucher.id]
                             ? "bg-gray-200 text-gray-400 cursor-not-allowed scale-95"
@@ -1082,22 +1105,6 @@ const ProductSection = () => {
               <img src={banner.image} alt={banner.alt} />
             </a>
           ))}
-        </div>
-      </div>
-
-      {/* Category Links */}
-      <div
-        className="mx-auto px-2 sm:px-4 mb-6 sm:mb-8"
-        style={{ width: "1223px", maxWidth: "100%" }}
-      >
-        <div className="category-links-container">
-          <div className="category-links">
-            {categories.map((category, index) => (
-              <a key={index} href={category.url} className="category-link">
-                {category.name}
-              </a>
-            ))}
-          </div>
         </div>
       </div>
 

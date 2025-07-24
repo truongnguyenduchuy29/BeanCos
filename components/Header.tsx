@@ -131,21 +131,9 @@ const Header = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Check if there are matching products
-      const matchingProducts = productData.products.filter(product => 
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.type.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-
-      if (matchingProducts.length > 0) {
-        // Navigate to products page with search query
-        window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
-      } else {
-        // Navigate to search page showing no results
-        window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
-      }
+      // Always navigate to products page with search query
+      // ProductPage will handle showing results or "no products found" message
+      window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
     }
   };
 
@@ -258,7 +246,7 @@ const Header = () => {
                       <button
                         onClick={() => {
                           setShowSearchSuggestions(false);
-                          window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+                          window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
                         }}
                         className="text-sm text-purple-600 hover:text-purple-700 font-medium"
                       >
@@ -416,7 +404,7 @@ const Header = () => {
                     <button
                       onClick={() => {
                         setShowSearchSuggestions(false);
-                        window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+                        window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
                       }}
                       className="text-xs text-purple-600 hover:text-purple-700 font-medium"
                     >
