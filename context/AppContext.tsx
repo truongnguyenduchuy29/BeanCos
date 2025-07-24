@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface Product {
   id: number;
@@ -15,6 +15,17 @@ interface Product {
 
 interface CartItem extends Product {
   quantity: number;
+}
+
+interface VoucherData {
+  id: string;
+  code: string;
+  discount: string;
+  description: string;
+  color: string;
+  taken: number;
+  maxTaken: number;
+  applicableProducts: number[]; // Product IDs that can use this voucher
 }
 
 interface AppContextType {
@@ -38,6 +49,9 @@ interface AppContextType {
   // Copied vouchers
   copiedVouchers: string[];
   addCopiedVoucher: (voucher: string) => void;
+  // Voucher data
+  currentVouchers: VoucherData[];
+  takeVoucher: (voucherId: string) => boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -63,6 +77,50 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   
   // Copied vouchers state
   const [copiedVouchers, setCopiedVouchers] = useState<string[]>([]);
+  
+  // Voucher system state
+  const [currentVouchers, setCurrentVouchers] = useState<VoucherData[]>([
+    {
+      id: 'v1',
+      code: "BEA50",
+      discount: "50K",
+      description: "Giảm 50K - Chỉ áp dụng cho một số sản phẩm",
+      color: "bg-pink-100",
+      taken: Math.floor(Math.random() * 80) + 10, // Random taken between 10-89
+      maxTaken: 100,
+      applicableProducts: [1, 2, 3, 4, 5] // Product IDs
+    },
+    {
+      id: 'v2',
+      code: "BEA15",
+      discount: "15%",
+      description: "Giảm 15% - Chỉ áp dụng cho một số sản phẩm",
+      color: "bg-pink-100",
+      taken: Math.floor(Math.random() * 80) + 10,
+      maxTaken: 100,
+      applicableProducts: [6, 7, 8, 9, 10]
+    },
+    {
+      id: 'v3',
+      code: "BEAN99K",
+      discount: "99K",
+      description: "Giảm 99K - Chỉ áp dụng cho một số sản phẩm",
+      color: "bg-pink-100",
+      taken: Math.floor(Math.random() * 80) + 10,
+      maxTaken: 100,
+      applicableProducts: [1, 3, 5, 7, 9]
+    },
+    {
+      id: 'v4',
+      code: "FREESHIP",
+      discount: "0K",
+      description: "Miễn phí ship - Chỉ áp dụng cho một số sản phẩm",
+      color: "bg-pink-100",
+      taken: Math.floor(Math.random() * 80) + 10,
+      maxTaken: 100,
+      applicableProducts: [2, 4, 6, 8, 10]
+    }
+  ]);
 
   const addToWishlist = (product: Product) => {
     setWishlist(prev => {
@@ -127,6 +185,53 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
   };
 
+  const takeVoucher = (voucherId: string): boolean => {
+    let success = false;
+    setCurrentVouchers(prev => 
+      prev.map(voucher => {
+        if (voucher.id === voucherId && voucher.taken < voucher.maxTaken) {
+          success = true;
+          return { ...voucher, taken: voucher.taken + 1 };
+        }
+        return voucher;
+      })
+    );
+    return success;
+  };
+
+  // Regenerate vouchers every 5 minutes
+  useEffect(() => {
+    const generateNewVouchers = (): VoucherData[] => {
+      const voucherTypes = [
+        { code: "BEA50", discount: "50K", description: "Giảm 50K - Chỉ áp dụng cho một số sản phẩm" },
+        { code: "BEA15", discount: "15%", description: "Giảm 15% - Chỉ áp dụng cho một số sản phẩm" },
+        { code: "BEAN99K", discount: "99K", description: "Giảm 99K - Chỉ áp dụng cho một số sản phẩm" },
+        { code: "FREESHIP", discount: "0K", description: "Miễn phí ship - Chỉ áp dụng cho một số sản phẩm" },
+        { code: "FLASH30", discount: "30%", description: "Flash sale 30% - Chỉ áp dụng cho một số sản phẩm" },
+        { code: "MEGA70K", discount: "70K", description: "Giảm 70K - Chỉ áp dụng cho một số sản phẩm" }
+      ];
+
+      return Array.from({ length: 4 }, (_, i) => {
+        const randomType = voucherTypes[Math.floor(Math.random() * voucherTypes.length)];
+        const randomProducts = Array.from({ length: 5 }, () => Math.floor(Math.random() * 10) + 1);
+        return {
+          id: `v${i + 1}_${Date.now()}`,
+          ...randomType,
+          color: "bg-pink-100",
+          taken: Math.floor(Math.random() * 30), // Start with some taken
+          maxTaken: 100,
+          applicableProducts: randomProducts
+        };
+      });
+    };
+
+    const interval = setInterval(() => {
+      setCurrentVouchers(generateNewVouchers());
+    }, 5 * 60 * 1000); // 5 minutes
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -148,6 +253,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         wishlistAnimation,
         copiedVouchers,
         addCopiedVoucher,
+        currentVouchers,
+        takeVoucher,
       }}
     >
       {children}

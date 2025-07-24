@@ -6,6 +6,7 @@ import { Heart, Search, ShoppingBag } from "lucide-react";
 import QuickView from "./QuickView";
 import CheckoutModal from "./CheckoutModal";
 import OrderSuccessModal from "./OrderSuccessModal";
+import VoucherConditionsModal from "./VoucherConditionsModal";
 import { Link } from "react-router-dom";
 
 interface QuickViewProduct {
@@ -28,9 +29,20 @@ interface QuickViewProduct {
   gifts?: string[];
 }
 
+interface VoucherData {
+  id: string;
+  code: string;
+  discount: string;
+  description: string;
+  color: string;
+  taken: number;
+  maxTaken: number;
+  applicableProducts: number[];
+}
+
 const ProductSection = () => {
   const navigate = useNavigate();
-  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist, addCopiedVoucher } =
+  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist, addCopiedVoucher, currentVouchers, takeVoucher } =
     useAppContext();
 
   const [showSection, setShowSection] = useState(false);
@@ -45,6 +57,10 @@ const ProductSection = () => {
   
   // State for voucher copy animation
   const [copiedVoucher, setCopiedVoucher] = useState<string | null>(null);
+  
+  // State for voucher conditions modal
+  const [isConditionsModalOpen, setIsConditionsModalOpen] = useState(false);
+  const [selectedVoucher, setSelectedVoucher] = useState<VoucherData | null>(null);
 
   // Add custom CSS to the head
   useEffect(() => {
@@ -860,10 +876,23 @@ const ProductSection = () => {
     setIsQuickViewOpen(false);
   };
 
-  const handleCopyVoucher = (baseCode: string) => {
+  const handleCopyVoucher = (voucher: VoucherData) => {
+    // Check if voucher is still available
+    if (voucher.taken >= voucher.maxTaken) {
+      alert('Voucher đã hết lượt lấy!');
+      return;
+    }
+
+    // Try to take the voucher
+    const success = takeVoucher(voucher.id);
+    if (!success) {
+      alert('Không thể lấy voucher này!');
+      return;
+    }
+
     // Generate random voucher code
     const randomSuffix = Math.random().toString(36).substr(2, 4).toUpperCase();
-    const randomCode = baseCode + randomSuffix;
+    const randomCode = voucher.code + randomSuffix;
     
     // Copy to clipboard
     navigator.clipboard.writeText(randomCode);
@@ -872,14 +901,17 @@ const ProductSection = () => {
     addCopiedVoucher(randomCode);
     
     // Show copied animation
-    setCopiedVoucher(baseCode);
+    setCopiedVoucher(voucher.code);
     
     // Reset animation after 2 seconds
     setTimeout(() => {
       setCopiedVoucher(null);
     }, 2000);
-    
-    // DO NOT open checkout modal - removed this part
+  };
+
+  const handleShowConditions = (voucher: VoucherData) => {
+    setSelectedVoucher(voucher);
+    setIsConditionsModalOpen(true);
   };
 
   const handleCheckoutSuccess = () => {
@@ -962,33 +994,6 @@ const ProductSection = () => {
     navigate("/cart");
   };
 
-  const vouchers = [
-    {
-      code: "BEA50",
-      discount: "50K",
-      description: "Giảm 50K - Chỉ áp dụng cho một số sản phẩm",
-      color: "bg-pink-100",
-    },
-    {
-      code: "BEA15", 
-      discount: "15%",
-      description: "Giảm 15% - Chỉ áp dụng cho một số sản phẩm",
-      color: "bg-pink-100",
-    },
-    {
-      code: "BEAN99K",
-      discount: "99K", 
-      description: "Giảm 99K - Chỉ áp dụng cho một số sản phẩm",
-      color: "bg-pink-100",
-    },
-    {
-      code: "FREESHIP",
-      discount: "0K",
-      description: "Miễn phí ship - Chỉ áp dụng cho một số sản phẩm",
-      color: "bg-pink-100",
-    },
-  ];
-
   // Get products from JSON data
   const products = productData.products.slice(0, 10).map((product) => ({
     id: product.id,
@@ -1051,9 +1056,9 @@ const ProductSection = () => {
           style={{ width: "1223px", maxWidth: "100%" }}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2 sm:px-0">
-            {vouchers.map((voucher, index) => (
+            {currentVouchers.map((voucher) => (
               <div
-                key={index}
+                key={voucher.id}
                 className="border border-purple-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <div className="flex p-3 sm:p-4">
@@ -1077,16 +1082,36 @@ const ProductSection = () => {
                     <div className="text-xs sm:text-sm text-gray-600 my-1 line-clamp-2">
                       {voucher.description}
                     </div>
+                    
+                    {/* Progress Bar */}
+                    <div className="mb-2">
+                      <div className="flex justify-between text-xs text-gray-500 mb-1">
+                        <span>Đã lấy: {voucher.taken}/{voucher.maxTaken}</span>
+                        <span>{Math.round((voucher.taken / voucher.maxTaken) * 100)}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-pink-500 h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${(voucher.taken / voucher.maxTaken) * 100}%` }}
+                        ></div>
+                      </div>
+                    </div>
+
                     <div className="flex justify-between items-center mt-2 flex-wrap gap-1">
                       <button 
-                        onClick={() => handleCopyVoucher(voucher.code)}
+                        onClick={() => handleCopyVoucher(voucher)}
+                        disabled={voucher.taken >= voucher.maxTaken}
                         className={`text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all duration-300 ${
-                          copiedVoucher === voucher.code 
-                            ? 'bg-green-100 text-green-700 border border-green-200' 
-                            : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                          voucher.taken >= voucher.maxTaken 
+                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            : copiedVoucher === voucher.code 
+                              ? 'bg-green-100 text-green-700 border border-green-200' 
+                              : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
                         }`}
                       >
-                        {copiedVoucher === voucher.code ? (
+                        {voucher.taken >= voucher.maxTaken ? (
+                          'Hết lượt'
+                        ) : copiedVoucher === voucher.code ? (
                           <span className="flex items-center gap-1">
                             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -1097,12 +1122,12 @@ const ProductSection = () => {
                           'Sao chép mã'
                         )}
                       </button>
-                      <a
-                        href="#"
+                      <button
+                        onClick={() => handleShowConditions(voucher)}
                         className="text-xs text-blue-500 hover:underline"
                       >
                         Điều kiện
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1390,6 +1415,15 @@ const ProductSection = () => {
         isOpen={isOrderSuccessModalOpen}
         onClose={handleCloseOrderSuccess}
       />
+
+      {/* Voucher Conditions Modal */}
+      {selectedVoucher && (
+        <VoucherConditionsModal
+          isOpen={isConditionsModalOpen}
+          onClose={() => setIsConditionsModalOpen(false)}
+          voucher={selectedVoucher}
+        />
+      )}
     </>
   );
 };
