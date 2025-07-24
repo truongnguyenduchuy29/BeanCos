@@ -42,25 +42,35 @@ interface VoucherData {
 
 const ProductSection = () => {
   const navigate = useNavigate();
-  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist, addCopiedVoucher, currentVouchers, takeVoucher } =
-    useAppContext();
+  const {
+    addToCart,
+    addToWishlist,
+    removeFromWishlist,
+    isInWishlist,
+    addCopiedVoucher,
+    currentVouchers,
+    takeVoucher,
+  } = useAppContext();
 
   const [showSection, setShowSection] = useState(false);
 
   // State for quick view modal
-  const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
+  const [quickViewProduct, setQuickViewProduct] =
+    useState<QuickViewProduct | null>(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
   // State for checkout modal
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [isOrderSuccessModalOpen, setIsOrderSuccessModalOpen] = useState(false);
-  
+
   // State for voucher copy animation
   const [copiedVoucher, setCopiedVoucher] = useState<string | null>(null);
-  
+
   // State for voucher conditions modal
   const [isConditionsModalOpen, setIsConditionsModalOpen] = useState(false);
-  const [selectedVoucher, setSelectedVoucher] = useState<VoucherData | null>(null);
+  const [selectedVoucher, setSelectedVoucher] = useState<VoucherData | null>(
+    null
+  );
 
   // Add custom CSS to the head
   useEffect(() => {
@@ -858,7 +868,10 @@ const ProductSection = () => {
   }, []);
 
   // Functions for handling product interactions
-  const handleQuickView = (product: { id: number }, event?: React.MouseEvent) => {
+  const handleQuickView = (
+    product: { id: number },
+    event?: React.MouseEvent
+  ) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -879,34 +892,44 @@ const ProductSection = () => {
   const handleCopyVoucher = (voucher: VoucherData) => {
     // Check if voucher is still available
     if (voucher.taken >= voucher.maxTaken) {
-      alert('Voucher đã hết lượt lấy!');
+      alert("Voucher đã hết lượt lấy!");
       return;
     }
 
     // Try to take the voucher
     const success = takeVoucher(voucher.id);
     if (!success) {
-      alert('Không thể lấy voucher này!');
+      alert("Không thể lấy voucher này!");
       return;
     }
 
     // Generate random voucher code
     const randomSuffix = Math.random().toString(36).substr(2, 4).toUpperCase();
     const randomCode = voucher.code + randomSuffix;
-    
+
     // Copy to clipboard
     navigator.clipboard.writeText(randomCode);
-    
+
     // Add to copied vouchers list in context
     addCopiedVoucher(randomCode);
-    
+
     // Show copied animation
     setCopiedVoucher(voucher.code);
-    
+
     // Reset animation after 2 seconds
     setTimeout(() => {
       setCopiedVoucher(null);
     }, 2000);
+
+    // Check if voucher is now full (will be updated in next render)
+    if (voucher.taken + 1 >= voucher.maxTaken) {
+      // Show notification that voucher has changed
+      setTimeout(() => {
+        alert(
+          "🎉 Voucher đã hết lượt! Voucher mới đã được cập nhật với ưu đài khác!"
+        );
+      }, 2500);
+    }
   };
 
   const handleShowConditions = (voucher: VoucherData) => {
@@ -923,7 +946,20 @@ const ProductSection = () => {
     setIsOrderSuccessModalOpen(false);
   };
 
-  const handleToggleWishlist = (product: { id: number; name: string; price: number | string; originalPrice?: number; discount?: number; image?: string; imageUrl?: string; brand: string; tags?: string[] }, event?: React.MouseEvent) => {
+  const handleToggleWishlist = (
+    product: {
+      id: number;
+      name: string;
+      price: number | string;
+      originalPrice?: number;
+      discount?: number;
+      image?: string;
+      imageUrl?: string;
+      brand: string;
+      tags?: string[];
+    },
+    event?: React.MouseEvent
+  ) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -935,11 +971,11 @@ const ProductSection = () => {
       name: product.name,
       price:
         typeof product.price === "number"
-          ? formatPrice(product.price) + 'đ'
+          ? formatPrice(product.price) + "đ"
           : product.price,
       originalPrice: product.originalPrice
         ? typeof product.originalPrice === "number"
-          ? formatPrice(product.originalPrice) + 'đ'
+          ? formatPrice(product.originalPrice) + "đ"
           : product.originalPrice
         : undefined,
       discount: product.discount
@@ -947,7 +983,7 @@ const ProductSection = () => {
           ? `-${product.discount}%`
           : product.discount
         : undefined,
-      image: product.image || product.imageUrl || '',
+      image: product.image || product.imageUrl || "",
       brand: product.brand,
       tags: product.tags || [],
     };
@@ -959,7 +995,20 @@ const ProductSection = () => {
     }
   };
 
-  const handleBuyNow = (product: { id: number; name: string; price: number | string; originalPrice?: number; discount?: number; image?: string; imageUrl?: string; brand: string; tags?: string[] }, event?: React.MouseEvent) => {
+  const handleBuyNow = (
+    product: {
+      id: number;
+      name: string;
+      price: number | string;
+      originalPrice?: number;
+      discount?: number;
+      image?: string;
+      imageUrl?: string;
+      brand: string;
+      tags?: string[];
+    },
+    event?: React.MouseEvent
+  ) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -971,11 +1020,11 @@ const ProductSection = () => {
       name: product.name,
       price:
         typeof product.price === "number"
-          ? formatPrice(product.price) + 'đ'
+          ? formatPrice(product.price) + "đ"
           : product.price,
       originalPrice: product.originalPrice
         ? typeof product.originalPrice === "number"
-          ? formatPrice(product.originalPrice) + 'đ'
+          ? formatPrice(product.originalPrice) + "đ"
           : product.originalPrice
         : undefined,
       discount: product.discount
@@ -983,7 +1032,7 @@ const ProductSection = () => {
           ? `-${product.discount}%`
           : product.discount
         : undefined,
-      image: product.image || product.imageUrl || '',
+      image: product.image || product.imageUrl || "",
       brand: product.brand,
       tags: product.tags || [],
       quantity: 1,
@@ -1059,12 +1108,20 @@ const ProductSection = () => {
             {currentVouchers.map((voucher) => (
               <div
                 key={voucher.id}
-                className="border border-purple-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300"
+                className={`border border-purple-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-500 ${
+                  voucher.taken === 0
+                    ? "animate-pulse bg-gradient-to-r from-pink-50 to-purple-50 border-pink-300"
+                    : ""
+                }`}
               >
                 <div className="flex p-3 sm:p-4">
                   <div className="flex-shrink-0 mr-3 sm:mr-4">
                     <div
-                      className={`w-16 h-16 sm:w-20 sm:h-20 ${voucher.color} rounded-lg flex items-center justify-center font-bold text-xl sm:text-2xl shadow-sm border border-pink-100`}
+                      className={`w-16 h-16 sm:w-20 sm:h-20 ${
+                        voucher.color
+                      } rounded-lg flex items-center justify-center font-bold text-xl sm:text-2xl shadow-sm border border-pink-100 transition-all duration-300 ${
+                        voucher.taken === 0 ? "animate-bounce" : ""
+                      }`}
                     >
                       {voucher.discount === "0K" ? (
                         <span className="text-pink-600">0K</span>
@@ -1076,50 +1133,86 @@ const ProductSection = () => {
                     </div>
                   </div>
                   <div className="flex flex-col flex-grow min-w-0">
-                    <div className="font-bold text-pink-600 text-sm sm:text-lg truncate">
+                    <div
+                      className={`font-bold text-pink-600 text-sm sm:text-lg truncate transition-all duration-300 ${
+                        voucher.taken === 0 ? "text-green-600" : ""
+                      }`}
+                    >
                       NHẬP MÃ: {voucher.code}
+                      {voucher.taken === 0 && (
+                        <span className="ml-2 text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full animate-pulse">
+                          MỚI!
+                        </span>
+                      )}
                     </div>
                     <div className="text-xs sm:text-sm text-gray-600 my-1 line-clamp-2">
                       {voucher.description}
                     </div>
-                    
+
                     {/* Progress Bar */}
                     <div className="mb-2">
-                      <div className="flex justify-between text-xs text-gray-500 mb-1">
-                        <span>Đã lấy: {voucher.taken}/{voucher.maxTaken}</span>
-                        <span>{Math.round((voucher.taken / voucher.maxTaken) * 100)}%</span>
-                      </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="bg-pink-500 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${(voucher.taken / voucher.maxTaken) * 100}%` }}
+                        <div
+                          className={`h-2 rounded-full transition-all duration-500 ${
+                            voucher.taken === 0 ? "bg-green-500" : "bg-pink-500"
+                          }`}
+                          style={{
+                            width: `${
+                              (voucher.taken / voucher.maxTaken) * 100
+                            }%`,
+                          }}
                         ></div>
                       </div>
                     </div>
 
                     <div className="flex justify-between items-center mt-2 flex-wrap gap-1">
-                      <button 
+                      <button
                         onClick={() => handleCopyVoucher(voucher)}
                         disabled={voucher.taken >= voucher.maxTaken}
                         className={`text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all duration-300 ${
-                          voucher.taken >= voucher.maxTaken 
-                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                            : copiedVoucher === voucher.code 
-                              ? 'bg-green-100 text-green-700 border border-green-200' 
-                              : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                          voucher.taken >= voucher.maxTaken
+                            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                            : voucher.taken === 0
+                            ? "bg-green-100 text-green-700 border border-green-200 animate-pulse hover:bg-green-200"
+                            : copiedVoucher === voucher.code
+                            ? "bg-green-100 text-green-700 border border-green-200"
+                            : "bg-purple-100 text-purple-700 hover:bg-purple-200"
                         }`}
                       >
                         {voucher.taken >= voucher.maxTaken ? (
-                          'Hết lượt'
+                          "Hết lượt"
+                        ) : voucher.taken === 0 ? (
+                          <span className="flex items-center gap-1">
+                            <svg
+                              className="w-3 h-3"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            Sao chép mã mới
+                          </span>
                         ) : copiedVoucher === voucher.code ? (
                           <span className="flex items-center gap-1">
-                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            <svg
+                              className="w-3 h-3"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                             Đã sao chép
                           </span>
                         ) : (
-                          'Sao chép mã'
+                          "Sao chép mã"
                         )}
                       </button>
                       <button

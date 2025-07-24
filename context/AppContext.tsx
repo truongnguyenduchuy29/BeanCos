@@ -191,7 +191,33 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       prev.map(voucher => {
         if (voucher.id === voucherId && voucher.taken < voucher.maxTaken) {
           success = true;
-          return { ...voucher, taken: voucher.taken + 1 };
+          const newTaken = voucher.taken + 1;
+          
+          // If voucher is now full, generate new voucher
+          if (newTaken >= voucher.maxTaken) {
+            const voucherTypes = [
+              { code: "SAVE20", discount: "20K", description: "Giảm 20K - Chỉ áp dụng cho một số sản phẩm" },
+              { code: "MEGA15", discount: "15%", description: "Giảm 15% - Chỉ áp dụng cho một số sản phẩm" },
+              { code: "FLASH40", discount: "40K", description: "Flash giảm 40K - Chỉ áp dụng cho một số sản phẩm" },
+              { code: "SUPER25", discount: "25%", description: "Super giảm 25% - Chỉ áp dụng cho một số sản phẩm" },
+              { code: "ULTRA60", discount: "60K", description: "Ultra giảm 60K - Chỉ áp dụng cho một số sản phẩm" },
+              { code: "POWER35", discount: "35%", description: "Power giảm 35% - Chỉ áp dụng cho một số sản phẩm" },
+              { code: "BOOST80", discount: "80K", description: "Boost giảm 80K - Chỉ áp dụng cho một số sản phẩm" },
+              { code: "TURBO12", discount: "12%", description: "Turbo giảm 12% - Chỉ áp dụng cho một số sản phẩm" }
+            ];
+            
+            const randomType = voucherTypes[Math.floor(Math.random() * voucherTypes.length)];
+            const randomProducts = Array.from({ length: 5 }, () => Math.floor(Math.random() * 10) + 1);
+            
+            return {
+              ...voucher,
+              ...randomType,
+              taken: 0, // Reset counter
+              applicableProducts: randomProducts
+            };
+          }
+          
+          return { ...voucher, taken: newTaken };
         }
         return voucher;
       })
