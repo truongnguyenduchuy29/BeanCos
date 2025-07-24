@@ -7,6 +7,7 @@ import QuickView from "./QuickView";
 import CheckoutModal from "./CheckoutModal";
 import OrderSuccessModal from "./OrderSuccessModal";
 import VoucherConditionsModal from "./VoucherConditionsModal";
+import ToastModal from "./ToastModal";
 import { Link } from "react-router-dom";
 
 interface QuickViewProduct {
@@ -38,6 +39,8 @@ interface VoucherData {
   taken: number;
   maxTaken: number;
   applicableProducts: number[];
+  expiresAt: number;
+  isActive: boolean;
 }
 
 const ProductSection = () => {
@@ -52,14 +55,14 @@ const ProductSection = () => {
     takeVoucher,
   } = useAppContext();
 
+  // UI States
   const [showSection, setShowSection] = useState(false);
 
-  // State for quick view modal
-  const [quickViewProduct, setQuickViewProduct] =
-    useState<QuickViewProduct | null>(null);
+  // Quick View States
+  const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
-  // State for checkout modal
+  // Modal States
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [isOrderSuccessModalOpen, setIsOrderSuccessModalOpen] = useState(false);
 
@@ -68,779 +71,353 @@ const ProductSection = () => {
 
   // State for voucher conditions modal
   const [isConditionsModalOpen, setIsConditionsModalOpen] = useState(false);
-  const [selectedVoucher, setSelectedVoucher] = useState<VoucherData | null>(
-    null
-  );
+  const [selectedVoucher, setSelectedVoucher] = useState<VoucherData | null>(null);
+
+  // State for voucher timers
+  const [voucherTimers, setVoucherTimers] = useState<{[key: string]: number}>({});
+
+  // State for toast modal
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [copiedVoucherCode, setCopiedVoucherCode] = useState("");
+
+  // Add timer state for each voucher
+  useEffect(() => {
+    const updateTimers = () => {
+      const now = Date.now();
+      const newTimers: {[key: string]: number} = {};
+      
+      currentVouchers.forEach(voucher => {
+        if (voucher.isActive && voucher.expiresAt > now) {
+          newTimers[voucher.id] = Math.max(0, voucher.expiresAt - now);
+        }
+      });
+      
+      setVoucherTimers(newTimers);
+    };
+
+    updateTimers();
+    const interval = setInterval(updateTimers, 1000);
+    return () => clearInterval(interval);
+  }, [currentVouchers]);
+
+  // Format time remaining
+  const formatTimeRemaining = (milliseconds: number): string => {
+    const minutes = Math.floor(milliseconds / (1000 * 60));
+    const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
 
   // Add custom CSS to the head
   useEffect(() => {
     // Create style element
     const style = document.createElement("style");
     style.textContent = `
-      .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-      }
-      .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+      .section_product {
+        padding: 60px 0;
+        background: #f8f9fa;
       }
       
-.voucher-card {
-  border-radius: 10px;
-  padding: 10px;
-  background: linear-gradient(to right, #fce4ec, #f3e5f5);
-  border: 1px solid #f3e5f5;
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-.voucher-card:hover {
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-.voucher-badge {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  background: linear-gradient(to bottom, #f8bbd0, #e1bee7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: #d81b60;
-  font-size: 20px;
-  border: 2px dashed white;
-}
-.voucher-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.voucher-code {
-  color: #d81b60;
-  font-weight: 700;
-  font-size: 16px;
-}
-.voucher-desc {
-  font-size: 13px;
-  color: #555;
-  margin-top: 4px;
-}
-.voucher-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-}
-.voucher-copy {
-  background-color: #f3e5f5;
-  color: #6a1b9a;
-  padding: 4px 10px;
-  font-size: 12px;
-  border-radius: 9999px;
-}
-.voucher-link {
-  color: #2196f3;
-  font-size: 12px;
-  text-decoration: underline;
-}
-
-.voucher-gradient {
-        background: linear-gradient(to right, #f8e1eb, #f0e6f8);
-      }
-      .section_product {
-        position: relative;
-        margin-bottom: 40px;
-        background-color: white;
-        padding: 20px 0;
-      }
-      @media (max-width: 991px) {
-        .section_product {
-          margin-bottom: 25px;
-          padding: 15px 0;
-        }
-      }
-      @media (max-width: 767px) {
-        .section_product {
-          padding: 10px 0;
-        }
-      }
       .section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
       }
-      @media (max-width: 767px) {
-        .section-header {
-          flex-direction: column;
-          gap: 10px;
-          text-align: center;
-        }
-      }
+      
       .section-title {
-        color: #e91e63;
-        font-size: 24px;
-        font-weight: 700;
-        text-transform: uppercase;
-        margin: 0;
+        font-size: 32px;
+        font-weight: bold;
+        color: #2c3e50;
+        position: relative;
       }
-      @media (max-width: 991px) {
-        .section-title {
-          font-size: 20px;
-        }
+      
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        border-radius: 2px;
       }
-      @media (max-width: 767px) {
-        .section-title {
-          font-size: 18px;
-        }
-      }
+      
       .view-all {
-        background-color: #e91e63;
-        color: white;
-        padding: 6px 16px;
-        border-radius: 4px;
-        font-size: 14px;
+        color: #007bff;
+        text-decoration: none;
         font-weight: 500;
         display: flex;
         align-items: center;
-        transition: all 0.3s;
-        text-decoration: none;
+        gap: 8px;
+        transition: all 0.3s ease;
       }
-      @media (max-width: 767px) {
-        .view-all {
-          padding: 8px 12px;
-          font-size: 12px;
-        }
-      }
+      
       .view-all:hover {
-        background-color: #c2185b;
+        color: #0056b3;
+        transform: translateX(5px);
       }
-      .view-all svg {
-        margin-left: 6px;
-      }
+      
       .product-grid {
-        position: relative;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 16px;
+        display: flex;
         overflow-x: auto;
-        padding-bottom: 10px;
-        scrollbar-width: thin;
-        scrollbar-color: #e91e63 #f5f5f5;
+        scroll-behavior: smooth;
+        gap: 20px;
+        padding: 10px 0;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
       }
+      
       .product-grid::-webkit-scrollbar {
-        height: 6px;
+        display: none;
       }
-      .product-grid::-webkit-scrollbar-track {
-        background: #f5f5f5;
-        border-radius: 10px;
-      }
-      .product-grid::-webkit-scrollbar-thumb {
-        background-color: #e91e63;
-        border-radius: 10px;
-      }
-      @media (max-width: 1400px) {
-        .product-grid {
-          grid-template-columns: repeat(4, 1fr);
-          gap: 14px;
-        }
-      }
-      @media (max-width: 1200px) {
-        .product-grid {
-          grid-template-columns: repeat(3, 1fr);
-          gap: 12px;
-        }
-      }
-      @media (max-width: 991px) {
-        .product-grid {
-          grid-template-columns: repeat(3, 1fr);
-          gap: 10px;
-        }
-      }
-      @media (max-width: 767px) {
-        .product-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 8px;
-        }
-      }
-      @media (max-width: 480px) {
-        .product-grid {
-          grid-template-columns: 1fr;
-          gap: 12px;
-        }
-      }
+      
       .product-item {
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 8px;
+        flex: 0 0 230px;
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: all 0.4s ease;
         position: relative;
-        background-color: white;
-        transition: all 0.3s;
-        display: flex;
-        flex-direction: column;
+        overflow: hidden;
       }
-      @media (max-width: 767px) {
-        .product-item {
-          padding: 6px;
-          border-radius: 6px;
-        }
-      }
-      @media (max-width: 480px) {
-        .product-item {
-          padding: 8px;
-        }
-      }
+      
       .product-item:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transform: translateY(-8px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
       }
-      @media (max-width: 767px) {
-        .product-item:hover {
-          transform: translateY(-4px);
-        }
-      }
-      .product-image-container {
-        position: relative;
-        padding-top: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 180px;
-        z-index: 1;
-      }
-      @media (max-width: 991px) {
-        .product-image-container {
-          height: 160px;
-          padding-top: 15px;
-        }
-      }
-      @media (max-width: 767px) {
-        .product-image-container {
-          height: 140px;
-          padding-top: 10px;
-        }
-      }
-      @media (max-width: 480px) {
-        .product-image-container {
-          height: 180px;
-          padding-top: 15px;
-        }
-      }
-      .product-image {
-        max-height: 160px;
-        object-fit: contain;
-        transition: transform 0.3s;
-      }
-      @media (max-width: 991px) {
-        .product-image {
-          max-height: 140px;
-        }
-      }
-      @media (max-width: 767px) {
-        .product-image {
-          max-height: 120px;
-        }
-      }
-      @media (max-width: 480px) {
-        .product-image {
-          max-height: 160px;
-        }
-      }
-      .product-item:hover .product-image {
-        transform: scale(1.05);
-      }
-      .wishlist-button {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        background: transparent;
-        border: none;
-        color: #9e9e9e;
-        cursor: pointer;
-        z-index: 25;
-        opacity: 0;
-        transition: opacity 0.3s, color 0.3s;
-        padding: 4px;
-      }
-      @media (max-width: 767px) {
-        .wishlist-button {
-          top: 4px;
-          right: 4px;
-          opacity: 1;
-        }
-      }
-      .product-item:hover .wishlist-button {
-        opacity: 1;
-      }
-      .wishlist-button:hover {
-        color: #e91e63;
-      }
+      
       .brand-badge {
         position: absolute;
-        top: 8px;
-        left: 8px;
+        top: 15px;
+        left: 15px;
+        background: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         z-index: 2;
-        background-color: white;
-        border: 1px solid #f0f0f0;
-        border-radius: 4px;
-        padding: 2px 4px;
       }
-      @media (max-width: 767px) {
-        .brand-badge {
-          top: 4px;
-          left: 4px;
-          padding: 1px 3px;
-        }
-      }
+      
       .brand-badge img {
         height: 20px;
         width: auto;
       }
-      @media (max-width: 767px) {
-        .brand-badge img {
-          height: 16px;
-        }
+      
+      .product-image-container {
+        position: relative;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        overflow: hidden;
       }
+      
+      .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+      
       .product-tags {
         display: flex;
-        gap: 4px;
-        margin-top: 8px;
+        gap: 5px;
+        margin-bottom: 10px;
         flex-wrap: wrap;
       }
-      @media (max-width: 767px) {
-        .product-tags {
-          gap: 2px;
-          margin-top: 4px;
-        }
-      }
+      
       .product-tag {
-        display: inline-block;
-        padding: 2px 6px;
         font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 12px;
         font-weight: 600;
-        color: white;
         text-transform: uppercase;
       }
-      @media (max-width: 767px) {
-        .product-tag {
-          padding: 1px 4px;
-          font-size: 8px;
-        }
-      }
-      @media (max-width: 480px) {
-        .product-tag {
-          padding: 2px 5px;
-          font-size: 9px;
-        }
-      }
+      
       .product-tag.exclusive {
-        background-color: #1e3a8a;
+        background: #ff6b6b;
+        color: white;
       }
+      
       .product-tag.best-seller {
-        background-color: #b91c1c;
+        background: #4ecdc4;
+        color: white;
       }
+      
       .product-name {
         font-size: 14px;
-        font-weight: 500;
-        color: #212121;
-        margin: 8px 0;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
         line-height: 1.4;
-        height: 40px;
-        overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-decoration: none;
+        transition: color 0.3s ease;
       }
-      @media (max-width: 991px) {
-        .product-name {
-          font-size: 13px;
-          height: 36px;
-          margin: 6px 0;
-        }
+      
+      .product-name:hover {
+        color: #007bff;
       }
-      @media (max-width: 767px) {
-        .product-name {
-          font-size: 12px;
-          height: 32px;
-          margin: 4px 0;
-          -webkit-line-clamp: 2;
-        }
-      }
-      @media (max-width: 480px) {
-        .product-name {
-          font-size: 14px;
-          height: 40px;
-          margin: 6px 0;
-        }
-      }
+      
       .product-price {
         display: flex;
         align-items: center;
-        margin-bottom: 8px;
+        gap: 8px;
+        margin-bottom: 10px;
         flex-wrap: wrap;
-        gap: 4px;
       }
-      @media (max-width: 767px) {
-        .product-price {
-          margin-bottom: 6px;
-          gap: 2px;
-        }
-      }
+      
       .current-price {
-        color: #e91e63;
-        font-weight: 700;
         font-size: 16px;
-        margin-right: 8px;
+        font-weight: bold;
+        color: #e74c3c;
       }
-      @media (max-width: 991px) {
-        .current-price {
-          font-size: 15px;
-          margin-right: 6px;
-        }
-      }
-      @media (max-width: 767px) {
-        .current-price {
-          font-size: 14px;
-          margin-right: 4px;
-        }
-      }
-      @media (max-width: 480px) {
-        .current-price {
-          font-size: 16px;
-          margin-right: 6px;
-        }
-      }
+      
       .original-price {
-        color: #9e9e9e;
+        font-size: 12px;
+        color: #95a5a6;
         text-decoration: line-through;
-        font-size: 12px;
       }
-      @media (max-width: 767px) {
-        .original-price {
-          font-size: 11px;
-        }
-      }
+      
       .discount-badge {
-        margin-left: auto;
-        background-color: #e91e63;
+        background: #e74c3c;
         color: white;
-        padding: 2px 4px;
-        border-radius: 2px;
-        font-size: 12px;
-        font-weight: 500;
-      }
-      @media (max-width: 767px) {
-        .discount-badge {
-          font-size: 10px;
-          padding: 1px 3px;
-        }
-      }
-     
-      .count-item {
-        width: 100%;
-        height: 16px;
+        font-size: 10px;
+        padding: 2px 6px;
         border-radius: 8px;
-        position: relative;
-        background: #f5f5f5;
-        z-index: 1;
+        font-weight: 600;
       }
-      .count-item .countdown {
-        position: absolute;
-        height: 16px;
-        border-radius: 8px;
-        background-color: #e91e63;
-        z-index: 2;
-        left: 0;
-        top: 0;
-        background-size: 40px 40px;
-        animation: progress_bar_fill 2s linear infinite;
-        background-image: linear-gradient(
-          45deg,
-          rgba(255, 255, 255, 0.25) 25%,
-          transparent 25%,
-          transparent 50%,
-          rgba(255, 255, 255, 0.25) 50%,
-          rgba(255, 255, 255, 0.25) 75%,
-          transparent 75%,
-          transparent
-        );
-      }
-      .count-item .sale-bag {
-        background: url('//bizweb.dktcdn.net/100/490/275/themes/913829/assets/sale_bag.png?1751952556342') 0 no-repeat;
-        width: 18px;
-        height: 21px;
-        background-size: contain;
-        position: absolute;
-        left: 3px;
-        top: -6px;
-        z-index: 3;
-      }
-      .count-item .count-text {
-        font-size: 12px;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        z-index: 4;
-        color: #fff;
-        line-height: 16px;
-        left: 50%;
-        font-weight: 400;
-        transform: translateX(-50%);
-        text-align: center;
-      }
+      
       .gift-badge {
-        border: 1px solid #e91e63;
-        border-radius: 2px;
-        padding: 4px 8px;
-        font-size: 12px;
-        color: #e91e63;
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 8px;
+        font-size: 11px;
+        color: #6c757d;
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin-top: auto;
+        gap: 5px;
       }
-      @media (max-width: 991px) {
-        .gift-badge {
-          padding: 3px 6px;
-          font-size: 11px;
-        }
+      
+      .gift-icon {
+        font-size: 14px;
       }
-      @media (max-width: 767px) {
-        .gift-badge {
-          padding: 2px 4px;
-          font-size: 10px;
-        }
-      }
-      @media (max-width: 480px) {
-        .gift-badge {
-          padding: 3px 6px;
-          font-size: 11px;
-        }
-      }
-      .gift-badge .gift-icon {
-        margin-right: 4px;
-      }
-      @media (max-width: 767px) {
-        .gift-badge .gift-icon {
-          margin-right: 2px;
-        }
-      }
-      @keyframes progress_bar_fill {
-        from {
-          background-position: 0 0;
-        }
-        to {
-          background-position: 40px 0;
-        }
-      }
+      
       .navigation-button {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        width: 36px;
-        height: 36px;
+        background: white;
+        border: 1px solid #e9ecef;
         border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.8);
-        border: 1px solid #e0e0e0;
+        width: 50px;
+        height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 10;
         cursor: pointer;
-        color: #616161;
-        transition: all 0.3s;
+        z-index: 10;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       }
-      @media (max-width: 991px) {
-        .navigation-button {
-          width: 32px;
-          height: 32px;
+      
+      .navigation-button:hover {
+        background: #007bff;
+        color: white;
+        transform: translateY(-50%) scale(1.1);
+      }
+      
+      .navigation-button.prev {
+        left: -25px;
+      }
+      
+      .navigation-button.next {
+        right: -25px;
+      }
+      
+      .banner-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+      
+      .banner-item {
+        display: block;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.4s ease;
+      }
+      
+      .banner-item:hover {
+        transform: scale(1.05);
+      }
+      
+      .banner-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      
+      .category-links-container {
+        text-align: center;
+      }
+      
+      .category-links {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+      
+      .category-link {
+        color: #6c757d;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+      
+      .category-link:hover {
+        color: #007bff;
+        border-color: #007bff;
+        background: rgba(0, 123, 255, 0.1);
+      }
+      
+      @media (max-width: 768px) {
+        .section-title {
+          font-size: 24px;
         }
-      }
-      @media (max-width: 767px) {
+        
+        .product-item {
+          flex: 0 0 180px;
+          padding: 15px;
+        }
+        
+        .product-image {
+          height: 150px;
+        }
+        
+        .banner-container {
+          grid-template-columns: 1fr;
+        }
+        
+        .category-links {
+          flex-direction: column;
+          gap: 15px;
+        }
+        
         .navigation-button {
           display: none;
         }
       }
-      .navigation-button:hover {
-        background-color: #e91e63;
-        color: white;
-        border-color: #e91e63;
-      }
-      .navigation-button.prev {
-        left: -18px;
-      }
-      @media (max-width: 991px) {
-        .navigation-button.prev {
-          left: -16px;
-        }
-      }
-      .navigation-button.next {
-        right: -18px;
-      }
-      @media (max-width: 991px) {
-        .navigation-button.next {
-          right: -16px;
-        }
-      }
-      .banner-container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-        margin-top: 20px;
-        margin-bottom: 0;
-        max-width: 100%;
-      }
-      @media (max-width: 991px) {
-        .banner-container {
-          gap: 12px;
-          margin-top: 16px;
-        }
-      }
-      @media (max-width: 767px) {
-        .banner-container {
-          grid-template-columns: 1fr;
-          gap: 10px;
-          margin-top: 12px;
-        }
-      }
-      .banner-item {
-        position: relative;
-        overflow: hidden;
-        border-radius: 4px;
-        height: 150px;
-        transition: transform 0.3s ease;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      }
-      @media (max-width: 991px) {
-        .banner-item {
-          height: 120px;
-        }
-      }
-      @media (max-width: 767px) {
-        .banner-item {
-          height: 100px;
-        }
-      }
-      @media (max-width: 480px) {
-        .banner-item {
-          height: 120px;
-        }
-      }
-      .banner-item:hover {
-        transform: translateY(-3px);
-      }
-      @media (max-width: 767px) {
-        .banner-item:hover {
-          transform: translateY(-2px);
-        }
-      }
-      .banner-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        transition: transform 0.5s ease;
-      }
-      .banner-item:hover img {
-        transform: scale(1.03);
-      }
-      .category-links-container {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        margin-top: 16px;
-        padding: 0;
-        background-color: transparent;
-      }
-      @media (max-width: 767px) {
-        .category-links-container {
-          margin-top: 12px;
-        }
-      }
-      .category-links {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-        gap: 8px;
-        margin: 0;
-        overflow-x: auto;
-        padding: 0;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        max-width: 100%;
-      }
-      @media (max-width: 991px) {
-        .category-links {
-          gap: 6px;
-          justify-content: flex-start;
-        }
-      }
-      @media (max-width: 767px) {
-        .category-links {
-          gap: 4px;
-          padding: 0 4px;
-        }
-      }
-      .category-links::-webkit-scrollbar {
-        display: none;
-      }
-      .category-link {
-        background-color: white;
-        border: 1px solid #e0e0e0;
-        padding: 8px 16px;
-        border-radius: 4px;
-        font-size: 14px;
-        color: #424242;
-        transition: all 0.3s;
-        white-space: nowrap;
-        flex-shrink: 0;
-        text-align: center;
-        min-width: 100px;
-        text-decoration: none;
-      }
-      @media (max-width: 991px) {
-        .category-link {
-          padding: 6px 12px;
-          font-size: 13px;
-          min-width: 80px;
-        }
-      }
-      @media (max-width: 767px) {
-        .category-link {
-          padding: 4px 8px;
-          font-size: 12px;
-          min-width: 60px;
-        }
-      }
-      .category-link:hover {
-        border-color: #e91e63;
-        color: #e91e63;
-      }
-      
-      
-      
-      
-      .add-to-cart-button {
-        background-color: white;
-        color: #e91e63;
-        border-radius: 9999px;
-        padding: 8px 16px;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        transform: translateY(10px);
-        opacity: 0;
-        transition: all 0.3s ease;
-      }
-      .product-item:hover .add-to-cart-button {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      .add-to-cart-button:hover {
-        background-color: #e91e63;
-        color: white;
-      }
     `;
+
     // Append to head
     document.head.appendChild(style);
 
@@ -849,17 +426,18 @@ const ProductSection = () => {
       document.head.removeChild(style);
     };
   }, []);
+
   useEffect(() => {
     // Add animation after component mounts
     setShowSection(true);
 
     // For staggered animation of products
     const timer = setTimeout(() => {
-      const products = document.querySelectorAll(".product-item");
-      products.forEach((product, index) => {
+      const items = document.querySelectorAll(".product-item");
+      items.forEach((item, index) => {
         setTimeout(() => {
-          (product as HTMLElement).style.opacity = "1";
-          (product as HTMLElement).style.transform = "translateY(0)";
+          (item as HTMLElement).style.opacity = "1";
+          (item as HTMLElement).style.transform = "translateY(0)";
         }, index * 100);
       });
     }, 300);
@@ -890,16 +468,28 @@ const ProductSection = () => {
   };
 
   const handleCopyVoucher = (voucher: VoucherData) => {
-    // Check if voucher is still available
-    if (voucher.taken >= voucher.maxTaken) {
-      alert("Voucher đã hết lượt lấy!");
+    // Check if voucher is still active and not expired
+    if (!voucher.isActive || voucher.expiresAt <= Date.now()) {
+      setToastMessage("Voucher đã hết hạn!");
+      setCopiedVoucherCode("");
+      setIsToastOpen(true);
       return;
     }
 
-    // Try to take the voucher
+    // Check if voucher is still available
+    if (voucher.taken >= voucher.maxTaken) {
+      setToastMessage("Voucher đã hết lượt lấy!");
+      setCopiedVoucherCode("");
+      setIsToastOpen(true);
+      return;
+    }
+
+    // Try to take the voucher (this will remove it and generate a new one)
     const success = takeVoucher(voucher.id);
     if (!success) {
-      alert("Không thể lấy voucher này!");
+      setToastMessage("Không thể lấy voucher này!");
+      setCopiedVoucherCode("");
+      setIsToastOpen(true);
       return;
     }
 
@@ -913,23 +503,18 @@ const ProductSection = () => {
     // Add to copied vouchers list in context
     addCopiedVoucher(randomCode);
 
-    // Show copied animation
-    setCopiedVoucher(voucher.code);
+    // Show copied animation with voucher ID (since voucher will be removed)
+    setCopiedVoucher(voucher.id);
 
-    // Reset animation after 2 seconds
+    // Show success toast
+    setToastMessage("Đã sao chép mã voucher");
+    setCopiedVoucherCode(randomCode);
+    setIsToastOpen(true);
+
+    // Reset animation after 3 seconds (slower animation)
     setTimeout(() => {
       setCopiedVoucher(null);
-    }, 2000);
-
-    // Check if voucher is now full (will be updated in next render)
-    if (voucher.taken + 1 >= voucher.maxTaken) {
-      // Show notification that voucher has changed
-      setTimeout(() => {
-        alert(
-          "🎉 Voucher đã hết lượt! Voucher mới đã được cập nhật với ưu đài khác!"
-        );
-      }, 2500);
-    }
+    }, 3000);
   };
 
   const handleShowConditions = (voucher: VoucherData) => {
@@ -1108,10 +693,10 @@ const ProductSection = () => {
             {currentVouchers.map((voucher) => (
               <div
                 key={voucher.id}
-                className={`border border-purple-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-500 ${
-                  voucher.taken === 0
-                    ? "animate-pulse bg-gradient-to-r from-pink-50 to-purple-50 border-pink-300"
-                    : ""
+                className={`border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-1000 transform ${
+                  voucher.isActive && voucherTimers[voucher.id] 
+                    ? "border-pink-300 bg-gradient-to-r from-pink-50 to-purple-50 animate-pulse scale-100"
+                    : "border-gray-300 bg-gray-100 opacity-75 scale-95"
                 }`}
               >
                 <div className="flex p-3 sm:p-4">
@@ -1119,14 +704,14 @@ const ProductSection = () => {
                     <div
                       className={`w-16 h-16 sm:w-20 sm:h-20 ${
                         voucher.color
-                      } rounded-lg flex items-center justify-center font-bold text-xl sm:text-2xl shadow-sm border border-pink-100 transition-all duration-300 ${
-                        voucher.taken === 0 ? "animate-bounce" : ""
+                      } rounded-lg flex items-center justify-center font-bold text-xl sm:text-2xl shadow-sm border border-pink-100 transition-all duration-1000 ${
+                        voucher.isActive && voucherTimers[voucher.id] ? "animate-bounce" : "opacity-50"
                       }`}
                     >
                       {voucher.discount === "0K" ? (
-                        <span className="text-pink-600">0K</span>
+                        <span className={`${voucher.isActive && voucherTimers[voucher.id] ? "text-pink-600" : "text-gray-400"}`}>0K</span>
                       ) : (
-                        <span className="text-pink-600">
+                        <span className={`${voucher.isActive && voucherTimers[voucher.id] ? "text-pink-600" : "text-gray-400"}`}>
                           {voucher.discount}
                         </span>
                       )}
@@ -1134,12 +719,12 @@ const ProductSection = () => {
                   </div>
                   <div className="flex flex-col flex-grow min-w-0">
                     <div
-                      className={`font-bold text-pink-600 text-sm sm:text-lg truncate transition-all duration-300 ${
-                        voucher.taken === 0 ? "text-green-600" : ""
+                      className={`font-bold text-sm sm:text-lg truncate transition-all duration-1000 ${
+                        voucher.isActive && voucherTimers[voucher.id] ? "text-green-600" : "text-gray-400"
                       }`}
                     >
                       NHẬP MÃ: {voucher.code}
-                      {voucher.taken === 0 && (
+                      {voucher.isActive && voucherTimers[voucher.id] && (
                         <span className="ml-2 text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full animate-pulse">
                           MỚI!
                         </span>
@@ -1149,54 +734,49 @@ const ProductSection = () => {
                       {voucher.description}
                     </div>
 
-                    {/* Progress Bar */}
-                    <div className="mb-2">
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className={`h-2 rounded-full transition-all duration-500 ${
-                            voucher.taken === 0 ? "bg-green-500" : "bg-pink-500"
-                          }`}
-                          style={{
-                            width: `${
-                              (voucher.taken / voucher.maxTaken) * 100
-                            }%`,
-                          }}
-                        ></div>
+                    {/* Timer Display */}
+                    {voucher.isActive && voucherTimers[voucher.id] ? (
+                      <div className="mb-2">
+                        <div className="flex items-center space-x-2">
+                          <div className="flex-1 bg-gray-200 rounded-full h-2">
+                            <div
+                              className="h-2 rounded-full bg-red-500 transition-all duration-1000"
+                              style={{
+                                width: `${Math.max(0, (voucherTimers[voucher.id] / (15 * 60 * 1000)) * 100)}%`,
+                              }}
+                            ></div>
+                          </div>
+                          <span className="text-xs text-red-600 font-mono bg-red-100 px-2 py-1 rounded animate-pulse">
+                            {formatTimeRemaining(voucherTimers[voucher.id])}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="mb-2">
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="h-2 rounded-full bg-gray-400 w-0"></div>
+                        </div>
+                        <span className="text-xs text-gray-400 font-mono bg-gray-100 px-2 py-1 rounded mt-1 inline-block">
+                          Hết hạn
+                        </span>
+                      </div>
+                    )}
 
                     <div className="flex justify-between items-center mt-2 flex-wrap gap-1">
                       <button
                         onClick={() => handleCopyVoucher(voucher)}
-                        disabled={voucher.taken >= voucher.maxTaken}
-                        className={`text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all duration-300 ${
-                          voucher.taken >= voucher.maxTaken
-                            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                            : voucher.taken === 0
-                            ? "bg-green-100 text-green-700 border border-green-200 animate-pulse hover:bg-green-200"
-                            : copiedVoucher === voucher.code
-                            ? "bg-green-100 text-green-700 border border-green-200"
-                            : "bg-purple-100 text-purple-700 hover:bg-purple-200"
+                        disabled={!voucher.isActive || !voucherTimers[voucher.id]}
+                        className={`text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all duration-1000 transform ${
+                          !voucher.isActive || !voucherTimers[voucher.id]
+                            ? "bg-gray-200 text-gray-400 cursor-not-allowed scale-95"
+                            : copiedVoucher === voucher.id
+                            ? "bg-green-100 text-green-700 border border-green-200 scale-110 animate-pulse"
+                            : "bg-green-100 text-green-700 border border-green-200 hover:bg-green-200 hover:scale-105"
                         }`}
                       >
-                        {voucher.taken >= voucher.maxTaken ? (
-                          "Hết lượt"
-                        ) : voucher.taken === 0 ? (
-                          <span className="flex items-center gap-1">
-                            <svg
-                              className="w-3 h-3"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            Sao chép mã mới
-                          </span>
-                        ) : copiedVoucher === voucher.code ? (
+                        {!voucher.isActive || !voucherTimers[voucher.id] ? (
+                          "Hết hạn"
+                        ) : copiedVoucher === voucher.id ? (
                           <span className="flex items-center gap-1">
                             <svg
                               className="w-3 h-3"
@@ -1212,12 +792,25 @@ const ProductSection = () => {
                             Đã sao chép
                           </span>
                         ) : (
-                          "Sao chép mã"
+                          <span className="flex items-center gap-1">
+                            <svg
+                              className="w-3 h-3"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            Sao chép mã
+                          </span>
                         )}
                       </button>
                       <button
                         onClick={() => handleShowConditions(voucher)}
-                        className="text-xs text-blue-500 hover:underline"
+                        className="text-xs text-blue-500 hover:underline transition-all duration-300"
                       >
                         Điều kiện
                       </button>
@@ -1517,6 +1110,15 @@ const ProductSection = () => {
           voucher={selectedVoucher}
         />
       )}
+
+      {/* Toast Modal */}
+      <ToastModal
+        isOpen={isToastOpen}
+        message={toastMessage}
+        voucherCode={copiedVoucherCode}
+        onClose={() => setIsToastOpen(false)}
+        duration={3000}
+      />
     </>
   );
 };

@@ -26,6 +26,8 @@ interface VoucherData {
   taken: number;
   maxTaken: number;
   applicableProducts: number[]; // Product IDs that can use this voucher
+  expiresAt: number; // Timestamp when voucher expires
+  isActive: boolean; // Whether voucher is still active
 }
 
 interface AppContextType {
@@ -79,48 +81,38 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [copiedVouchers, setCopiedVouchers] = useState<string[]>([]);
   
   // Voucher system state
-  const [currentVouchers, setCurrentVouchers] = useState<VoucherData[]>([
-    {
-      id: 'v1',
-      code: "BEA50",
-      discount: "50K",
-      description: "Giảm 50K - Chỉ áp dụng cho một số sản phẩm",
+  const generateNewVoucher = (): VoucherData => {
+    const voucherTypes = [
+      { code: "BEA50", discount: "50K", description: "Giảm 50K - Chỉ áp dụng cho một số sản phẩm" },
+      { code: "BEA15", discount: "15%", description: "Giảm 15% - Chỉ áp dụng cho một số sản phẩm" },
+      { code: "BEAN99K", discount: "99K", description: "Giảm 99K - Chỉ áp dụng cho một số sản phẩm" },
+      { code: "FREESHIP", discount: "0K", description: "Miễn phí ship - Chỉ áp dụng cho một số sản phẩm" },
+      { code: "FLASH30", discount: "30%", description: "Flash sale 30% - Chỉ áp dụng cho một số sản phẩm" },
+      { code: "MEGA70K", discount: "70K", description: "Giảm 70K - Chỉ áp dụng cho một số sản phẩm" },
+      { code: "SAVE20", discount: "20K", description: "Giảm 20K - Chỉ áp dụng cho một số sản phẩm" },
+      { code: "ULTRA60", discount: "60K", description: "Ultra giảm 60K - Chỉ áp dụng cho một số sản phẩm" }
+    ];
+
+    const randomType = voucherTypes[Math.floor(Math.random() * voucherTypes.length)];
+    const randomProducts = Array.from({ length: 5 }, () => Math.floor(Math.random() * 10) + 1);
+    const now = Date.now();
+
+    return {
+      id: `v_${now}_${Math.random().toString(36).substr(2, 9)}`,
+      ...randomType,
       color: "bg-pink-100",
-      taken: Math.floor(Math.random() * 80) + 10, // Random taken between 10-89
-      maxTaken: 100,
-      applicableProducts: [1, 2, 3, 4, 5] // Product IDs
-    },
-    {
-      id: 'v2',
-      code: "BEA15",
-      discount: "15%",
-      description: "Giảm 15% - Chỉ áp dụng cho một số sản phẩm",
-      color: "bg-pink-100",
-      taken: Math.floor(Math.random() * 80) + 10,
-      maxTaken: 100,
-      applicableProducts: [6, 7, 8, 9, 10]
-    },
-    {
-      id: 'v3',
-      code: "BEAN99K",
-      discount: "99K",
-      description: "Giảm 99K - Chỉ áp dụng cho một số sản phẩm",
-      color: "bg-pink-100",
-      taken: Math.floor(Math.random() * 80) + 10,
-      maxTaken: 100,
-      applicableProducts: [1, 3, 5, 7, 9]
-    },
-    {
-      id: 'v4',
-      code: "FREESHIP",
-      discount: "0K",
-      description: "Miễn phí ship - Chỉ áp dụng cho một số sản phẩm",
-      color: "bg-pink-100",
-      taken: Math.floor(Math.random() * 80) + 10,
-      maxTaken: 100,
-      applicableProducts: [2, 4, 6, 8, 10]
-    }
-  ]);
+      taken: 0,
+      maxTaken: 1, // Each voucher can only be used once
+      applicableProducts: randomProducts,
+      expiresAt: now + (15 * 60 * 1000), // 15 minutes from now
+      isActive: true
+    };
+  };
+
+  const [currentVouchers, setCurrentVouchers] = useState<VoucherData[]>(() => {
+    // Generate initial 4 vouchers
+    return Array.from({ length: 4 }, () => generateNewVoucher());
+  });
 
   const addToWishlist = (product: Product) => {
     setWishlist(prev => {
@@ -187,68 +179,60 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const takeVoucher = (voucherId: string): boolean => {
     let success = false;
-    setCurrentVouchers(prev => 
-      prev.map(voucher => {
-        if (voucher.id === voucherId && voucher.taken < voucher.maxTaken) {
+    setCurrentVouchers(prev => {
+      const newVouchers = prev.filter(voucher => {
+        if (voucher.id === voucherId && voucher.taken < voucher.maxTaken && voucher.isActive) {
           success = true;
-          const newTaken = voucher.taken + 1;
-          
-          // If voucher is now full, generate new voucher
-          if (newTaken >= voucher.maxTaken) {
-            const voucherTypes = [
-              { code: "SAVE20", discount: "20K", description: "Giảm 20K - Chỉ áp dụng cho một số sản phẩm" },
-              { code: "MEGA15", discount: "15%", description: "Giảm 15% - Chỉ áp dụng cho một số sản phẩm" },
-              { code: "FLASH40", discount: "40K", description: "Flash giảm 40K - Chỉ áp dụng cho một số sản phẩm" },
-              { code: "SUPER25", discount: "25%", description: "Super giảm 25% - Chỉ áp dụng cho một số sản phẩm" },
-              { code: "ULTRA60", discount: "60K", description: "Ultra giảm 60K - Chỉ áp dụng cho một số sản phẩm" },
-              { code: "POWER35", discount: "35%", description: "Power giảm 35% - Chỉ áp dụng cho một số sản phẩm" },
-              { code: "BOOST80", discount: "80K", description: "Boost giảm 80K - Chỉ áp dụng cho một số sản phẩm" },
-              { code: "TURBO12", discount: "12%", description: "Turbo giảm 12% - Chỉ áp dụng cho một số sản phẩm" }
-            ];
-            
-            const randomType = voucherTypes[Math.floor(Math.random() * voucherTypes.length)];
-            const randomProducts = Array.from({ length: 5 }, () => Math.floor(Math.random() * 10) + 1);
-            
-            return {
-              ...voucher,
-              ...randomType,
-              taken: 0, // Reset counter
-              applicableProducts: randomProducts
-            };
-          }
-          
-          return { ...voucher, taken: newTaken };
+          return false; // Remove this voucher from the array
         }
-        return voucher;
-      })
-    );
+        return true; // Keep other vouchers
+      });
+
+      // If a voucher was taken, add a new random voucher to maintain 4 vouchers
+      if (success) {
+        newVouchers.push(generateNewVoucher());
+      }
+
+      return newVouchers;
+    });
     return success;
   };
 
-  // Regenerate vouchers every 5 minutes
+  // Check for expired vouchers and replace them
+  useEffect(() => {
+    const checkExpiredVouchers = () => {
+      const now = Date.now();
+      setCurrentVouchers(prev => {
+        let hasExpired = false;
+        let newVouchers = prev.map(voucher => {
+          if (voucher.expiresAt <= now && voucher.isActive) {
+            hasExpired = true;
+            return { ...voucher, isActive: false };
+          }
+          return voucher;
+        });
+
+        // Remove expired vouchers and add new ones
+        if (hasExpired) {
+          newVouchers = newVouchers.filter(voucher => voucher.isActive);
+          while (newVouchers.length < 4) {
+            newVouchers.push(generateNewVoucher());
+          }
+        }
+
+        return newVouchers;
+      });
+    };
+
+    // Check every second for expired vouchers
+    const interval = setInterval(checkExpiredVouchers, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Regenerate vouchers every 5 minutes (backup system)
   useEffect(() => {
     const generateNewVouchers = (): VoucherData[] => {
-      const voucherTypes = [
-        { code: "BEA50", discount: "50K", description: "Giảm 50K - Chỉ áp dụng cho một số sản phẩm" },
-        { code: "BEA15", discount: "15%", description: "Giảm 15% - Chỉ áp dụng cho một số sản phẩm" },
-        { code: "BEAN99K", discount: "99K", description: "Giảm 99K - Chỉ áp dụng cho một số sản phẩm" },
-        { code: "FREESHIP", discount: "0K", description: "Miễn phí ship - Chỉ áp dụng cho một số sản phẩm" },
-        { code: "FLASH30", discount: "30%", description: "Flash sale 30% - Chỉ áp dụng cho một số sản phẩm" },
-        { code: "MEGA70K", discount: "70K", description: "Giảm 70K - Chỉ áp dụng cho một số sản phẩm" }
-      ];
-
-      return Array.from({ length: 4 }, (_, i) => {
-        const randomType = voucherTypes[Math.floor(Math.random() * voucherTypes.length)];
-        const randomProducts = Array.from({ length: 5 }, () => Math.floor(Math.random() * 10) + 1);
-        return {
-          id: `v${i + 1}_${Date.now()}`,
-          ...randomType,
-          color: "bg-pink-100",
-          taken: Math.floor(Math.random() * 30), // Start with some taken
-          maxTaken: 100,
-          applicableProducts: randomProducts
-        };
-      });
+      return Array.from({ length: 4 }, () => generateNewVoucher());
     };
 
     const interval = setInterval(() => {
