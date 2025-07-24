@@ -54,13 +54,26 @@ const VoucherConditionsModal: React.FC<VoucherConditionsModalProps> = ({
   // Get applicable products from the voucher
   const applicableProducts = productData.products.filter(product =>
     voucher.applicableProducts.includes(product.id)
-  );
+  ).filter(product => product && product.name && product.price); // Filter out invalid products
 
   const formatPrice = (price: number) => {
+    if (!price || price === 0) return '0₫';
     return new Intl.NumberFormat('vi-VN').format(price) + '₫';
   };
 
-  const handleBuyNow = (product: { id: number; name: string; price: number; originalPrice?: number; discount?: number; imageUrl: string; brand: string; tags?: string[] }) => {
+  const handleProductClick = (productId: number) => {
+    onClose(); // Đóng modal trước
+    navigate(`/product/${productId}`);
+    // Scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  const handleBuyNow = (product: { id: number; name: string; price: number; originalPrice?: number; discount?: number; imageUrl: string; brand: string; tags?: string[] }, event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent product click
+    
     const cartProduct = {
       id: product.id,
       name: product.name,
@@ -146,7 +159,8 @@ const VoucherConditionsModal: React.FC<VoucherConditionsModalProps> = ({
             {applicableProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => handleProductClick(product.id)}
               >
                 {/* Product Image */}
                 <div className="relative">
@@ -164,7 +178,7 @@ const VoucherConditionsModal: React.FC<VoucherConditionsModalProps> = ({
 
                 {/* Product Info */}
                 <div className="p-4">
-                  <h4 className="font-medium text-gray-800 mb-2 line-clamp-2">
+                  <h4 className="font-medium text-gray-800 mb-2 line-clamp-2 hover:text-pink-600 transition-colors">
                     {product.name}
                   </h4>
                   
@@ -189,7 +203,7 @@ const VoucherConditionsModal: React.FC<VoucherConditionsModalProps> = ({
 
                   {/* Buy Now Button */}
                   <button
-                    onClick={() => handleBuyNow(product)}
+                    onClick={(e) => handleBuyNow(product, e)}
                     disabled={!isVoucherValid}
                     className={`w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 ${
                       isVoucherValid 

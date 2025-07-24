@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { CheckCircle, Copy } from 'lucide-react';
+import React, { useEffect } from "react";
+import { CheckCircle, Copy } from "lucide-react";
 
 interface ToastModalProps {
   isOpen: boolean;
@@ -16,7 +16,7 @@ const ToastModal: React.FC<ToastModalProps> = ({
   voucherCode,
   position = { x: 0, y: 0 },
   onClose,
-  duration = 3000
+  duration = 3000,
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -25,7 +25,7 @@ const ToastModal: React.FC<ToastModalProps> = ({
       }, duration);
 
       // Add CSS animation to head
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       style.textContent = `
         @keyframes slideInDown {
           from {
@@ -82,12 +82,12 @@ const ToastModal: React.FC<ToastModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 pointer-events-none">
-      <div 
+      <div
         className="absolute pointer-events-auto toast-enter"
         style={{
           left: `${position.x}px`,
           top: `${position.y - 80}px`,
-          transform: 'translateX(-50%)'
+          transform: "translateX(-50%)",
         }}
       >
         <div className="bg-white rounded-xl shadow-2xl border border-green-200 p-4 max-w-xs backdrop-blur-sm bg-white/95">
@@ -113,13 +113,11 @@ const ToastModal: React.FC<ToastModalProps> = ({
               )}
               <div className="flex items-center space-x-1 mt-1">
                 <span className="text-xs text-gray-600">🎁</span>
-                <p className="text-xs text-gray-600">
-                  Voucher mới đã được tạo!
-                </p>
+                <p className="text-xs text-gray-600">Voucher đã được lấy !</p>
               </div>
             </div>
           </div>
-          
+
           {/* Progress bar */}
           <div className="mt-3 w-full bg-gray-200/50 rounded-full h-1 overflow-hidden">
             <div className="bg-gradient-to-r from-green-400 to-green-600 h-1 rounded-full progress-shrink"></div>
