@@ -2,7 +2,7 @@ import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface WishlistProduct {
   id: number;
@@ -17,9 +17,12 @@ interface WishlistProduct {
 
 const WishlistPage = () => {
   const { wishlist, removeFromWishlist, addToCart } = useAppContext();
+  const navigate = useNavigate();
 
   const handleAddToCart = (product: WishlistProduct) => {
     addToCart(product);
+    // Navigate to CartPage after adding to cart
+    navigate('/cart');
   };
 
   const handleRemoveFromWishlist = (productId: number) => {

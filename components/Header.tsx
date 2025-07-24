@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
-  const { wishlist, cart, searchQuery, setSearchQuery, isAuthenticated, user } =
+  const { wishlist, cart, searchQuery, setSearchQuery, isAuthenticated, user, cartAnimation, wishlistAnimation } =
     useAppContext();
     
   // Add global click handler to close dropdown when clicking outside
@@ -160,9 +160,9 @@ const Header = () => {
                 to="/wishlist"
                 className="flex items-center text-pink-500 hover:text-pink-600 transition-colors group"
               >
-                <div className="mr-2 relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-colors">
+                <div className={`mr-2 relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-all duration-300 ${wishlistAnimation ? 'animate-bounce scale-110' : ''}`}>
                   <Heart className="w-4 h-4" />
-                  <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
+                  <span className={`absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm transition-all duration-300 ${wishlistAnimation ? 'animate-pulse scale-125' : ''}`}>
                     {wishlist.length}
                   </span>
                 </div>
@@ -178,9 +178,9 @@ const Header = () => {
                 to="/cart"
                 className="flex items-center text-pink-500 hover:text-pink-600 transition-colors group"
               >
-                <div className="mr-2 relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-colors">
+                <div className={`mr-2 relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-all duration-300 ${cartAnimation ? 'animate-bounce scale-110' : ''}`}>
                   <ShoppingCart className="w-4 h-4" />
-                  <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
+                  <span className={`absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm transition-all duration-300 ${cartAnimation ? 'animate-pulse scale-125' : ''}`}>
                     {cart.reduce((sum, item) => sum + item.quantity, 0)}
                   </span>
                 </div>

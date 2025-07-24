@@ -32,6 +32,9 @@ interface AppContextType {
   setIsAuthenticated: (auth: boolean) => void;
   user: { name: string; email: string } | null;
   setUser: (user: { name: string; email: string } | null) => void;
+  // Animation states
+  cartAnimation: boolean;
+  wishlistAnimation: boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -50,10 +53,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [searchQuery, setSearchQuery] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  
+  // Animation states
+  const [cartAnimation, setCartAnimation] = useState(false);
+  const [wishlistAnimation, setWishlistAnimation] = useState(false);
 
   const addToWishlist = (product: Product) => {
     setWishlist(prev => {
       if (!prev.find(item => item.id === product.id)) {
+        // Trigger wishlist animation
+        setWishlistAnimation(true);
+        setTimeout(() => setWishlistAnimation(false), 600);
         return [...prev, product];
       }
       return prev;
@@ -67,6 +77,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const addToCart = (product: Product) => {
     setCart(prev => {
       const existingItem = prev.find(item => item.id === product.id);
+      // Trigger cart animation
+      setCartAnimation(true);
+      setTimeout(() => setCartAnimation(false), 600);
+      
       if (existingItem) {
         return prev.map(item =>
           item.id === product.id
@@ -115,6 +129,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setIsAuthenticated,
         user,
         setUser,
+        cartAnimation,
+        wishlistAnimation,
       }}
     >
       {children}
