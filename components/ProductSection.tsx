@@ -4,6 +4,8 @@ import { useAppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { Heart, Search, ShoppingBag } from "lucide-react";
 import QuickView from "./QuickView";
+import CheckoutModal from "./CheckoutModal";
+import OrderSuccessModal from "./OrderSuccessModal";
 import { Link } from "react-router-dom";
 
 interface QuickViewProduct {
@@ -36,6 +38,10 @@ const ProductSection = () => {
   // State for quick view modal
   const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+
+  // State for checkout modal
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [isOrderSuccessModalOpen, setIsOrderSuccessModalOpen] = useState(false);
 
   // Add custom CSS to the head
   useEffect(() => {
@@ -851,6 +857,20 @@ const ProductSection = () => {
     setIsQuickViewOpen(false);
   };
 
+  const handleCopyVoucher = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setIsCheckoutModalOpen(true);
+  };
+
+  const handleCheckoutSuccess = () => {
+    setIsCheckoutModalOpen(false);
+    setIsOrderSuccessModalOpen(true);
+  };
+
+  const handleCloseOrderSuccess = () => {
+    setIsOrderSuccessModalOpen(false);
+  };
+
   const handleToggleWishlist = (product: { id: number; name: string; price: number | string; originalPrice?: number; discount?: number; image?: string; imageUrl?: string; brand: string; tags?: string[] }, event?: React.MouseEvent) => {
     if (event) {
       event.preventDefault();
@@ -1038,7 +1058,10 @@ const ProductSection = () => {
                       {voucher.description}
                     </div>
                     <div className="flex justify-between items-center mt-2 flex-wrap gap-1">
-                      <button className="bg-purple-100 text-purple-700 text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full hover:bg-purple-200 transition-colors">
+                      <button 
+                        onClick={() => handleCopyVoucher(voucher.code)}
+                        className="bg-purple-100 text-purple-700 text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full hover:bg-purple-200 transition-colors"
+                      >
                         Sao chép mã
                       </button>
                       <a
@@ -1321,6 +1344,19 @@ const ProductSection = () => {
           onClose={handleCloseQuickView}
         />
       )}
+
+      {/* Checkout Modal */}
+      <CheckoutModal
+        isOpen={isCheckoutModalOpen}
+        onClose={() => setIsCheckoutModalOpen(false)}
+        onSuccess={handleCheckoutSuccess}
+      />
+
+      {/* Order Success Modal */}
+      <OrderSuccessModal
+        isOpen={isOrderSuccessModalOpen}
+        onClose={handleCloseOrderSuccess}
+      />
     </>
   );
 };

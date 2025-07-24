@@ -1,12 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import CheckoutModal from '../components/CheckoutModal';
+import OrderSuccessModal from '../components/OrderSuccessModal';
 import { Link } from 'react-router-dom';
 
 const CartPage = () => {
   const { cart, removeFromCart, updateCartQuantity } = useAppContext();
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -33,6 +37,21 @@ const CartPage = () => {
 
   const handleRemoveItem = (productId: number) => {
     removeFromCart(productId);
+  };
+
+  const handleCheckout = () => {
+    setIsCheckoutModalOpen(true);
+  };
+
+  const handleCheckoutSuccess = () => {
+    setIsCheckoutModalOpen(false);
+    setIsSuccessModalOpen(true);
+    // Clear cart after successful order
+    cart.forEach(item => removeFromCart(item.id));
+  };
+
+  const handleCloseSuccessModal = () => {
+    setIsSuccessModalOpen(false);
   };
 
   return (
@@ -150,7 +169,10 @@ const CartPage = () => {
                   </div>
                 </div>
                 
-                <button className="w-full bg-pink-500 text-white py-3 rounded-lg hover:bg-pink-600 transition-colors font-semibold mb-3">
+                <button 
+                  onClick={handleCheckout}
+                  className="w-full bg-pink-500 text-white py-3 rounded-lg hover:bg-pink-600 transition-colors font-semibold mb-3"
+                >
                   Thanh toán
                 </button>
                 
@@ -174,6 +196,19 @@ const CartPage = () => {
       </div>
       
       <Footer />
+      
+      {/* Checkout Modal */}
+      <CheckoutModal 
+        isOpen={isCheckoutModalOpen}
+        onClose={() => setIsCheckoutModalOpen(false)}
+        onSuccess={handleCheckoutSuccess}
+      />
+      
+      {/* Order Success Modal */}
+      <OrderSuccessModal 
+        isOpen={isSuccessModalOpen}
+        onClose={handleCloseSuccessModal}
+      />
     </div>
   );
 };
