@@ -28,14 +28,32 @@ interface HomePageProduct {
   gifts?: string[];
 }
 
+interface FlashSaleProduct {
+  id: number;
+  name: string;
+  image: string;
+  brand: string;
+  brandLogo: string;
+  currentPrice: number;
+  originalPrice: number;
+  discount: number;
+  sold: number;
+  gifts: number;
+  labels: string[];
+  soldPercentage: number;
+  isAnimating?: boolean; // Thêm để kiểm soát animation
+}
+
 const HomePage = () => {
   const navigate = useNavigate();
-  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useAppContext();
-  
+  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } =
+    useAppContext();
+
   // State for quick view modal
-  const [quickViewProduct, setQuickViewProduct] = useState<HomePageProduct | null>(null);
+  const [quickViewProduct, setQuickViewProduct] =
+    useState<HomePageProduct | null>(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
-  
+
   // State for animations and interactions
   const [showSection, setShowSection] = useState(false);
   const [activeTab, setActiveTab] = useState("cleanser");
@@ -45,10 +63,15 @@ const HomePage = () => {
 
   // Flash Sale countdown state
   const [countdown, setCountdown] = useState({
-    hours: 2,
-    minutes: 28,
-    seconds: 57,
+    hours: 0,
+    minutes: 10,
+    seconds: 0,
   });
+
+  // Flash Sale products state
+  const [flashSaleProducts, setFlashSaleProducts] = useState<
+    FlashSaleProduct[]
+  >([]);
 
   useEffect(() => {
     setShowSection(true);
@@ -64,6 +87,136 @@ const HomePage = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Generate random flash sale products
+  const generateNewFlashSaleProducts = useCallback(() => {
+    const discountedProducts = products.filter(
+      (product) => product.discount > 0
+    );
+    const shuffled = [...discountedProducts].sort(() => 0.5 - Math.random());
+
+    const newProducts = shuffled.slice(0, 5).map((product) => ({
+      id: product.id,
+      name: product.name,
+      image: product.imageUrl,
+      brand: product.brand,
+      brandLogo: "../src/img/bioderma-logo.png",
+      currentPrice: product.price,
+      originalPrice: product.originalPrice,
+      discount: product.discount,
+      sold: 0, // Bắt đầu từ 0
+      gifts: Math.floor(Math.random() * 5) + 1,
+      labels: product.tags || [],
+      soldPercentage: 0, // Bắt đầu từ 0%
+      isAnimating: true, // Kích hoạt animation
+    }));
+
+    setFlashSaleProducts(newProducts);
+  }, [products]);
+
+  // Thay thế sản phẩm đã bán hết (chỉ thay thế sản phẩm cụ thể, không reset toàn bộ)
+  const replaceProduct = useCallback((productIdToReplace: number) => {
+    setFlashSaleProducts(currentProducts => {
+      // Tìm sản phẩm mới từ danh sách có discount > 0
+      const discountedProducts = products.filter((product) => product.discount > 0);
+      // Loại trừ các sản phẩm đang hiển thị hiện tại
+      const currentProductIds = currentProducts.map(p => p.id);
+      const availableProducts = discountedProducts.filter(p => !currentProductIds.includes(p.id));
+
+      if (availableProducts.length > 0) {
+        const randomProduct = availableProducts[Math.floor(Math.random() * availableProducts.length)];
+
+        const newProduct: FlashSaleProduct = {
+          id: randomProduct.id,
+          name: randomProduct.name,
+          image: randomProduct.imageUrl,
+          brand: randomProduct.brand,
+          brandLogo: "../src/img/bioderma-logo.png",
+          currentPrice: randomProduct.price,
+          originalPrice: randomProduct.originalPrice,
+          discount: randomProduct.discount,
+          sold: 0,
+          gifts: Math.floor(Math.random() * 5) + 1,
+          labels: randomProduct.tags || [],
+          soldPercentage: 0,
+          isAnimating: true,
+        };
+
+        // CHỈ thay thế sản phẩm có ID cụ thể, giữ nguyên các sản phẩm khác
+        return currentProducts.map(p => p.id === productIdToReplace ? newProduct : p);
+      }
+      
+      return currentProducts; // Không có sản phẩm khả dụng, giữ nguyên
+    });
+  }, [products]);
+
+  // Animation tăng dần số lượng đã bán (chỉ cho sản phẩm cụ thể)
+  const startSalesAnimation = useCallback((productsToAnimate: FlashSaleProduct[]) => {
+    productsToAnimate.forEach((product) => {
+      const targetSold = Math.floor(Math.random() * 100) + 1; // Random từ 1-100
+      const duration = 3000; // 3 giây
+      const steps = 50;
+      const increment = targetSold / steps;
+
+      let currentSold = 0;
+      let step = 0;
+
+      const interval = setInterval(() => {
+        if (step >= steps || currentSold >= 100) {
+          clearInterval(interval);
+
+          // Cập nhật trạng thái cuối cùng CHỈ cho sản phẩm này
+          setFlashSaleProducts((prev) =>
+            prev.map((p) =>
+              p.id === product.id
+                ? {
+                    ...p,
+                    sold: Math.min(currentSold, 100),
+                    soldPercentage: Math.min(currentSold, 100),
+                    isAnimating: false,
+                  }
+                : p // Giữ nguyên các sản phẩm khác
+            )
+          );
+
+          // Nếu sản phẩm này đã bán hết 100, chỉ thay thế sản phẩm này
+          if (currentSold >= 100) {
+            setTimeout(() => {
+              replaceProduct(product.id); // Chỉ thay thế sản phẩm có ID này
+            }, 2000);
+          }
+          return;
+        }
+
+        currentSold = Math.min(increment * (step + 1), targetSold);
+        step++;
+
+        // Cập nhật CHỈ sản phẩm đang được animate
+        setFlashSaleProducts((prev) =>
+          prev.map((p) =>
+            p.id === product.id
+              ? {
+                  ...p,
+                  sold: Math.floor(currentSold),
+                  soldPercentage: Math.floor(currentSold),
+                }
+              : p // Giữ nguyên các sản phẩm khác
+          )
+        );
+      }, duration / steps);
+    });
+  }, [setFlashSaleProducts, replaceProduct]);
+
+  // useEffect để bắt đầu animation khi có sản phẩm mới
+  useEffect(() => {
+    const productsToAnimate = flashSaleProducts.filter(p => p.isAnimating && p.sold === 0);
+    if (productsToAnimate.length > 0) {
+      const timer = setTimeout(() => {
+        startSalesAnimation(productsToAnimate);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [flashSaleProducts, startSalesAnimation]);
+
   // Countdown timer effect for Flash Sale
   useEffect(() => {
     const timer = setInterval(() => {
@@ -75,87 +228,142 @@ const HomePage = () => {
         } else if (prev.hours > 0) {
           return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
         } else {
-          clearInterval(timer);
-          return prev;
+          // Reset to 10 minutes when countdown reaches 0
+          generateNewFlashSaleProducts();
+          return { hours: 0, minutes: 10, seconds: 0 };
         }
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
-  
+  }, [generateNewFlashSaleProducts]);
+
+  // Initialize flash sale products on component mount
+  useEffect(() => {
+    generateNewFlashSaleProducts();
+  }, [generateNewFlashSaleProducts]);
+
   // Functions for handling product interactions
-  const handleQuickView = useCallback((product: { id: number }) => {
-    // Find the full product data
-    const fullProduct = products.find(p => p.id === product.id);
-    if (fullProduct) {
-      setQuickViewProduct(fullProduct);
-      setIsQuickViewOpen(true);
-    }
-  }, [products]);
-  
+  const handleQuickView = useCallback(
+    (product: { id: number }) => {
+      // Find the full product data
+      const fullProduct = products.find((p) => p.id === product.id);
+      if (fullProduct) {
+        setQuickViewProduct(fullProduct);
+        setIsQuickViewOpen(true);
+      }
+    },
+    [products]
+  );
+
   const handleCloseQuickView = useCallback(() => {
     setIsQuickViewOpen(false);
   }, []);
-  
-  const handleToggleWishlist = useCallback((product: { id: number; name: string; price?: number | string; currentPrice?: number; originalPrice?: number | string; discount?: number | string; image?: string; imageUrl?: string; brand: string; tags?: string[]; labels?: string[] }, event?: React.MouseEvent) => {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    
-    // Format product for wishlist
-    const price = product.price || product.currentPrice || 0;
-    const wishlistProduct = {
-      id: product.id,
-      name: product.name,
-      price: typeof price === 'string' ? price : `${formatFlashSalePrice(price)}đ`,
-      originalPrice: product.originalPrice ? 
-        (typeof product.originalPrice === 'string' ? product.originalPrice : `${formatFlashSalePrice(product.originalPrice)}đ`) : 
-        undefined,
-      discount: product.discount ? 
-        (typeof product.discount === 'string' ? product.discount : `-${product.discount}%`) : 
-        undefined,
-      image: product.image || product.imageUrl || '',
-      brand: product.brand,
-      tags: product.tags || product.labels || [],
-    };
-    
-    if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id);
-    } else {
-      addToWishlist(wishlistProduct);
-    }
-  }, [addToWishlist, removeFromWishlist, isInWishlist]);
-  
-  const handleBuyNow = useCallback((product: { id: number; name: string; price?: number | string; currentPrice?: number; originalPrice?: number | string; discount?: number | string; image?: string; imageUrl?: string; brand: string; tags?: string[]; labels?: string[] }, event?: React.MouseEvent) => {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    
-    // Format product for cart
-    const price = product.price || product.currentPrice || 0;
-    const cartProduct = {
-      id: product.id,
-      name: product.name,
-      price: typeof price === 'string' ? price : `${formatFlashSalePrice(price)}đ`,
-      originalPrice: product.originalPrice ? 
-        (typeof product.originalPrice === 'string' ? product.originalPrice : `${formatFlashSalePrice(product.originalPrice)}đ`) : 
-        undefined,
-      discount: product.discount ? 
-        (typeof product.discount === 'string' ? product.discount : `-${product.discount}%`) : 
-        undefined,
-      image: product.image || product.imageUrl || '',
-      brand: product.brand,
-      tags: product.tags || product.labels || [],
-      quantity: 1
-    };
-    
-    // Add to cart and navigate
-    addToCart(cartProduct);
-    navigate('/cart');
-  }, [addToCart, navigate]);
+
+  const handleToggleWishlist = useCallback(
+    (
+      product: {
+        id: number;
+        name: string;
+        price?: number | string;
+        currentPrice?: number;
+        originalPrice?: number | string;
+        discount?: number | string;
+        image?: string;
+        imageUrl?: string;
+        brand: string;
+        tags?: string[];
+        labels?: string[];
+      },
+      event?: React.MouseEvent
+    ) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      // Format product for wishlist
+      const price = product.price || product.currentPrice || 0;
+      const wishlistProduct = {
+        id: product.id,
+        name: product.name,
+        price:
+          typeof price === "string" ? price : `${formatFlashSalePrice(price)}đ`,
+        originalPrice: product.originalPrice
+          ? typeof product.originalPrice === "string"
+            ? product.originalPrice
+            : `${formatFlashSalePrice(product.originalPrice)}đ`
+          : undefined,
+        discount: product.discount
+          ? typeof product.discount === "string"
+            ? product.discount
+            : `-${product.discount}%`
+          : undefined,
+        image: product.image || product.imageUrl || "",
+        brand: product.brand,
+        tags: product.tags || product.labels || [],
+      };
+
+      if (isInWishlist(product.id)) {
+        removeFromWishlist(product.id);
+      } else {
+        addToWishlist(wishlistProduct);
+      }
+    },
+    [addToWishlist, removeFromWishlist, isInWishlist]
+  );
+
+  const handleBuyNow = useCallback(
+    (
+      product: {
+        id: number;
+        name: string;
+        price?: number | string;
+        currentPrice?: number;
+        originalPrice?: number | string;
+        discount?: number | string;
+        image?: string;
+        imageUrl?: string;
+        brand: string;
+        tags?: string[];
+        labels?: string[];
+      },
+      event?: React.MouseEvent
+    ) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      // Format product for cart
+      const price = product.price || product.currentPrice || 0;
+      const cartProduct = {
+        id: product.id,
+        name: product.name,
+        price:
+          typeof price === "string" ? price : `${formatFlashSalePrice(price)}đ`,
+        originalPrice: product.originalPrice
+          ? typeof product.originalPrice === "string"
+            ? product.originalPrice
+            : `${formatFlashSalePrice(product.originalPrice)}đ`
+          : undefined,
+        discount: product.discount
+          ? typeof product.discount === "string"
+            ? product.discount
+            : `-${product.discount}%`
+          : undefined,
+        image: product.image || product.imageUrl || "",
+        brand: product.brand,
+        tags: product.tags || product.labels || [],
+        quantity: 1,
+      };
+
+      // Add to cart and navigate
+      addToCart(cartProduct);
+      navigate("/cart");
+    },
+    [addToCart, navigate]
+  );
 
   // Data
   const categories = [
@@ -174,25 +382,6 @@ const HomePage = () => {
     { name: "Chăm sóc mặt", image: "../src/img/danhmuc_13.jpg" },
     { name: "Sản phẩm khác", image: "../src/img/danhmuc_14.jpg" },
   ];
-
-  // Get flash sale products from JSON data (products with discount > 0)
-  const flashSaleProducts = products
-    .filter((product) => product.discount > 0)
-    .slice(0, 5)
-    .map((product) => ({
-      id: product.id,
-      name: product.name,
-      image: product.imageUrl,
-      brand: product.brand,
-      brandLogo: "../src/img/bioderma-logo.png", // Default brand logo
-      currentPrice: product.price,
-      originalPrice: product.originalPrice,
-      discount: product.discount,
-      sold: Math.floor(Math.random() * 300) + 100, // Random sold count
-      gifts: Math.floor(Math.random() * 5) + 1, // Random gift count
-      labels: product.tags || [],
-      soldPercentage: Math.floor(Math.random() * 80) + 20, // Random percentage
-    }));
 
   // Định nghĩa ánh xạ giữa tab ID và loại sản phẩm
   const tabToProductType: Record<string, string> = {
@@ -459,6 +648,27 @@ const HomePage = () => {
               100% { background-position: 40px 0; }
             }
             
+            @keyframes soldCountGlow {
+              0% { 
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+              }
+              50% { 
+                text-shadow: 1px 1px 8px rgba(255,255,255,0.8), 1px 1px 2px rgba(0,0,0,0.3);
+              }
+              100% { 
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+              }
+            }
+            
+            @keyframes progressBarGrow {
+              0% { 
+                width: 0%;
+              }
+              100% { 
+                width: var(--target-width);
+              }
+            }
+            
             .marquee-container {
               overflow: hidden;
               white-space: nowrap;
@@ -582,6 +792,11 @@ const HomePage = () => {
                 transparent 75%,
                 transparent
               );
+              transition: width 0.1s ease-out;
+            }
+            
+            .countdown-bar .bar-progress.animating {
+              transition: width 0.5s ease-out;
             }
             
             .countdown-bar .sale-icon {
@@ -603,10 +818,15 @@ const HomePage = () => {
               font-size: 12px;
               line-height: 16px;
               left: 50%;
-              font-weight: 400;
+              font-weight: 500;
               transform: translateX(-50%);
               width: 100%;
               text-align: center;
+              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            }
+            
+            .countdown-bar .bar-text.changing {
+              animation: soldCountGlow 2s ease-in-out;
             }
             
             .hover-buttons {
@@ -679,13 +899,19 @@ const HomePage = () => {
                 {flashSaleProducts.map((product) => (
                   <div key={product.id} className="product-card group">
                     {/* Wishlist */}
-                    <button 
+                    <button
                       onClick={(e) => handleToggleWishlist(product, e)}
                       className={`absolute top-1 sm:top-2 right-1 sm:right-2 z-10 w-7 h-7 rounded-full ${
-                        isInWishlist(product.id) ? 'bg-pink-500 text-white' : 'bg-white text-gray-400'
+                        isInWishlist(product.id)
+                          ? "bg-pink-500 text-white"
+                          : "bg-white text-gray-400"
                       } border border-gray-200 flex items-center justify-center hover:bg-pink-50 hover:text-pink-500 transition-colors duration-300 shadow-sm`}
                     >
-                      <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
+                      <Heart
+                        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
+                          isInWishlist(product.id) ? "fill-current" : ""
+                        }`}
+                      />
                     </button>
 
                     {/* Brand Logo */}
@@ -705,7 +931,7 @@ const HomePage = () => {
                         {/* Hover Overlay */}
                         <div className="hover-buttons">
                           <div className="button-group">
-                            <button 
+                            <button
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
@@ -715,11 +941,11 @@ const HomePage = () => {
                             >
                               <Search className="w-5 h-5 text-blue-600" />
                             </button>
-                            <button 
+                            <button
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                console.log('Buy Now clicked', product.id);
+                                console.log("Buy Now clicked", product.id);
                                 // Sử dụng trực tiếp hàm handleBuyNow đã được định nghĩa
                                 handleBuyNow({
                                   id: product.id,
@@ -729,7 +955,7 @@ const HomePage = () => {
                                   discount: product.discount,
                                   image: product.image,
                                   brand: product.brand,
-                                  labels: product.labels || []
+                                  labels: product.labels || [],
                                 });
                               }}
                               className="bg-pink-500 text-white rounded-lg px-4 py-2 font-medium shadow-sm flex items-center gap-2 hover:bg-pink-600 transition-colors"
@@ -788,7 +1014,9 @@ const HomePage = () => {
                     <div className="countdown-bar">
                       <div className="bar-bg">
                         <div
-                          className="bar-progress"
+                          className={`bar-progress ${
+                            product.isAnimating ? "animating" : ""
+                          }`}
                           style={{ width: `${product.soldPercentage}%` }}
                         ></div>
                         <div
@@ -797,8 +1025,12 @@ const HomePage = () => {
                             backgroundImage: "url(../src/img/sale_bag.png)",
                           }}
                         ></div>
-                        <span className="bar-text">
-                          🔥 Đã bán {product.sold} sp
+                        <span
+                          className={`bar-text ${
+                            product.isAnimating ? "changing" : ""
+                          }`}
+                        >
+                          Đã bán {product.sold}/100 sp
                         </span>
                       </div>
                     </div>
@@ -824,7 +1056,7 @@ const HomePage = () => {
 
       {/* Product Section */}
       <ProductSection />
-      
+
       {/* Personalized Section */}
       <section className="py-8 sm:py-12 bg-gray-50">
         <div
@@ -862,23 +1094,30 @@ const HomePage = () => {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
             {personalizedProducts.map((product) => (
-              <div key={product.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 group">
+              <div
+                key={product.id}
+                className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 group"
+              >
                 <div className="relative pb-[100%] overflow-hidden">
                   {product.brand && (
                     <div className="absolute top-2 left-2 bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded z-10">
                       {product.brand}
                     </div>
                   )}
-                  
+
                   <button
                     onClick={() => handleToggleWishlist(product)}
                     className={`absolute top-2 right-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 z-20 ${
-                      isInWishlist(product.id) 
-                        ? 'bg-red-500 text-white' 
-                        : 'bg-white text-gray-400 hover:text-red-500 hover:bg-red-50'
+                      isInWishlist(product.id)
+                        ? "bg-red-500 text-white"
+                        : "bg-white text-gray-400 hover:text-red-500 hover:bg-red-50"
                     } shadow-sm`}
                   >
-                    <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
+                    <Heart
+                      className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
+                        isInWishlist(product.id) ? "fill-current" : ""
+                      }`}
+                    />
                   </button>
 
                   <Link to={`/product/${product.id}`}>
@@ -888,16 +1127,18 @@ const HomePage = () => {
                       className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </Link>
-                  
+
                   {product.tags && product.tags.length > 0 && (
                     <div className="absolute bottom-2 left-2 flex flex-wrap gap-1">
                       {product.tags.map((tag, index) => (
                         <span
                           key={index}
                           className={`text-[10px] sm:text-xs px-1.5 py-0.5 rounded font-medium ${
-                            tag === 'EXCLUSIVE' ? 'bg-blue-600 text-white' : 
-                            tag === 'BEST SELLER' ? 'bg-red-500 text-white' : 
-                            'bg-yellow-500 text-white'
+                            tag === "EXCLUSIVE"
+                              ? "bg-blue-600 text-white"
+                              : tag === "BEST SELLER"
+                              ? "bg-red-500 text-white"
+                              : "bg-yellow-500 text-white"
                           }`}
                         >
                           {tag}
@@ -919,7 +1160,7 @@ const HomePage = () => {
                       >
                         <Search className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                       </button>
-                      
+
                       <button
                         onClick={(e) => {
                           e.preventDefault();
@@ -934,21 +1175,27 @@ const HomePage = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="p-3 sm:p-4">
                   <Link to={`/product/${product.id}`} className="block">
                     <h3 className="text-sm font-medium text-gray-800 mb-2 line-clamp-2 h-10 group-hover:text-pink-500 transition-colors">
                       {product.name}
                     </h3>
                   </Link>
-                  
+
                   <div className="flex items-center space-x-2 mb-3 flex-wrap">
-                    <span className="text-lg font-bold text-red-500">{product.price}</span>
+                    <span className="text-lg font-bold text-red-500">
+                      {product.price}
+                    </span>
                     {product.originalPrice && (
                       <>
-                        <span className="text-sm text-gray-400 line-through">{product.originalPrice}</span>
+                        <span className="text-sm text-gray-400 line-through">
+                          {product.originalPrice}
+                        </span>
                         {product.discount && (
-                          <span className="text-sm text-red-500 font-semibold">{product.discount}</span>
+                          <span className="text-sm text-red-500 font-semibold">
+                            {product.discount}
+                          </span>
                         )}
                       </>
                     )}
@@ -969,7 +1216,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      
+
       {/* News Section */}
       <section className="py-8 sm:py-10 lg:py-12 bg-gray-50">
         <div className="container mx-auto px-2 sm:px-4 max-w-[1223px]">
@@ -1024,10 +1271,10 @@ const HomePage = () => {
 
       {/* Quick View Modal */}
       {quickViewProduct && (
-        <QuickView 
-          product={quickViewProduct} 
-          isOpen={isQuickViewOpen} 
-          onClose={handleCloseQuickView} 
+        <QuickView
+          product={quickViewProduct}
+          isOpen={isQuickViewOpen}
+          onClose={handleCloseQuickView}
         />
       )}
     </div>
