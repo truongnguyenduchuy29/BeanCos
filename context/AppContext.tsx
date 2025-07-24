@@ -50,7 +50,8 @@ interface AppContextType {
   wishlistAnimation: boolean;
   // Copied vouchers
   copiedVouchers: string[];
-  addCopiedVoucher: (voucher: string) => void;
+  copiedVoucherData: {[key: string]: VoucherData};
+  addCopiedVoucher: (voucher: string, voucherData: VoucherData) => void;
   // Voucher data
   currentVouchers: VoucherData[];
   takeVoucher: (voucherId: string) => boolean;
@@ -77,8 +78,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [cartAnimation, setCartAnimation] = useState(false);
   const [wishlistAnimation, setWishlistAnimation] = useState(false);
   
-  // Copied vouchers state
+  // Copied vouchers state with full voucher data
   const [copiedVouchers, setCopiedVouchers] = useState<string[]>([]);
+  const [copiedVoucherData, setCopiedVoucherData] = useState<{[key: string]: VoucherData}>({});
   
   // Voucher system state
   const generateNewVoucher = (): VoucherData => {
@@ -168,13 +170,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return wishlist.some(item => item.id === productId);
   };
 
-  const addCopiedVoucher = (voucher: string) => {
+  const addCopiedVoucher = (voucher: string, voucherData: VoucherData) => {
     setCopiedVouchers(prev => {
       if (!prev.includes(voucher)) {
         return [...prev, voucher];
       }
       return prev;
     });
+    
+    setCopiedVoucherData(prev => ({
+      ...prev,
+      [voucher]: voucherData
+    }));
   };
 
   const takeVoucher = (voucherId: string): boolean => {
@@ -262,6 +269,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         cartAnimation,
         wishlistAnimation,
         copiedVouchers,
+        copiedVoucherData,
         addCopiedVoucher,
         currentVouchers,
         takeVoucher,

@@ -521,8 +521,8 @@ const ProductSection = () => {
     // Copy to clipboard
     navigator.clipboard.writeText(randomCode);
 
-    // Add to copied vouchers list in context
-    addCopiedVoucher(randomCode);
+    // Add to copied vouchers list in context with voucher data
+    addCopiedVoucher(randomCode, voucher);
 
     // Show copied animation with voucher ID (since voucher will be removed)
     setCopiedVoucher(voucher.id);

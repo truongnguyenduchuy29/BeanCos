@@ -22,7 +22,7 @@ interface OrderInfo {
 }
 
 const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onSuccess }) => {
-  const { cart, copiedVouchers } = useAppContext();
+  const { cart, copiedVouchers, copiedVoucherData } = useAppContext();
   const [orderInfo, setOrderInfo] = useState<OrderInfo>({
     fullName: '',
     phone: '',
@@ -36,12 +36,20 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onSucces
     voucher: ''
   });
 
-  const [availableVouchers] = useState([
-    { code: 'BEA50', discount: '50K', description: 'Giảm 50K cho đơn hàng tối thiểu 750.000đ' },
-    { code: 'BEA15', discount: '15%', description: 'Giảm 15% cho đơn hàng tối thiểu 1.500.000đ' },
-    { code: 'BEAN99K', discount: '99K', description: 'Giảm 99K cho đơn hàng tối thiểu 950.000đ' },
-    { code: 'FREESHIP', discount: '0đ', description: 'Miễn phí vận chuyển' }
-  ]);
+  // Use vouchers from copiedVoucherData instead of currentVouchers
+  const availableVouchers = copiedVouchers.map(copiedCode => {
+    const voucherData = copiedVoucherData[copiedCode];
+    
+    if (voucherData) {
+      return {
+        code: copiedCode, // Use the copied code (with suffix)
+        discount: voucherData.discount,
+        description: voucherData.description,
+        applicableProducts: voucherData.applicableProducts
+      };
+    }
+    return null;
+  }).filter(voucher => voucher !== null);
 
   const calculateSubTotal = () => {
     return cart.reduce((total, item) => {
@@ -52,19 +60,35 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onSucces
 
   const calculateDiscount = () => {
     const subTotal = calculateSubTotal();
-    const voucher = availableVouchers.find(v => v.code === orderInfo.voucher);
+    const selectedVoucher = availableVouchers.find(v => v.code === orderInfo.voucher);
     
-    if (!voucher) return 0;
+    if (!selectedVoucher) return 0;
     
-    switch (voucher.code) {
-      case 'BEA50':
-        return subTotal >= 750000 ? 50000 : 0;
-      case 'BEA15':
-        return subTotal >= 1500000 ? subTotal * 0.15 : 0;
-      case 'BEAN99K':
-        return subTotal >= 950000 ? 99000 : 0;
-      default:
-        return 0;
+    // Check if cart has applicable products for this voucher
+    const cartProductIds = cart.map(item => item.id);
+    const hasApplicableProducts = selectedVoucher.applicableProducts?.some(productId => 
+      cartProductIds.includes(productId)
+    );
+    
+    // If voucher has specific products and none are in cart, no discount
+    if (selectedVoucher.applicableProducts && selectedVoucher.applicableProducts.length > 0 && !hasApplicableProducts) {
+      return 0;
+    }
+    
+    // Calculate discount based on voucher type
+    const discountValue = selectedVoucher.discount;
+    
+    if (discountValue.includes('K')) {
+      // Fixed amount discount (e.g., "99K")
+      const amount = parseInt(discountValue.replace('K', '')) * 1000;
+      return Math.min(amount, subTotal); // Don't exceed subtotal
+    } else if (discountValue.includes('%')) {
+      // Percentage discount (e.g., "15%")
+      const percentage = parseInt(discountValue.replace('%', '')) / 100;
+      return subTotal * percentage;
+    } else {
+      // Free shipping or other
+      return 0;
     }
   };
 
@@ -288,25 +312,51 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onSucces
                   <div className="mt-3">
                     <p className="text-sm text-gray-600 mb-2">Voucher có sẵn:</p>
                     <div className="space-y-2">
-                      {copiedVouchers.length > 0 ? (
-                        copiedVouchers.map((voucherCode, index) => (
-                          <button
-                            key={index}
-                            type="button"
-                            onClick={() => handleVoucherSelect(voucherCode)}
-                            className={`w-full text-left p-2 border rounded-md hover:bg-gray-50 transition-colors ${
-                              orderInfo.voucher === voucherCode ? 'border-pink-500 bg-pink-50' : 'border-gray-200'
-                            }`}
-                          >
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <span className="font-medium text-gray-800">{voucherCode}</span>
-                                <p className="text-xs text-gray-600">Voucher đã sao chép</p>
+                      {availableVouchers.length > 0 ? (
+                        availableVouchers.map((voucher, index) => {
+                          const cartProductIds = cart.map(item => item.id);
+                          const hasApplicableProducts = voucher.applicableProducts?.some(productId => 
+                            cartProductIds.includes(productId)
+                          );
+                          const isApplicable = !voucher.applicableProducts || 
+                                             voucher.applicableProducts.length === 0 || 
+                                             hasApplicableProducts;
+                          
+                          return (
+                            <button
+                              key={index}
+                              type="button"
+                              onClick={() => isApplicable ? handleVoucherSelect(voucher.code) : null}
+                              disabled={!isApplicable}
+                              className={`w-full text-left p-3 border rounded-md transition-colors ${
+                                orderInfo.voucher === voucher.code 
+                                  ? 'border-pink-500 bg-pink-50' 
+                                  : isApplicable 
+                                    ? 'border-gray-200 hover:bg-gray-50' 
+                                    : 'border-gray-200 bg-gray-100 cursor-not-allowed'
+                              }`}
+                            >
+                              <div className="flex justify-between items-center">
+                                <div>
+                                  <span className={`font-medium ${isApplicable ? 'text-gray-800' : 'text-gray-400'}`}>
+                                    {voucher.code} - {voucher.discount}
+                                  </span>
+                                  <p className={`text-xs ${isApplicable ? 'text-gray-600' : 'text-gray-400'}`}>
+                                    {voucher.description}
+                                  </p>
+                                  {!isApplicable && (
+                                    <p className="text-xs text-red-500 mt-1">
+                                      Không áp dụng cho sản phẩm trong giỏ hàng
+                                    </p>
+                                  )}
+                                </div>
+                                <span className={`text-sm ${isApplicable ? 'text-pink-600' : 'text-gray-400'}`}>
+                                  {isApplicable ? 'Áp dụng' : 'Không áp dụng'}
+                                </span>
                               </div>
-                              <span className="text-sm text-pink-600">Áp dụng</span>
-                            </div>
-                          </button>
-                        ))
+                            </button>
+                          );
+                        })
                       ) : (
                         <p className="text-sm text-gray-500 italic">Chưa có voucher nào được sao chép</p>
                       )}
@@ -358,10 +408,24 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onSucces
                     <span>Tạm tính:</span>
                     <span>{formatPrice(calculateSubTotal())}</span>
                   </div>
-                  {calculateDiscount() > 0 && (
+                  {calculateDiscount() > 0 && orderInfo.voucher && (
                     <div className="flex justify-between text-green-600">
-                      <span>Giảm giá ({orderInfo.voucher}):</span>
+                      <div className="flex flex-col">
+                        <span>Giảm giá ({orderInfo.voucher}):</span>
+                        <span className="text-xs text-gray-500">
+                          {availableVouchers.find(v => v.code === orderInfo.voucher)?.description}
+                        </span>
+                      </div>
                       <span>-{formatPrice(calculateDiscount())}</span>
+                    </div>
+                  )}
+                  {orderInfo.voucher && calculateDiscount() === 0 && (
+                    <div className="flex justify-between text-red-500">
+                      <div className="flex flex-col">
+                        <span>Voucher ({orderInfo.voucher}):</span>
+                        <span className="text-xs">Không áp dụng được cho đơn hàng này</span>
+                      </div>
+                      <span>0₫</span>
                     </div>
                   )}
                   <div className="flex justify-between">

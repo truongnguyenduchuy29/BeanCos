@@ -1,15 +1,16 @@
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import './index.css'
-import HomePage from './pages/HomePage'
-import AboutPage from './pages/AboutPage'
-import ContactPage from './pages/ContactPage'
-import ProductPage from './pages/ProductPage'
-import ProductDetail from './pages/ProductDetail'
-import { AppProvider } from './context/AppContext'
-import CartPage from './components/CartPage'
-import WishlistPage from './components/WishlistPage'
-import Skincare from './pages/Skincare'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./index.css";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import ProductPage from "./pages/ProductPage";
+import ProductDetail from "./pages/ProductDetail";
+import { AppProvider } from "./context/AppContext";
+import CartPage from "./components/CartPage";
+import WishlistPage from "./components/WishlistPage";
+import Skincare from "./pages/Skincare";
+import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
 function App() {
   return (
     <AppProvider>
@@ -23,10 +24,12 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/routine" element={<Skincare />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </Router>
     </AppProvider>
-  )
+  );
 }
 
-export default App
+export default App;
