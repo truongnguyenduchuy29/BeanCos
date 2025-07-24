@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import Header from '../components/Header';
@@ -7,6 +7,14 @@ import { Link } from 'react-router-dom';
 
 const CartPage = () => {
   const { cart, removeFromCart, updateCartQuantity } = useAppContext();
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => {

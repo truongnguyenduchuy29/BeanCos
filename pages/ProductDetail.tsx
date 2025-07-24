@@ -153,6 +153,9 @@ const ProductDetail = () => {
       imageUrl = productToBuy.imageUrl;
     }
     
+    // Use selected quantity if it's the main product, otherwise default to 1
+    const productQuantity = product && productToBuy.id === product.id ? quantity : 1;
+    
     const cartProduct = {
       id: productToBuy.id,
       name: productToBuy.name,
@@ -163,7 +166,7 @@ const ProductDetail = () => {
       brand: productToBuy.brand,
       tags: productToBuy.tags,
       gift: isProduct(productToBuy) && productToBuy.gifts ? productToBuy.gifts[0] : undefined,
-      quantity: 1
+      quantity: productQuantity
     };
     
     // Add product to cart and navigate to cart page

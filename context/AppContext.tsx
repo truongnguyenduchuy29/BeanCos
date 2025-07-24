@@ -10,6 +10,7 @@ interface Product {
   brand?: string;
   tags?: string[];
   gift?: string;
+  quantity?: number; // Add optional quantity property
 }
 
 interface CartItem extends Product {
@@ -69,11 +70,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       if (existingItem) {
         return prev.map(item =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + (product.quantity || 1) }
             : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: product.quantity || 1 }];
     });
   };
 
