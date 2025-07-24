@@ -35,6 +35,9 @@ interface AppContextType {
   // Animation states
   cartAnimation: boolean;
   wishlistAnimation: boolean;
+  // Copied vouchers
+  copiedVouchers: string[];
+  addCopiedVoucher: (voucher: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -57,6 +60,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // Animation states
   const [cartAnimation, setCartAnimation] = useState(false);
   const [wishlistAnimation, setWishlistAnimation] = useState(false);
+  
+  // Copied vouchers state
+  const [copiedVouchers, setCopiedVouchers] = useState<string[]>([]);
 
   const addToWishlist = (product: Product) => {
     setWishlist(prev => {
@@ -112,6 +118,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return wishlist.some(item => item.id === productId);
   };
 
+  const addCopiedVoucher = (voucher: string) => {
+    setCopiedVouchers(prev => {
+      if (!prev.includes(voucher)) {
+        return [...prev, voucher];
+      }
+      return prev;
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -131,6 +146,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setUser,
         cartAnimation,
         wishlistAnimation,
+        copiedVouchers,
+        addCopiedVoucher,
       }}
     >
       {children}

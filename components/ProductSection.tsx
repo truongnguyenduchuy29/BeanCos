@@ -30,7 +30,7 @@ interface QuickViewProduct {
 
 const ProductSection = () => {
   const navigate = useNavigate();
-  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } =
+  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist, addCopiedVoucher } =
     useAppContext();
 
   const [showSection, setShowSection] = useState(false);
@@ -42,6 +42,9 @@ const ProductSection = () => {
   // State for checkout modal
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [isOrderSuccessModalOpen, setIsOrderSuccessModalOpen] = useState(false);
+  
+  // State for voucher copy animation
+  const [copiedVoucher, setCopiedVoucher] = useState<string | null>(null);
 
   // Add custom CSS to the head
   useEffect(() => {
@@ -857,9 +860,26 @@ const ProductSection = () => {
     setIsQuickViewOpen(false);
   };
 
-  const handleCopyVoucher = (code: string) => {
-    navigator.clipboard.writeText(code);
-    setIsCheckoutModalOpen(true);
+  const handleCopyVoucher = (baseCode: string) => {
+    // Generate random voucher code
+    const randomSuffix = Math.random().toString(36).substr(2, 4).toUpperCase();
+    const randomCode = baseCode + randomSuffix;
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(randomCode);
+    
+    // Add to copied vouchers list in context
+    addCopiedVoucher(randomCode);
+    
+    // Show copied animation
+    setCopiedVoucher(baseCode);
+    
+    // Reset animation after 2 seconds
+    setTimeout(() => {
+      setCopiedVoucher(null);
+    }, 2000);
+    
+    // DO NOT open checkout modal - removed this part
   };
 
   const handleCheckoutSuccess = () => {
@@ -946,25 +966,25 @@ const ProductSection = () => {
     {
       code: "BEA50",
       discount: "50K",
-      description: "Mã giảm 50K cho đơn hàng tối thiểu 750.000đ.",
+      description: "Giảm 50K - Chỉ áp dụng cho một số sản phẩm",
       color: "bg-pink-100",
     },
     {
-      code: "BEA15",
+      code: "BEA15", 
       discount: "15%",
-      description: "Mã giảm 15% cho đơn hàng tối thiểu 1.500.000đ.",
+      description: "Giảm 15% - Chỉ áp dụng cho một số sản phẩm",
       color: "bg-pink-100",
     },
     {
       code: "BEAN99K",
-      discount: "99K",
-      description: "Mã giảm 99K cho đơn hàng tối thiểu 950.000đ.",
+      discount: "99K", 
+      description: "Giảm 99K - Chỉ áp dụng cho một số sản phẩm",
       color: "bg-pink-100",
     },
     {
       code: "FREESHIP",
       discount: "0K",
-      description: "Nhập mã FREESHIP miễn phí vận chuyển.",
+      description: "Miễn phí ship - Chỉ áp dụng cho một số sản phẩm",
       color: "bg-pink-100",
     },
   ];
@@ -1060,9 +1080,22 @@ const ProductSection = () => {
                     <div className="flex justify-between items-center mt-2 flex-wrap gap-1">
                       <button 
                         onClick={() => handleCopyVoucher(voucher.code)}
-                        className="bg-purple-100 text-purple-700 text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full hover:bg-purple-200 transition-colors"
+                        className={`text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all duration-300 ${
+                          copiedVoucher === voucher.code 
+                            ? 'bg-green-100 text-green-700 border border-green-200' 
+                            : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                        }`}
                       >
-                        Sao chép mã
+                        {copiedVoucher === voucher.code ? (
+                          <span className="flex items-center gap-1">
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            Đã sao chép
+                          </span>
+                        ) : (
+                          'Sao chép mã'
+                        )}
                       </button>
                       <a
                         href="#"

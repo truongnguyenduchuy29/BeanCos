@@ -22,7 +22,7 @@ interface OrderInfo {
 }
 
 const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onSuccess }) => {
-  const { cart, setSearchQuery } = useAppContext();
+  const { cart, copiedVouchers } = useAppContext();
   const [orderInfo, setOrderInfo] = useState<OrderInfo>({
     fullName: '',
     phone: '',
@@ -288,24 +288,28 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, onSucces
                   <div className="mt-3">
                     <p className="text-sm text-gray-600 mb-2">Voucher có sẵn:</p>
                     <div className="space-y-2">
-                      {availableVouchers.map((voucher) => (
-                        <button
-                          key={voucher.code}
-                          type="button"
-                          onClick={() => handleVoucherSelect(voucher.code)}
-                          className={`w-full text-left p-2 border rounded-md hover:bg-gray-50 transition-colors ${
-                            orderInfo.voucher === voucher.code ? 'border-pink-500 bg-pink-50' : 'border-gray-200'
-                          }`}
-                        >
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <span className="font-medium text-pink-600">{voucher.code}</span>
-                              <span className="ml-2 text-sm text-gray-600">{voucher.description}</span>
+                      {copiedVouchers.length > 0 ? (
+                        copiedVouchers.map((voucherCode, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() => handleVoucherSelect(voucherCode)}
+                            className={`w-full text-left p-2 border rounded-md hover:bg-gray-50 transition-colors ${
+                              orderInfo.voucher === voucherCode ? 'border-pink-500 bg-pink-50' : 'border-gray-200'
+                            }`}
+                          >
+                            <div className="flex justify-between items-center">
+                              <div>
+                                <span className="font-medium text-gray-800">{voucherCode}</span>
+                                <p className="text-xs text-gray-600">Voucher đã sao chép</p>
+                              </div>
+                              <span className="text-sm text-pink-600">Áp dụng</span>
                             </div>
-                            <span className="text-sm font-semibold text-pink-600">{voucher.discount}</span>
-                          </div>
-                        </button>
-                      ))}
+                          </button>
+                        ))
+                      ) : (
+                        <p className="text-sm text-gray-500 italic">Chưa có voucher nào được sao chép</p>
+                      )}
                     </div>
                   </div>
                 </div>
