@@ -60,7 +60,8 @@ const Header = () => {
         .filter(product => 
           product.name.toLowerCase().includes(value.toLowerCase()) ||
           product.brand.toLowerCase().includes(value.toLowerCase()) ||
-          product.category.toLowerCase().includes(value.toLowerCase())
+          product.category.toLowerCase().includes(value.toLowerCase()) ||
+          product.type.toLowerCase().includes(value.toLowerCase())
         )
         .slice(0, 5); // Limit to 5 suggestions
       
@@ -130,7 +131,21 @@ const Header = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+      // Check if there are matching products
+      const matchingProducts = productData.products.filter(product => 
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.type.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      if (matchingProducts.length > 0) {
+        // Navigate to products page with search query
+        window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
+      } else {
+        // Navigate to search page showing no results
+        window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+      }
     }
   };
 

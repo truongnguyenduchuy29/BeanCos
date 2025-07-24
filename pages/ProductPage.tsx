@@ -135,6 +135,31 @@ const ProductPage = () => {
   useEffect(() => {
     if (products.length === 0) return; // Skip if products not loaded
     
+    // Check for search query in URL parameters
+    const searchParam = searchParams.get('search');
+    if (searchParam) {
+      console.log(`URL parameter: search=${searchParam}`);
+      
+      // Filter products based on search query
+      const searchFiltered = products.filter(product => 
+        product.name.toLowerCase().includes(searchParam.toLowerCase()) ||
+        product.brand.toLowerCase().includes(searchParam.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchParam.toLowerCase()) ||
+        product.type.toLowerCase().includes(searchParam.toLowerCase())
+      );
+      
+      console.log(`Found ${searchFiltered.length} products matching search "${searchParam}"`);
+      setFilteredProducts(searchFiltered);
+      
+      // Reset all filters when searching
+      setSelectedCategory(null);
+      setSelectedProductType(null);
+      setSelectedBrand(null);
+      setSelectedSkinType(null);
+      setSelectedPriceRange(null);
+      return; // Exit early to avoid category filtering
+    }
+    
     // Check for category in URL parameters
     const categoryParam = searchParams.get('category');
     console.log(`URL parameter: category=${categoryParam}`);
@@ -175,6 +200,12 @@ const ProductPage = () => {
 
   // Filter products based on selected filters
   useEffect(() => {
+    // If there's a search parameter, don't apply other filters
+    const searchParam = searchParams.get('search');
+    if (searchParam) {
+      return; // Exit early, search filtering is handled in the URL parameters effect
+    }
+    
     let filtered = [...products];
 
     if (selectedCategory) {
@@ -249,6 +280,7 @@ const ProductPage = () => {
     selectedSkinType,
     selectedPriceRange,
     sortBy,
+    searchParams, // Add searchParams to dependencies
   ]);
 
   // Scroll brand carousel
@@ -483,7 +515,11 @@ const ProductPage = () => {
               Trang chủ
             </Link>
             <span className="mx-2 text-gray-400">&gt;</span>
-            {selectedCategory || selectedProductType ? (
+            {searchParams.get('search') ? (
+              <span className="text-pink-500">
+                Kết quả tìm kiếm: "{searchParams.get('search')}"
+              </span>
+            ) : selectedCategory || selectedProductType ? (
               <>
                 <button
                   onClick={resetToAllProducts}
@@ -730,9 +766,19 @@ const ProductPage = () => {
           <div className="lg:flex-1" ref={productsRef}>
             {/* Top bar with title and sort */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 pb-3 border-b border-gray-200">
-              <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">
-                {selectedCategory || selectedProductType || "TẤT CẢ SẢN PHẨM"}
-              </h2>
+              <div>
+                <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">
+                  {searchParams.get('search') 
+                    ? `KẾT QUẢ TÌM KIẾM: "${searchParams.get('search')}"` 
+                    : selectedCategory || selectedProductType || "TẤT CẢ SẢN PHẨM"
+                  }
+                </h2>
+                {searchParams.get('search') && (
+                  <p className="text-sm text-gray-600">
+                    Tìm thấy {filteredProducts.length} sản phẩm
+                  </p>
+                )}
+              </div>
               <div className="flex items-center">
                 <span className="text-sm text-gray-600 mr-2">Sắp xếp:</span>
                 <select
@@ -754,10 +800,16 @@ const ProductPage = () => {
               <div className="text-center py-16 border border-dashed border-gray-300 rounded-md">
                 <div className="text-5xl mb-3">😕</div>
                 <h3 className="text-lg font-medium text-gray-700 mb-2">
-                  Không tìm thấy sản phẩm nào
+                  {searchParams.get('search') 
+                    ? `Không tìm thấy sản phẩm nào với từ khóa "${searchParams.get('search')}"` 
+                    : "Không tìm thấy sản phẩm nào"
+                  }
                 </h3>
                 <p className="text-gray-500 mb-4">
-                  Không tìm thấy sản phẩm nào phù hợp với bộ lọc của bạn.
+                  {searchParams.get('search') 
+                    ? "Hãy thử tìm kiếm với từ khóa khác hoặc xem tất cả sản phẩm." 
+                    : "Không tìm thấy sản phẩm nào phù hợp với bộ lọc của bạn."
+                  }
                 </p>
                 <button
                   onClick={resetToAllProducts}
