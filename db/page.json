@@ -1,0 +1,201 @@
+
+[{
+    "id": "1",
+  "title": "Da dầu mụn và mỹ phẩm dành cho da dầu và mụn",
+  "date": "Thứ Tư, 12/07/2023",
+  "author": "Bùi Minh Nhật",
+  "sections": [
+    {
+      "title": "1. Da của chúng ta có cấu tạo như thế nào nhỉ?",
+      "content": "Da gồm 3 lớp: lớp thượng bì, lớp trung bì và hạ bì (hay còn gọi là mô dưới da). Ngoài ra còn có các phần phụ như: lông, tuyến mồ hôi và tuyến bã.",
+      "subsections": [
+        {
+          "title": "1.1 Lớp thượng bì",
+          "content": "Là lớp ngoài cùng của da, liên tục được làm mới nhờ quá trình sừng hóa với 5 lớp tế bào:",
+          "layers": [
+            "Lớp đáy: sản sinh tế bào keratinocyte",
+            "Lớp gai: sản sinh chất sừng",
+            "Lớp hạt: diễn ra quá trình sừng hóa",
+            "Lớp bóng: tế bào trở nên phẳng do bị ép",
+            "Lớp sừng: tập trung các tuyến mồ hôi"
+          ]
+        },
+        {
+          "title": "1.2 Trung bì",
+          "content": "Nằm dưới lớp thượng bì, dày 1–2mm, chia làm 2 lớp:",
+          "layers": [
+            "Lớp nhú: mô liên kết lỏng lẻo, collagen, mạch máu",
+            "Lớp lưới: chứa mạch máu, thần kinh, cơ trơn"
+          ]
+        },
+        {
+          "title": "1.3 Hạ bì",
+          "content": "Là tổ chức liên kết dưới da, chứa nhiều mạch máu và thần kinh"
+        }
+      ]
+    },
+    {
+      "title": "2. Da dầu là gì? Làm thế nào nhận biết da dầu",
+      "subsections": [
+        {
+          "title": "2.1 Da dầu là kết quả của việc sản xuất quá nhiều bã nhờn từ tuyến bã",
+          "content": "Bã nhờn có vai trò bảo vệ và dưỡng ẩm cho da nhưng nếu tiết quá nhiều sẽ gây mụn, tắc lỗ chân lông và các vấn đề khác."
+        },
+        {
+          "title": "2.2 Cách nhận biết da dầu",
+          "content": "Da luôn bóng dầu, đặc biệt ở vùng chữ T. Có thể nhận biết bằng mắt thường hoặc dùng giấy thấm dầu."
+        }
+      ]
+    },
+    {
+      "title": "3. Nguyên nhân",
+      "subsections": [
+        {
+          "title": "3.1 Ảnh hưởng nội tiết tố (hormone)",
+          "content": "Nữ giới vào thời điểm rụng trứng hoặc nam giới có testosterone cao thường tiết nhiều dầu hơn."
+        },
+        {
+          "title": "3.2 Gen",
+          "content": "Di truyền có thể khiến tuyến bã hoạt động mạnh, da dầu và lỗ chân lông to tự nhiên."
+        },
+        {
+          "title": "3.3 Các nguyên nhân khác",
+          "content": "Bao gồm: tuổi tác, giới tính, dùng sai sản phẩm chăm sóc da."
+        }
+      ]
+    },
+    {
+      "title": "4. Skincare cho da dầu mụn và top thành phần mỹ phẩm phù hợp",
+      "subsections": [
+        {
+          "title": "4.1 Đất sét (Bentonite, Kaolin)",
+          "content": "Đất sét giúp hút dầu thừa trên bề mặt da, giảm mụn đầu đen và mụn đầu trắng.",
+          "products": [
+            {
+              "name": "Tinh chất La Roche-Posay Hyalu B5 Serum phục hồi da",
+              "price": "770.000₫",
+              "image": "https://cdn.openai.com/chat-plugins/images/placeholder-image.png",
+              "description": "Phục hồi và cấp ẩm da bằng Hyaluronic Acid và Vitamin B5",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "title": "4.2 Niacinamide",
+          "content": "Là vitamin B3 có tác dụng: kháng viêm, ngăn lão hóa, tăng sinh collagen, điều tiết dầu và thu nhỏ lỗ chân lông.",
+          "products": [
+            {
+              "name": "Sữa rửa mặt Some By Mi Miracle Acne Clear Foam",
+              "price": "260.000₫",
+              "image": "attachment:image0",
+              "description": "Làm sạch sâu, chứa AHA-BHA-PHA và Niacinamide 2% giúp giảm mụn, se lỗ chân lông",
+              "url": "#"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "conclusion": "Qua bài viết này, hy vọng bạn sẽ hiểu rõ hơn về da dầu, nguyên nhân và cách chăm sóc phù hợp với những thành phần mỹ phẩm hiệu quả như đất sét, niacinamide. Việc chọn đúng sản phẩm sẽ giúp kiểm soát dầu thừa và ngăn ngừa mụn hiệu quả."
+},
+
+{
+    "id": "2",
+  "title": "Da dầu mụn và mỹ phẩm dành cho da dầu và mụn",
+  "date": "Thứ Tư, 12/07/2023",
+  "author": "Bùi Minh Nhật",
+  "sections": [
+    {
+      "title": "1. Da của chúng ta có cấu tạo như thế nào nhỉ?",
+      "content": "Da gồm 3 lớp: lớp thượng bì, lớp trung bì và hạ bì (hay còn gọi là mô dưới da). Ngoài ra còn có các phần phụ như: lông, tuyến mồ hôi và tuyến bã.",
+      "subsections": [
+        {
+          "title": "1.1 Lớp thượng bì",
+          "content": "Là lớp ngoài cùng của da, liên tục được làm mới nhờ quá trình sừng hóa với 5 lớp tế bào:",
+          "layers": [
+            "Lớp đáy: sản sinh tế bào keratinocyte",
+            "Lớp gai: sản sinh chất sừng",
+            "Lớp hạt: diễn ra quá trình sừng hóa",
+            "Lớp bóng: tế bào trở nên phẳng do bị ép",
+            "Lớp sừng: tập trung các tuyến mồ hôi"
+          ]
+        },
+        {
+          "title": "1.2 Trung bì",
+          "content": "Nằm dưới lớp thượng bì, dày 1–2mm, chia làm 2 lớp:",
+          "layers": [
+            "Lớp nhú: mô liên kết lỏng lẻo, collagen, mạch máu",
+            "Lớp lưới: chứa mạch máu, thần kinh, cơ trơn"
+          ]
+        },
+        {
+          "title": "1.3 Hạ bì",
+          "content": "Là tổ chức liên kết dưới da, chứa nhiều mạch máu và thần kinh"
+        }
+      ]
+    },
+    {
+      "title": "2. Da dầu là gì? Làm thế nào nhận biết da dầu",
+      "subsections": [
+        {
+          "title": "2.1 Da dầu là kết quả của việc sản xuất quá nhiều bã nhờn từ tuyến bã",
+          "content": "Bã nhờn có vai trò bảo vệ và dưỡng ẩm cho da nhưng nếu tiết quá nhiều sẽ gây mụn, tắc lỗ chân lông và các vấn đề khác."
+        },
+        {
+          "title": "2.2 Cách nhận biết da dầu",
+          "content": "Da luôn bóng dầu, đặc biệt ở vùng chữ T. Có thể nhận biết bằng mắt thường hoặc dùng giấy thấm dầu."
+        }
+      ]
+    },
+    {
+      "title": "3. Nguyên nhân",
+      "subsections": [
+        {
+          "title": "3.1 Ảnh hưởng nội tiết tố (hormone)",
+          "content": "Nữ giới vào thời điểm rụng trứng hoặc nam giới có testosterone cao thường tiết nhiều dầu hơn."
+        },
+        {
+          "title": "3.2 Gen",
+          "content": "Di truyền có thể khiến tuyến bã hoạt động mạnh, da dầu và lỗ chân lông to tự nhiên."
+        },
+        {
+          "title": "3.3 Các nguyên nhân khác",
+          "content": "Bao gồm: tuổi tác, giới tính, dùng sai sản phẩm chăm sóc da."
+        }
+      ]
+    },
+    {
+      "title": "4. Skincare cho da dầu mụn và top thành phần mỹ phẩm phù hợp",
+      "subsections": [
+        {
+          "title": "4.1 Đất sét (Bentonite, Kaolin)",
+          "content": "Đất sét giúp hút dầu thừa trên bề mặt da, giảm mụn đầu đen và mụn đầu trắng.",
+          "products": [
+            {
+              "name": "Tinh chất La Roche-Posay Hyalu B5 Serum phục hồi da",
+              "price": "770.000₫",
+              "image": "https://cdn.openai.com/chat-plugins/images/placeholder-image.png",
+              "description": "Phục hồi và cấp ẩm da bằng Hyaluronic Acid và Vitamin B5",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "title": "4.2 Niacinamide",
+          "content": "Là vitamin B3 có tác dụng: kháng viêm, ngăn lão hóa, tăng sinh collagen, điều tiết dầu và thu nhỏ lỗ chân lông.",
+          "products": [
+            {
+              "name": "Sữa rửa mặt Some By Mi Miracle Acne Clear Foam",
+              "price": "260.000₫",
+              "image": "https://bizweb.dktcdn.net/100/490/275/products/799-simple-water-boost-micellar-water-1.jpg?v=1688548448993",
+              "description": "Sữa rửa mặt trị mụn chứa Niacinamide giúp làm sạch và giảm dầu thừa",
+              "url": "#"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "conclusion": "Qua bài viết này, hy vọng bạn sẽ hiểu rõ hơn về da dầu, nguyên nhân và cách chăm sóc phù hợp với những thành phần mỹ phẩm hiệu quả như đất sét, niacinamide. Việc chọn đúng sản phẩm sẽ giúp kiểm soát dầu thừa và ngăn ngừa mụn hiệu quả."
+}
+]

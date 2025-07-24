@@ -11,6 +11,7 @@ import WishlistPage from "./components/WishlistPage";
 import Skincare from "./pages/Skincare";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
+import NewPage from "./pages/NewPage";
 function App() {
   return (
     <AppProvider>
@@ -26,6 +27,7 @@ function App() {
           <Route path="/routine" element={<Skincare />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/news" element={<NewPage />} />
         </Routes>
       </Router>
     </AppProvider>
