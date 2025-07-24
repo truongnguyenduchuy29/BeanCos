@@ -10,15 +10,79 @@ import {
 } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
 import { Link, useLocation } from "react-router-dom";
+import productData from "../db/product.json";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
+  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
+  const [searchSuggestions, setSearchSuggestions] = useState<Array<{
+    id: number;
+    name: string;
+    brand: string; 
+    price: number;
+    imageUrl: string;
+  }>>([]);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const { wishlist, cart, searchQuery, setSearchQuery, isAuthenticated, user, cartAnimation, wishlistAnimation } =
     useAppContext();
   const currentLocation = useLocation();
-    
-  // Add global click handler to close dropdown when clicking outside
+
+  // Placeholder messages for carousel effect
+  const placeholderMessages = [
+    "Bạn muốn tìm gì?",
+    "Tìm kem dưỡng da...",
+    "Tìm serum...", 
+    "Tìm toner...",
+    "Tìm sữa rửa mặt...",
+    "Tìm mỹ phẩm...",
+  ];
+
+  // Carousel effect for placeholder
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIndex((prevIndex) => 
+        (prevIndex + 1) % placeholderMessages.length
+      );
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [placeholderMessages.length]);
+
+  // Search suggestions logic
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    if (value.trim().length > 0) {
+      // Filter products based on search query
+      const filtered = productData.products
+        .filter(product => 
+          product.name.toLowerCase().includes(value.toLowerCase()) ||
+          product.brand.toLowerCase().includes(value.toLowerCase()) ||
+          product.category.toLowerCase().includes(value.toLowerCase())
+        )
+        .slice(0, 5); // Limit to 5 suggestions
+      
+      setSearchSuggestions(filtered);
+      setShowSearchSuggestions(true);
+    } else {
+      setSearchSuggestions([]);
+      setShowSearchSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (product: {
+    id: number;
+    name: string;
+    brand: string;
+    price: number;
+    imageUrl: string;
+  }) => {
+    setSearchQuery(product.name);
+    setShowSearchSuggestions(false);
+    window.location.href = `/product/${product.id}`;
+  };  // Add global click handler to close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = () => {
       setIsProductDropdownOpen(false);
@@ -123,14 +187,23 @@ const Header = () => {
             </div>
 
             {/* Search bar */}
-            <div className="hidden md:block w-full max-w-xl mx-4">
+            <div className="hidden md:block w-full max-w-xl mx-4 relative">
               <form onSubmit={handleSearch} className="relative">
                 <input
                   type="text"
-                  placeholder="Bạn muốn tìm gì?"
+                  placeholder={placeholderMessages[placeholderIndex]}
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm shadow-sm"
+                  onChange={handleSearchInputChange}
+                  onFocus={() => {
+                    if (searchQuery.trim() && searchSuggestions.length > 0) {
+                      setShowSearchSuggestions(true);
+                    }
+                  }}
+                  onBlur={() => {
+                    // Delaỳ để cho phép click vào suggestion
+                    setTimeout(() => setShowSearchSuggestions(false), 200);
+                  }}
+                  className="search-input w-full px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm shadow-sm transition-all duration-300"
                 />
                 <button
                   type="submit"
@@ -139,6 +212,69 @@ const Header = () => {
                   <Search className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </form>
+
+              {/* Search Suggestions Dropdown */}
+              {showSearchSuggestions && searchSuggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 z-50 max-h-80 overflow-y-auto">
+                  {searchSuggestions.map((product) => (
+                    <div
+                      key={product.id}
+                      onClick={() => handleSuggestionClick(product)}
+                      className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                    >
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className="w-12 h-12 object-cover rounded-lg mr-3"
+                      />
+                      <div className="flex-1">
+                        <p className="font-medium text-sm text-gray-800 line-clamp-1">
+                          {product.name}
+                        </p>
+                        <p className="text-xs text-gray-500">{product.brand}</p>
+                        <p className="text-xs text-red-500 font-semibold">
+                          {product.price.toLocaleString()}đ
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  {searchQuery.trim() && (
+                    <div className="p-3 border-t border-gray-200 bg-gray-50">
+                      <button
+                        onClick={() => {
+                          setShowSearchSuggestions(false);
+                          window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+                        }}
+                        className="text-sm text-purple-600 hover:text-purple-700 font-medium"
+                      >
+                        Xem tất cả kết quả cho "{searchQuery}"
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Custom CSS for placeholder animation */}
+              <style>{`
+                @keyframes placeholderCarousel {
+                  0%, 100% { 
+                    background: linear-gradient(90deg, transparent 0%, transparent 100%);
+                  }
+                  50% { 
+                    background: linear-gradient(90deg, rgba(147, 51, 234, 0.05) 0%, transparent 100%);
+                  }
+                }
+                
+                .search-input::placeholder {
+                  animation: fadeInOut 3s infinite;
+                  transition: all 0.3s ease;
+                }
+                
+                @keyframes fadeInOut {
+                  0%, 20%, 80%, 100% { opacity: 1; }
+                  40%, 60% { opacity: 0.7; }
+                }
+              `}</style>
             </div>
 
             {/* Contact and actions */}
@@ -210,14 +346,22 @@ const Header = () => {
           </div>
 
           {/* Mobile Search */}
-          <div className="md:hidden mt-3">
+          <div className="md:hidden mt-3 relative">
             <form onSubmit={handleSearch} className="relative">
               <input
                 type="text"
-                placeholder="Bạn muốn tìm gì?"
+                placeholder={placeholderMessages[placeholderIndex]}
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-3 py-1.5 text-sm border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-300 shadow-sm"
+                onChange={handleSearchInputChange}
+                onFocus={() => {
+                  if (searchQuery.trim() && searchSuggestions.length > 0) {
+                    setShowSearchSuggestions(true);
+                  }
+                }}
+                onBlur={() => {
+                  setTimeout(() => setShowSearchSuggestions(false), 200);
+                }}
+                className="search-input w-full px-3 py-1.5 text-sm border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-300 shadow-sm"
               />
               <button
                 type="submit"
@@ -226,6 +370,47 @@ const Header = () => {
                 <Search className="w-3.5 h-3.5" />
               </button>
             </form>
+
+            {/* Mobile Search Suggestions */}
+            {showSearchSuggestions && searchSuggestions.length > 0 && (
+              <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 z-50 max-h-60 overflow-y-auto">
+                {searchSuggestions.map((product) => (
+                  <div
+                    key={product.id}
+                    onClick={() => handleSuggestionClick(product)}
+                    className="flex items-center p-2 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                  >
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="w-10 h-10 object-cover rounded-lg mr-2"
+                    />
+                    <div className="flex-1">
+                      <p className="font-medium text-xs text-gray-800 line-clamp-1">
+                        {product.name}
+                      </p>
+                      <p className="text-[10px] text-gray-500">{product.brand}</p>
+                      <p className="text-[10px] text-red-500 font-semibold">
+                        {product.price.toLocaleString()}đ
+                      </p>
+                    </div>
+                  </div>
+                ))}
+                {searchQuery.trim() && (
+                  <div className="p-2 border-t border-gray-200 bg-gray-50">
+                    <button
+                      onClick={() => {
+                        setShowSearchSuggestions(false);
+                        window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+                      }}
+                      className="text-xs text-purple-600 hover:text-purple-700 font-medium"
+                    >
+                      Xem tất cả kết quả cho "{searchQuery}"
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
