@@ -9,13 +9,14 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
   const { wishlist, cart, searchQuery, setSearchQuery, isAuthenticated, user, cartAnimation, wishlistAnimation } =
     useAppContext();
+  const currentLocation = useLocation();
     
   // Add global click handler to close dropdown when clicking outside
   useEffect(() => {
@@ -234,25 +235,37 @@ const Header = () => {
             <div className="flex items-center justify-center">
               <ul className="flex space-x-6 lg:space-x-10">
                 <li>
-                  <a
-                    href="/"
-                    className="text-blue-500 font-medium border-b-2 border-blue-500 pb-1.5 text-sm block py-2.5"
+                  <Link
+                    to="/"
+                    className={`text-sm font-medium block py-2.5 ${
+                      currentLocation.pathname === '/' 
+                        ? "text-blue-500 border-b-2 border-blue-500 pb-1.5" 
+                        : "text-gray-700 hover:text-blue-500 transition-colors"
+                    }`}
                   >
                     TRANG CHỦ
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="/about"
-                    className="text-gray-700 hover:text-blue-500 transition-colors text-sm font-medium block py-2.5"
+                  <Link
+                    to="/about"
+                    className={`text-sm font-medium block py-2.5 ${
+                      currentLocation.pathname === '/about' 
+                        ? "text-blue-500 border-b-2 border-blue-500 pb-1.5" 
+                        : "text-gray-700 hover:text-blue-500 transition-colors"
+                    }`}
                   >
                     GIỚI THIỆU
-                  </a>
+                  </Link>
                 </li>
                 <li className="relative group">
                   <Link
                     to="/products"
-                    className="flex items-center text-gray-700 hover:text-blue-500 transition-colors text-sm font-medium pb-2.5 pt-2.5"
+                    className={`flex items-center text-sm font-medium pb-2.5 pt-2.5 ${
+                      currentLocation.pathname === '/products' || currentLocation.pathname.startsWith('/product') 
+                        ? "text-blue-500 border-b-2 border-blue-500 pb-1.5" 
+                        : "text-gray-700 hover:text-blue-500 transition-colors"
+                    }`}
                     onMouseEnter={() => setIsProductDropdownOpen(true)}
                     onMouseLeave={() => setIsProductDropdownOpen(false)}
                     onClick={(e) => {
@@ -317,28 +330,40 @@ const Header = () => {
                 </li>
                 {/* Removed duplicate SẢN PHẨM menu item */}
                 <li>
-                  <a
-                    href="/news"
-                    className="text-gray-700 hover:text-blue-500 transition-colors text-sm font-medium block py-2.5"
+                  <Link
+                    to="/news"
+                    className={`text-sm font-medium block py-2.5 ${
+                      currentLocation.pathname === '/news' 
+                        ? "text-blue-500 border-b-2 border-blue-500 pb-1.5" 
+                        : "text-gray-700 hover:text-blue-500 transition-colors"
+                    }`}
                   >
                     TIN TỨC
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="/routine"
-                    className="text-teal-500 hover:text-teal-600 transition-colors text-sm font-medium block py-2.5"
+                  <Link
+                    to="/routine"
+                    className={`text-sm font-medium block py-2.5 ${
+                      currentLocation.pathname === '/routine' 
+                        ? "text-teal-500 border-b-2 border-teal-500 pb-1.5" 
+                        : "text-teal-500 hover:text-teal-600 transition-colors"
+                    }`}
                   >
                     ROUTINE SKINCARE
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="/contact"
-                    className="text-gray-700 hover:text-blue-500 transition-colors text-sm font-medium block py-2.5"
+                  <Link
+                    to="/contact"
+                    className={`text-sm font-medium block py-2.5 ${
+                      currentLocation.pathname === '/contact' 
+                        ? "text-blue-500 border-b-2 border-blue-500 pb-1.5" 
+                        : "text-gray-700 hover:text-blue-500 transition-colors"
+                    }`}
                   >
                     LIÊN HỆ
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
