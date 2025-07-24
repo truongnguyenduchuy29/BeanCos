@@ -390,38 +390,43 @@ const HomePage = () => {
     toner: "Toner",
   };
 
-  // Lọc sản phẩm dựa vào tab được chọn
+  // Lọc sản phẩm dựa vào tab được chọn - hiển thị TẤT CẢ sản phẩm
   const getFilteredProducts = (type: string) => {
     // Xác định loại sản phẩm theo tab
     const productType = tabToProductType[type];
 
-    // Lọc sản phẩm theo type
+    // Lọc TẤT CẢ sản phẩm theo type (không giới hạn số lượng)
     const filteredProducts = products
       .filter((product) => {
-        // Dựa vào activeTab, có thể lọc theo type hoặc category hoặc một tiêu chí khác
+        // Dựa vào activeTab, lọc theo type hoặc category với điều kiện mở rộng
         if (type === "cleanser") {
           return (
             product.category?.includes("Tẩy trang") ||
-            product.type?.includes("Tẩy trang")
+            product.type?.includes("Tẩy trang") ||
+            product.name.toLowerCase().includes("tẩy trang") ||
+            product.name.toLowerCase().includes("makeup remover")
           );
         } else if (type === "face-wash") {
           return (
             product.category?.includes("Sữa rửa mặt") ||
-            product.type?.includes("Sữa rửa mặt")
+            product.type?.includes("Sữa rửa mặt") ||
+            product.name.toLowerCase().includes("sữa rửa mặt") ||
+            product.name.toLowerCase().includes("cleanser")
           );
         } else if (type === "toner") {
           return (
             product.category?.includes("Toner") ||
-            product.type?.includes("Toner")
+            product.type?.includes("Toner") ||
+            product.name.toLowerCase().includes("toner") ||
+            product.name.toLowerCase().includes("nước hoa hồng")
           );
         }
         return false;
-      })
-      .slice(0, 5);
+      });
 
-    // Nếu không có sản phẩm phù hợp, trả về 5 sản phẩm đầu tiên với nhãn theo tab
+    // Nếu không có sản phẩm phù hợp, trả về 10 sản phẩm đầu tiên với nhãn theo tab
     if (filteredProducts.length === 0) {
-      return products.slice(0, 5).map((product) => ({
+      return products.slice(0, 10).map((product) => ({
         id: product.id,
         name: product.name,
         price: `${product.price.toLocaleString()}₫`,
@@ -436,7 +441,7 @@ const HomePage = () => {
       }));
     }
 
-    // Chuyển đổi dữ liệu sản phẩm sang định dạng ProductCard
+    // Chuyển đổi TẤT CẢ dữ liệu sản phẩm sang định dạng ProductCard
     return filteredProducts.map((product) => ({
       id: product.id,
       name: product.name,
@@ -1092,7 +1097,7 @@ const HomePage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5">
             {personalizedProducts.map((product) => (
               <div
                 key={product.id}
