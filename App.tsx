@@ -12,6 +12,7 @@ import Skincare from "./pages/Skincare";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 import NewPage from "./pages/NewPage";
+import ArticleDetail from "./pages/ArticleDetail";
 function App() {
   return (
     <AppProvider>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/news" element={<NewPage />} />
+          <Route path="/article/:id" element={<ArticleDetail />} />
         </Routes>
       </Router>
     </AppProvider>

@@ -150,7 +150,10 @@ const NewPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
               {/* Featured Article - Left Side */}
               {allArticles.length > 0 && (
-                <div className="relative bg-white rounded-lg shadow-md overflow-hidden">
+                <Link 
+                  to={`/article/${allArticles[0].id}`}
+                  className="relative bg-white rounded-lg shadow-md overflow-hidden block hover:shadow-lg transition-shadow"
+                >
                   <div className="relative">
                     <img
                       src="/src/img/da-dau-mun-nen-dung-my-pham-nao.webp"
@@ -173,14 +176,15 @@ const NewPage = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </Link>
               )}
 
               {/* Right Side Articles Grid */}
               <div className="grid grid-cols-1 gap-4">
                 {allArticles.slice(1, 3).map((article) => (
-                  <div
+                  <Link
                     key={article.id}
+                    to={`/article/${article.id}`}
                     className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex"
                   >
                     <div className="relative w-24 h-20 flex-shrink-0">
@@ -203,7 +207,7 @@ const NewPage = () => {
                         {getArticleExcerpt(article)}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -211,9 +215,10 @@ const NewPage = () => {
             {/* Bottom Articles Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
               {allArticles.slice(3).map((article) => (
-                <div
+                <Link
                   key={article.id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                  to={`/article/${article.id}`}
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow block"
                 >
                   <div className="relative">
                     <img
@@ -234,11 +239,11 @@ const NewPage = () => {
                     <p className="text-xs text-gray-600 mb-3 line-clamp-3">
                       {getArticleExcerpt(article)}
                     </p>
-                    <button className="text-xs text-black font-medium border-b border-black hover:text-pink-500 hover:border-pink-500 transition-colors">
+                    <span className="text-xs text-black font-medium border-b border-black hover:text-pink-500 hover:border-pink-500 transition-colors">
                       Đọc tiếp
-                    </button>
+                    </span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -308,7 +313,11 @@ const NewPage = () => {
               <h3 className="font-bold text-gray-800 mb-4">TIN TỨC NỔI BẬT</h3>
               <div className="space-y-4">
                 {allArticles.slice(0, 4).map((article) => (
-                  <div key={article.id} className="flex items-start space-x-3">
+                  <Link
+                    key={article.id}
+                    to={`/article/${article.id}`}
+                    className="flex items-start space-x-3 hover:bg-white hover:bg-opacity-50 p-2 rounded transition-colors"
+                  >
                     <img
                       src={getArticleImage(article)}
                       alt={article.title}
@@ -322,7 +331,7 @@ const NewPage = () => {
                         {article.date || "12/07/2023"}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
