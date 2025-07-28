@@ -36,8 +36,17 @@ interface Article {
   title: string;
   date: string;
   author: string;
+  image: string;
   sections: Section[];
   conclusion: string;
+  tags: string[];
+  relatedArticles?: Array<{
+    id: string;
+    title: string;
+    image: string;
+    date: string;
+    url: string;
+  }>;
 }
 
 interface Product {
@@ -77,7 +86,7 @@ const ArticleDetail = () => {
 
     // Set related articles (all articles except current one)
     const allArticles = pageData as Article[];
-    const related = allArticles.filter(art => art.id !== id);
+    const related = allArticles.filter((art) => art.id !== id);
     setRelatedArticles(related);
 
     // Scroll to top when component mounts
@@ -242,7 +251,9 @@ const ArticleDetail = () => {
                     {subsection.products.map(
                       (product, productIndex: number) => {
                         // Tìm sản phẩm thật trong database
-                        const productDatabase = productData as { products: Product[] };
+                        const productDatabase = productData as {
+                          products: Product[];
+                        };
                         const realProduct =
                           productDatabase.products.find(
                             (p: Product) =>
@@ -360,7 +371,7 @@ const ArticleDetail = () => {
               {/* Article Header */}
               <div className="relative">
                 <img
-                  src="/src/img/da-dau-mun-nen-dung-my-pham-nao.webp"
+                  src={article.image ? (article.image.startsWith('/img/') ? article.image : article.image.replace('/src/img/', '/img/')) : '/img/da-dau-mun-nen-dung-my-pham-nao.webp'}
                   alt={article.title}
                   className="w-full h-80 object-cover"
                 />
@@ -730,8 +741,10 @@ const ArticleDetail = () => {
                     Hãy là người đầu tiên chia sẻ ý kiến về bài viết này!
                   </p>
                   <div className="mt-6">
-                    <button 
-                      onClick={() => document.getElementById('content')?.focus()}
+                    <button
+                      onClick={() =>
+                        document.getElementById('content')?.focus()
+                      }
                       className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-full font-bold hover:from-pink-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     >
                       Viết bình luận đầu tiên
@@ -746,15 +759,27 @@ const ArticleDetail = () => {
           <div className="lg:col-span-1">
             {/* Navigation Menu */}
             <div className="bg-gradient-to-r from-purple-200 to-pink-200 rounded-xl shadow-lg p-5 mb-6">
-              <h3 className="font-bold text-gray-800 mb-5 text-center text-lg">DANH MỤC</h3>
+              <h3 className="font-bold text-gray-800 mb-5 text-center text-lg">
+                DANH MỤC
+              </h3>
               <ul className="space-y-3">
                 <li>
                   <Link
                     to="/"
                     className="flex items-center text-gray-700 hover:text-pink-500 text-sm transition-all duration-300 py-2 px-3 rounded-lg hover:bg-white/50"
                   >
-                    <svg className="w-4 h-4 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    <svg
+                      className="w-4 h-4 mr-3 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                      />
                     </svg>
                     Trang chủ
                   </Link>
@@ -764,8 +789,18 @@ const ArticleDetail = () => {
                     to="/about"
                     className="flex items-center text-gray-700 hover:text-pink-500 text-sm transition-all duration-300 py-2 px-3 rounded-lg hover:bg-white/50"
                   >
-                    <svg className="w-4 h-4 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-4 h-4 mr-3 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                     Giới thiệu
                   </Link>
@@ -776,8 +811,18 @@ const ArticleDetail = () => {
                       to="/products"
                       className="flex items-center text-gray-700 hover:text-pink-500 text-sm transition-colors"
                     >
-                      <svg className="w-4 h-4 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4-8-4m16 0v10l-8 4-8-4V7" />
+                      <svg
+                        className="w-4 h-4 mr-3 text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M20 7l-8-4-8 4m16 0l-8 4-8-4m16 0v10l-8 4-8-4V7"
+                        />
                       </svg>
                       Sản phẩm
                     </Link>
@@ -789,8 +834,18 @@ const ArticleDetail = () => {
                     to="/news"
                     className="flex items-center text-pink-500 text-sm font-bold py-2 px-3 rounded-lg bg-white/70 shadow-sm"
                   >
-                    <svg className="w-4 h-4 mr-3 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    <svg
+                      className="w-4 h-4 mr-3 text-pink-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+                      />
                     </svg>
                     Tin tức
                   </Link>
@@ -800,8 +855,18 @@ const ArticleDetail = () => {
                     to="/routine"
                     className="flex items-center text-gray-700 hover:text-pink-500 text-sm transition-all duration-300 py-2 px-3 rounded-lg hover:bg-white/50"
                   >
-                    <svg className="w-4 h-4 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    <svg
+                      className="w-4 h-4 mr-3 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                      />
                     </svg>
                     Routine Skincare
                   </Link>
@@ -811,8 +876,18 @@ const ArticleDetail = () => {
                     to="/contact"
                     className="flex items-center text-gray-700 hover:text-pink-500 text-sm transition-all duration-300 py-2 px-3 rounded-lg hover:bg-white/50"
                   >
-                    <svg className="w-4 h-4 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    <svg
+                      className="w-4 h-4 mr-3 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                      />
                     </svg>
                     Liên hệ
                   </Link>
@@ -822,71 +897,65 @@ const ArticleDetail = () => {
 
             {/* Featured News Section */}
             <div className="bg-gradient-to-r from-purple-200 to-pink-200 rounded-xl shadow-lg p-4 mb-6">
-              <h3 className="font-bold text-gray-800 mb-4 text-center">TIN TỨC NỔI BẬT</h3>
+              <h3 className="font-bold text-gray-800 mb-4 text-center">
+                TIN TỨC NỔI BẬT
+              </h3>
               <div className="space-y-4">
-                {relatedArticles.slice(0, 4).map((article: Article, index: number) => (
-                  <Link
-                    key={article.id}
-                    to={`/article/${article.id}`}
-                    className="block hover:bg-white/50 rounded-lg p-2 transition-all duration-300 group"
-                  >
-                    <div className="flex items-start space-x-3">
-                      <div className="relative flex-shrink-0">
-                        <img
-                          src={index === 0 ? "/src/img/da-dau-mun-nen-dung-my-pham-nao.webp" : 
-                               index === 1 ? "/src/img/treatment-la-gi-cac-hoat-chat-dieu-tri-mun.webp" :
-                               index === 2 ? "/src/img/purging-la-gi-nen-lam-gi-khi-da-bi.webp" :
-                               "/src/img/toner-la-gi-su-khac-nhau-giua-lotion.webp"}
-                          alt={article.title}
-                          className="w-16 h-12 object-cover rounded-lg shadow-md group-hover:shadow-lg transition-shadow"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = "/src/img/da-dau-mun-nen-dung-my-pham-nao.webp";
-                          }}
-                        />
-                        <div className="absolute top-0 left-0 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-tl-lg rounded-br-lg font-bold">
-                          12/07/2023
+                {relatedArticles
+                  .slice(0, 4)
+                  .map((article: Article, index: number) => (
+                    <Link
+                      key={article.id}
+                      to={`/article/${article.id}`}
+                      className="block hover:bg-white/50 rounded-lg p-2 transition-all duration-300 group"
+                    >
+                      <div className="flex items-start space-x-3">
+                        <div className="relative flex-shrink-0">
+                          <img
+                            src={
+                              index === 0
+                                ? '/src/img/da-dau-mun-nen-dung-my-pham-nao.webp'
+                                : index === 1
+                                ? '/src/img/treatment-la-gi-cac-hoat-chat-dieu-tri-mun.webp'
+                                : index === 2
+                                ? '/src/img/purging-la-gi-nen-lam-gi-khi-da-bi.webp'
+                                : '/src/img/toner-la-gi-su-khac-nhau-giua-lotion.webp'
+                            }
+                            alt={article.title}
+                            className="w-16 h-12 object-cover rounded-lg shadow-md group-hover:shadow-lg transition-shadow"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src =
+                                '/src/img/da-dau-mun-nen-dung-my-pham-nao.webp';
+                            }}
+                          />
+                          <div className="absolute top-0 left-0 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-tl-lg rounded-br-lg font-bold">
+                            12/07/2023
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-xs font-bold text-gray-800 line-clamp-2 mb-1 group-hover:text-pink-600 transition-colors leading-tight">
+                            {index === 0
+                              ? 'Da dầu mụn và mỹ phẩm dành cho da dầu và mụn'
+                              : index === 1
+                              ? 'Treatment là gì? các hoạt chất điều trị mụn, nám,...'
+                              : index === 2
+                              ? 'Purging là gì? Nên làm gì khi da bị purging?'
+                              : 'Toner là gì? Sự khác nhau giữa Lotion và...'}
+                          </h4>
+                          <p className="text-xs text-gray-500 line-clamp-1">
+                            {index === 0
+                              ? 'Da dầu mụn và mỹ phẩm dành cho da dầu và mụn'
+                              : index === 1
+                              ? '1. Khái niệm 1.1 Toner Toner hay còn gọi là nước cân bằng da, còn ở Phương Tây...'
+                              : index === 2
+                              ? '1. Da dầu là gì? Da dầu là loại da có bề mặt da bóng loáng, lỗ chân...'
+                              : '1. Da khô là gì? Da khô là tình trạng da bị thiếu nước, da trở nên...'}
+                          </p>
                         </div>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-xs font-bold text-gray-800 line-clamp-2 mb-1 group-hover:text-pink-600 transition-colors leading-tight">
-                          {index === 0 ? "Da dầu mụn và mỹ phẩm dành cho da dầu và mụn" :
-                           index === 1 ? "Treatment là gì? các hoạt chất điều trị mụn, nám,..." :
-                           index === 2 ? "Purging là gì? Nên làm gì khi da bị purging?" :
-                           "Toner là gì? Sự khác nhau giữa Lotion và..."}
-                        </h4>
-                        <p className="text-xs text-gray-500 line-clamp-1">
-                          {index === 0 ? "Da dầu mụn và mỹ phẩm dành cho da dầu và mụn" :
-                           index === 1 ? "1. Khái niệm 1.1 Toner Toner hay còn gọi là nước cân bằng da, còn ở Phương Tây..." :
-                           index === 2 ? "1. Da dầu là gì? Da dầu là loại da có bề mặt da bóng loáng, lỗ chân..." :
-                           "1. Da khô là gì? Da khô là tình trạng da bị thiếu nước, da trở nên..."}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  ))}
               </div>
-            </div>
-
-            {/* Table of Contents */}
-            <div className="bg-gradient-to-r from-purple-200 to-pink-200 rounded-xl shadow-lg p-5">
-              <h3 className="font-bold text-gray-800 mb-5 text-center text-lg">MỤC LỤC</h3>
-              <ul className="space-y-3">
-                {article.sections.map((section, index) => (
-                  <li key={index}>
-                    {section.title && (
-                      <a
-                        href={`#section-${index}`}
-                        className="flex items-start text-gray-700 hover:text-pink-500 text-sm transition-all duration-300 py-2 px-3 rounded-lg hover:bg-white/50 group"
-                      >
-                        <div className="bg-pink-100 text-pink-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5 flex-shrink-0 group-hover:bg-pink-500 group-hover:text-white transition-all duration-300">
-                          {index + 1}
-                        </div>
-                        <span className="leading-relaxed">{section.title}</span>
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>

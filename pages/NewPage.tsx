@@ -9,6 +9,7 @@ interface Article {
   title: string;
   date: string;
   author: string;
+  image: string;
   sections: Array<{
     title?: string;
     content?: string;
@@ -18,14 +19,14 @@ interface Article {
     }>;
   }>;
   conclusion: string;
-}
-
-interface AdditionalArticle {
-  id: string;
-  title: string;
-  date: string;
-  excerpt: string;
-  image: string;
+  tags: string[];
+  relatedArticles?: Array<{
+    id: string;
+    title: string;
+    image: string;
+    date: string;
+    url: string;
+  }>;
 }
 
 const NewPage = () => {
@@ -39,85 +40,26 @@ const NewPage = () => {
     });
   }, [articles]);
 
-  // Mock additional articles for the grid layout to match the design
-  const additionalArticles: AdditionalArticle[] = [
-    {
-      id: "3",
-      title: "Toner là gì? Sự khác nhau giữa Lotion và Nước Hoa Hồng?",
-      date: "12/07/2023",
-      excerpt:
-        "1. Khái niệm 1.1 Toner Toner hay còn gọi là nước cân bằng da, còn ở Phương Tây...",
-      image: "/src/img/toner-la-gi-su-khac-nhau-giua-lotion.webp",
-    },
-    {
-      id: "4",
-      title: "Da dầu là gì? Cách chăm sóc da và kiềm dầu hiệu quả",
-      date: "12/07/2023",
-      excerpt:
-        "1. Da dầu là gì? Da dầu là loại da có bề mặt da bóng loáng, lỗ chân...",
-      image: "/src/img/da-dau-mun-nen-dung-my-pham-nao.webp",
-    },
-    {
-      id: "5",
-      title: "Như thế nào là da khô? Chăm sóc da khô đúng cách?",
-      date: "12/07/2023",
-      excerpt:
-        "1. Da khô là gì? Da khô là tình trạng da bị thiếu nước, da trở nên...",
-      image: "/src/img/da-dau-mun-nen-dung-my-pham-nao.webp",
-    },
-    {
-      id: "6",
-      title: "Những sai lầm về Skincare tuyệt đối cần phải lưu ý",
-      date: "12/07/2023",
-      excerpt:
-        "1. Không makeup thì không cần tẩy trang? Sai. Dù không makeup, da bạn hàng ngày vẫn...",
-      image: "/src/img/da-dau-mun-nen-dung-my-pham-nao.webp",
-    },
-    {
-      id: "7",
-      title: "Những sai lầm thường gặp khi sử dụng AHA và BHA",
-      date: "12/07/2023",
-      excerpt:
-        "Trước khi nói về những sai lầm thường xuyên mắc phải khi sử dụng AHA/BHA thì...",
-      image: "/src/img/da-dau-mun-nen-dung-my-pham-nao.webp",
-    },
-    {
-      id: "8",
-      title: "Vitamin C có tác dụng gì? Giải đáp thắc mắc về Vitamin C",
-      date: "12/07/2023",
-      excerpt:
-        "1. Vitamin C có tác dụng gì? Là chất chống oxy hóa, là nhân tố quan trọng để...",
-      image: "/src/img/da-dau-mun-nen-dung-my-pham-nao.webp",
-    },
-  ];
-
-  // Helper function to check if article is from additional articles
-  const isAdditionalArticle = (
-    article: Article | AdditionalArticle
-  ): article is AdditionalArticle => {
-    return "excerpt" in article;
-  };
-
   // Get excerpt for any article type
-  const getArticleExcerpt = (article: Article | AdditionalArticle): string => {
-    if (isAdditionalArticle(article)) {
-      return article.excerpt;
-    }
+  const getArticleExcerpt = (article: Article): string => {
     return (
       (article.sections && article.sections[0]?.content) ||
       "Nội dung bài viết..."
     );
   };
 
-  // Get image for any article type
-  const getArticleImage = (article: Article | AdditionalArticle): string => {
-    if (isAdditionalArticle(article)) {
-      return article.image;
+  // Get image for any article type - convert to public path
+  const getArticleImage = (article: Article): string => {
+    if (article.image) {
+      // If already starts with /img/, return as is
+      if (article.image.startsWith('/img/')) {
+        return article.image;
+      }
+      // Convert /src/img/ to /img/ for public folder
+      return article.image.replace('/src/img/', '/img/');
     }
-    return "/src/img/da-dau-mun-nen-dung-my-pham-nao.webp";
+    return "/img/da-dau-mun-nen-dung-my-pham-nao.webp";
   };
-
-  const allArticles = [...articles, ...additionalArticles];
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -149,15 +91,15 @@ const NewPage = () => {
             {/* Main Articles Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
               {/* Featured Article - Left Side */}
-              {allArticles.length > 0 && (
+              {articles.length > 0 && (
                 <Link 
-                  to={`/article/${allArticles[0].id}`}
+                  to={`/article/${articles[0].id}`}
                   className="relative bg-white rounded-lg shadow-md overflow-hidden block hover:shadow-lg transition-shadow"
                 >
                   <div className="relative">
                     <img
-                      src="/src/img/da-dau-mun-nen-dung-my-pham-nao.webp"
-                      alt={allArticles[0].title}
+                      src={getArticleImage(articles[0])}
+                      alt={articles[0].title}
                       className="w-full h-64 object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -166,13 +108,13 @@ const NewPage = () => {
                         Thứ Tư, 12/07/2023
                       </div>
                       <h2 className="text-lg font-bold mb-2 leading-tight">
-                        Da Dầu
+                        {articles[0].title}
                       </h2>
                       <h3 className="text-sm font-medium mb-1">
-                        Kiềm dầu hiệu quả?
+                        {getArticleExcerpt(articles[0]).substring(0, 50)}...
                       </h3>
                       <p className="text-xs opacity-90">
-                        Da dầu mụn và mỹ phẩm dành cho da dầu và mụn
+                        {getArticleExcerpt(articles[0]).substring(0, 80)}...
                       </p>
                     </div>
                   </div>
@@ -181,7 +123,7 @@ const NewPage = () => {
 
               {/* Right Side Articles Grid */}
               <div className="grid grid-cols-1 gap-4">
-                {allArticles.slice(1, 3).map((article) => (
+                {articles.slice(1, 3).map((article: Article) => (
                   <Link
                     key={article.id}
                     to={`/article/${article.id}`}
@@ -195,7 +137,7 @@ const NewPage = () => {
                       />
                       <div className="absolute top-1 left-1">
                         <div className="bg-blue-500 text-white px-1 py-0.5 rounded text-xs font-medium">
-                          12/07/2023
+                          {article.date}
                         </div>
                       </div>
                     </div>
@@ -214,7 +156,7 @@ const NewPage = () => {
 
             {/* Bottom Articles Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-              {allArticles.slice(3).map((article) => (
+              {articles.slice(3).map((article: Article) => (
                 <Link
                   key={article.id}
                   to={`/article/${article.id}`}
@@ -312,7 +254,7 @@ const NewPage = () => {
             <div className="bg-gradient-to-r from-purple-200 to-pink-200 rounded-lg p-4">
               <h3 className="font-bold text-gray-800 mb-4">TIN TỨC NỔI BẬT</h3>
               <div className="space-y-4">
-                {allArticles.slice(0, 4).map((article) => (
+                {articles.slice(0, 4).map((article: Article) => (
                   <Link
                     key={article.id}
                     to={`/article/${article.id}`}
@@ -328,7 +270,7 @@ const NewPage = () => {
                         {article.title}
                       </h4>
                       <p className="text-xs text-gray-500">
-                        {article.date || "12/07/2023"}
+                        {article.date}
                       </p>
                     </div>
                   </Link>

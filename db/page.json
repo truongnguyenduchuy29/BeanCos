@@ -1,201 +1,700 @@
 
 [{
     "id": "1",
-  "title": "Da dầu mụn và mỹ phẩm dành cho da dầu và mụn",
-  "date": "Thứ Tư, 12/07/2023",
-  "author": "Bùi Minh Nhật",
-  "sections": [
-    {
-      "title": "1. Da của chúng ta có cấu tạo như thế nào nhỉ?",
-      "content": "Da gồm 3 lớp: lớp thượng bì, lớp trung bì và hạ bì (hay còn gọi là mô dưới da). Ngoài ra còn có các phần phụ như: lông, tuyến mồ hôi và tuyến bã.",
-      "subsections": [
-        {
-          "title": "1.1 Lớp thượng bì",
-          "content": "Là lớp ngoài cùng của da, liên tục được làm mới nhờ quá trình sừng hóa với 5 lớp tế bào:",
-          "layers": [
-            "Lớp đáy: sản sinh tế bào keratinocyte",
-            "Lớp gai: sản sinh chất sừng",
-            "Lớp hạt: diễn ra quá trình sừng hóa",
-            "Lớp bóng: tế bào trở nên phẳng do bị ép",
-            "Lớp sừng: tập trung các tuyến mồ hôi"
-          ]
-        },
-        {
-          "title": "1.2 Trung bì",
-          "content": "Nằm dưới lớp thượng bì, dày 1–2mm, chia làm 2 lớp:",
-          "layers": [
-            "Lớp nhú: mô liên kết lỏng lẻo, collagen, mạch máu",
-            "Lớp lưới: chứa mạch máu, thần kinh, cơ trơn"
-          ]
-        },
-        {
-          "title": "1.3 Hạ bì",
-          "content": "Là tổ chức liên kết dưới da, chứa nhiều mạch máu và thần kinh"
-        }
-      ]
-    },
-    {
-      "title": "2. Da dầu là gì? Làm thế nào nhận biết da dầu",
-      "subsections": [
-        {
-          "title": "2.1 Da dầu là kết quả của việc sản xuất quá nhiều bã nhờn từ tuyến bã",
-          "content": "Bã nhờn có vai trò bảo vệ và dưỡng ẩm cho da nhưng nếu tiết quá nhiều sẽ gây mụn, tắc lỗ chân lông và các vấn đề khác."
-        },
-        {
-          "title": "2.2 Cách nhận biết da dầu",
-          "content": "Da luôn bóng dầu, đặc biệt ở vùng chữ T. Có thể nhận biết bằng mắt thường hoặc dùng giấy thấm dầu."
-        }
-      ]
-    },
-    {
-      "title": "3. Nguyên nhân",
-      "subsections": [
-        {
-          "title": "3.1 Ảnh hưởng nội tiết tố (hormone)",
-          "content": "Nữ giới vào thời điểm rụng trứng hoặc nam giới có testosterone cao thường tiết nhiều dầu hơn."
-        },
-        {
-          "title": "3.2 Gen",
-          "content": "Di truyền có thể khiến tuyến bã hoạt động mạnh, da dầu và lỗ chân lông to tự nhiên."
-        },
-        {
-          "title": "3.3 Các nguyên nhân khác",
-          "content": "Bao gồm: tuổi tác, giới tính, dùng sai sản phẩm chăm sóc da."
-        }
-      ]
-    },
-    {
-      "title": "4. Skincare cho da dầu mụn và top thành phần mỹ phẩm phù hợp",
-      "subsections": [
-        {
-          "title": "4.1 Đất sét (Bentonite, Kaolin)",
-          "content": "Đất sét giúp hút dầu thừa trên bề mặt da, giảm mụn đầu đen và mụn đầu trắng.",
-          "products": [
-            {
-              "name": "Tinh chất La Roche-Posay Hyalu B5 Serum phục hồi da",
-              "price": "770.000₫",
-              "image": "https://cdn.openai.com/chat-plugins/images/placeholder-image.png",
-              "description": "Phục hồi và cấp ẩm da bằng Hyaluronic Acid và Vitamin B5",
-              "url": "#"
-            }
-          ]
-        },
-        {
-          "title": "4.2 Niacinamide",
-          "content": "Là vitamin B3 có tác dụng: kháng viêm, ngăn lão hóa, tăng sinh collagen, điều tiết dầu và thu nhỏ lỗ chân lông.",
-          "products": [
-            {
-              "name": "Sữa rửa mặt Some By Mi Miracle Acne Clear Foam",
-              "price": "260.000₫",
-              "image": "attachment:image0",
-              "description": "Làm sạch sâu, chứa AHA-BHA-PHA và Niacinamide 2% giúp giảm mụn, se lỗ chân lông",
-              "url": "#"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "conclusion": "Qua bài viết này, hy vọng bạn sẽ hiểu rõ hơn về da dầu, nguyên nhân và cách chăm sóc phù hợp với những thành phần mỹ phẩm hiệu quả như đất sét, niacinamide. Việc chọn đúng sản phẩm sẽ giúp kiểm soát dầu thừa và ngăn ngừa mụn hiệu quả."
-},
-
-{
+    "title": "Da dầu mụn và mỹ phẩm dành cho da dầu và mụn",
+    "date": "Thứ Tư, 12/07/2023",
+    "author": "Bùi Minh Nhật",
+    "image": "/img/da-dau-mun-nen-dung-my-pham-nao.webp",
+    "sections": [
+      {
+        "title": "1. DA CỦA CHÚNG TA CÓ CẤU TẠO NHƯ THẾ NÀO NHỈ ?",
+        "content": "Da gồm 3 lớp : lớp thượng bì, lớp trung bì và hạ bì ( hay còn gọi là mô dưới da ) ngoài ra còn có các phần phụ của da gồm : lông , các tuyến mồ hôi và tuyến bã.",
+        "subsections": [
+          {
+            "title": "1.1 Lớp thượng bì",
+            "content": "Là lớp ngoài cùng của da ,luôn được làm mới liên tục nhờ quá trình sừng hóa với cấu tạo gồm 5 lớp tế bào:",
+            "layers": [
+              "Lớp đáy: nằm ở trong cùng , là nơi sản sinh ra các tế bào keratinocyte",
+              "Lớp gai: tại đây keratinocyte sẽ sản sinh ra chất sừng",
+              "Lớp hạt: là nơi diễn ra quá trình sừng hóa",
+              "Lớp bóng: các tế bào trở nên phẳng do bị ép lại",
+              "Lớp sừng: nằm ở ngoài cùng, là nơi tập trung các tuyến mồ hôi"
+            ]
+          },
+          {
+            "title": "1.2 Trung bì:",
+            "content": "Nằm ngay dưới thượng bì, có độ dày 1-2mm, được chia làm 2 lớp :",
+            "layers": [
+              "lớp nhú : hình thành bởi các mô liên kết lỏng lẻo, các sợi collagen, sợi chun, sợi vòng và sợ mạch máu",
+              "lớp lưới : nhiều mạch máu, thần kinh, cơ trơn bám vào nang lông"
+            ]
+          },
+          {
+            "title": "1.3 Hạ bì:",
+            "content": "Là tổ chức liên kết dưới da , tại đây có nhiều mạch máu và thần kinh"
+          }
+        ]
+      },
+      {
+        "title": "2. DA DẦU LÀ GÌ? LÀM THẾ NÀO NHẬN BIẾT DA DẦU",
+        "subsections": [
+          {
+            "title": "2.1. Da dầu là kết quả của việc sản xuất quá nhiều bã nhờn từ tuyến bã",
+            "content": "Vậy việc xuất hiện bã nhờn trên da chúng ta là tốt hay xấu ??? Người ta hay nói ' Cái gì nhiều quá củng không tốt ' đúng vậy . Bã nhờn là một chất được tạo thành từ chất béo có vai trò bảo vệ và dưỡng ẩm trên da. Tuy nhiên sự quá tiết ra quá nhiều gây ra cho da các tình trạng mụn, tắc ngẽn lỗ chân lông và nhiều vấn đề khác trên da ."
+          },
+          {
+            "title": "2.2 Cách nhận biết da dầu",
+            "content": "Chúng ta có thể quan sát bằng mắt thường da luôn bóng có dầu , đặc biệt là vùng chữ T gồm trán mũi và cánh mũi gây cho chúng ta cảm giác bí mặt. Hoặc có thể nhận biết bằng giấy thấm dầu, những làn da dầu thường tăng tiết bã nhờn khiến cho giấy thấm dầu chuyển trong suốt hơn."
+          }
+        ]
+      },
+      {
+        "title": "3. NGUYÊN NHÂN",
+        "content": "Mình thường thấy 1 số bạn than phiền dùng kem chống nắng hay kem dưỡng hoặc các sản phẩm dưỡng da khiến da chúng ta đổ nhiều dầu. Điều đó đúng nhưng chưa đủ . Các nguyên nhân gây tình trạng da dầu có thể kể đến như :",
+        "subsections": [
+          {
+            "title": "3.1 Ảnh hưởng nội tiết tố ( hocmon ):",
+            "content": "Ví dụ như ở nữ giới thời điểm rụng trứng, nồng độ progesterone cao , điều đó củng khiến da chúng ta nhiều dầu và bóng hơn .Ở nam giới, da có xu hướng đổ nhiều dầu hơn nữ là do androgen testosterone là các hocmon ảnh hưởng đến việc tăng tiết dầu ."
+          },
+          {
+            "title": "3.2 Gen:",
+            "content": "Một số người có tuyến bã nhiều, có tình trạng lỗ chân lông to tự nhiên"
+          },
+          {
+            "title": "3.3 Các nguyên nhân khác:",
+            "content": "các nguyên nhân khác có thể kể đến như tuổi tác , giới , dùng sai sản phẩm"
+          }
+        ]
+      },
+      {
+        "title": "4. Skincare cho da dầu mụn và top thành phần mỹ phẩm dành cho da dầu và mụn",
+        "subsections": [
+          {
+            "title": "4.1 Đất sét ( BENTONITE, KAOLIN )",
+            "content": "Đất sét không tác động trực tiếp đến lượng dầu tiết ra từ tuyến bã nó chỉ đơn giản làm tiêu bớt lượng dầu trên bề mặt chúng ta .Hai thành phần này được sử dụng nhiều dưới dạng mặt nạ đất sét . Dầu thừa trên mặt là nguyên nhân dẫn đến tình trạng mụn đầu đen và mụn đầu trắng . Sử dụng mặt nạ đất sét có thể giúp giảm tình trạng tiết dầu giúp lỗ chân lông thông thoáng, và các bước dưỡng da sau đó phát huy tác dụng tốt hơn .",
+            "products": [
+              {
+                "name": "Tinh chất La Roche-Posay Hyalu B5 Serum phục hồi da",
+                "price": "770.000₫",
+                "image": "//bizweb.dktcdn.net/thumb/large/100/490/275/products/480-la-roche-posay-hyalu-b5.jpg?v=1689152745457",
+                "description": "Tinh chất phục hồi và cấp ẩm da bằng Hyaluronic Acid và Vitamin B5",
+                "url": "/tinh-chat-la-roche-posay-hyalu-b5-serum-phuc-hoi-da"
+              }
+            ]
+          },
+          {
+            "title": "4.2 NIACINAMIDE",
+            "content": "Niacinamide hay còn được biết là vitamin B3 có rất nhiều công dụng ' thần thánh' trên da của chúng ta. Có rất nhiều tác dụng của Niacinamide phải kể đến : Có tính kháng viêm, Ngăn ngừa lão hóa, Kích thích tăng sinh collagen, Điều tiết dầu, thu nhỏ lỗ chân lông. Chính vì những tác dụng thần kỳ đó , thị trường mỹ phẩm có rất nhiều loại củng như nồng độ niacinamide khác nhau.",
+            "benefits": [
+              "Có tính kháng viêm",
+              "Ngăn ngừa lão hóa",
+              "Kích thích tăng sinh collagen",
+              "Điều tiết dầu, thu nhỏ lỗ chân lông"
+            ],
+            "products": [
+              {
+                "name": "Sữa rửa mặt Some By Mi Miracle Acne Clear Foam",
+                "price": "260.000₫",
+                "image": "//bizweb.dktcdn.net/thumb/large/100/490/275/products/some-by-mi-aha-bha-pha-30-days-miracle-acne-clear-foam-100ml-8809647390091-13055dbea1f7476e9c12e7d791bdd7f3-1024x1024-1.jpg?v=1688618703597",
+                "description": "Sữa rửa mặt trị mụn chứa AHA-BHA-PHA và Niacinamide giúp làm sạch sâu và giảm dầu thừa",
+                "url": "/sua-rua-mat-some-by-mi-miracle-acne-clear-foam"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "conclusion": "Chúng ta đã vừa tìm hiểu nhưng điều về da dầu và những thành phần giúp chúng ta cải thiện tình trạng tăng tiết dầu thừa. Ngoài ra chị em còn phải có chu trình chăm sóc da phù hợp từ việc chọn sửa rửa mặt, toner, kem dưỡng. Hy vọng qua bài viết ngắn này mọi người có thể chọn được những sản phẩm phù hợp nhé.",
+    "tags": ["Da dầu", "Skincare", "Chăm sóc da", "Mỹ phẩm cho da", "Kiềm dầu", "Da mụn", "Niacinamide"],
+    "relatedArticles": [
+      {
+        "id": "2",
+        "title": "Treatment là gì? các hoạt chất điều trị mụn, nám, tàn nhang",
+        "image": "/img/treatment-la-gi-cac-hoat-chat-dieu-tri-mun.webp",
+        "date": "12/07/2023",
+        "url": "/treatment-la-gi-cac-hoat-chat-dieu-tri-mun-nam-tan-nhang"
+      },
+      {
+        "id": "3",
+        "title": "Purging là gì? Nên làm gì khi da bị purging?",
+        "image": "/img/purging-la-gi-nen-lam-gi-khi-da-bi.webp",
+        "date": "12/07/2023",
+        "url": "/purging-la-gi-nen-lam-gi-khi-da-bi-purging"
+      },
+      {
+        "id": "4",
+        "title": "Toner là gì? Sự khác nhau giữa Lotion và Nước Hoa Hồng?",
+        "image": "/img/toner-la-gi-su-khac-nhau-giua-lotion.webp",
+        "date": "12/07/2023",
+        "url": "/toner-la-gi-su-khac-nhau-giua-lotion-va-nuoc-hoa-hong"
+      },
+      {
+        "id": "5",
+        "title": "Da dầu là gì? Các cách chăm sóc da và kiềm dầu hiệu quả",
+        "image": "/img/da-dau-mun-nen-dung-my-pham-nao.webp",
+        "date": "12/07/2023",
+        "url": "/da-dau-la-gi-cac-cach-cham-soc-da-va-kiem-dau-hieu-qua"
+      }
+    ]
+  },
+  {
     "id": "2",
-  "title": "Da dầu mụn và mỹ phẩm dành cho da dầu và mụn",
-  "date": "Thứ Tư, 12/07/2023",
-  "author": "Bùi Minh Nhật",
-  "sections": [
-    {
-      "title": "1. Da của chúng ta có cấu tạo như thế nào nhỉ?",
-      "content": "Da gồm 3 lớp: lớp thượng bì, lớp trung bì và hạ bì (hay còn gọi là mô dưới da). Ngoài ra còn có các phần phụ như: lông, tuyến mồ hôi và tuyến bã.",
-      "subsections": [
-        {
-          "title": "1.1 Lớp thượng bì",
-          "content": "Là lớp ngoài cùng của da, liên tục được làm mới nhờ quá trình sừng hóa với 5 lớp tế bào:",
-          "layers": [
-            "Lớp đáy: sản sinh tế bào keratinocyte",
-            "Lớp gai: sản sinh chất sừng",
-            "Lớp hạt: diễn ra quá trình sừng hóa",
-            "Lớp bóng: tế bào trở nên phẳng do bị ép",
-            "Lớp sừng: tập trung các tuyến mồ hôi"
-          ]
-        },
-        {
-          "title": "1.2 Trung bì",
-          "content": "Nằm dưới lớp thượng bì, dày 1–2mm, chia làm 2 lớp:",
-          "layers": [
-            "Lớp nhú: mô liên kết lỏng lẻo, collagen, mạch máu",
-            "Lớp lưới: chứa mạch máu, thần kinh, cơ trơn"
-          ]
-        },
-        {
-          "title": "1.3 Hạ bì",
-          "content": "Là tổ chức liên kết dưới da, chứa nhiều mạch máu và thần kinh"
-        }
-      ]
-    },
-    {
-      "title": "2. Da dầu là gì? Làm thế nào nhận biết da dầu",
-      "subsections": [
-        {
-          "title": "2.1 Da dầu là kết quả của việc sản xuất quá nhiều bã nhờn từ tuyến bã",
-          "content": "Bã nhờn có vai trò bảo vệ và dưỡng ẩm cho da nhưng nếu tiết quá nhiều sẽ gây mụn, tắc lỗ chân lông và các vấn đề khác."
-        },
-        {
-          "title": "2.2 Cách nhận biết da dầu",
-          "content": "Da luôn bóng dầu, đặc biệt ở vùng chữ T. Có thể nhận biết bằng mắt thường hoặc dùng giấy thấm dầu."
-        }
-      ]
-    },
-    {
-      "title": "3. Nguyên nhân",
-      "subsections": [
-        {
-          "title": "3.1 Ảnh hưởng nội tiết tố (hormone)",
-          "content": "Nữ giới vào thời điểm rụng trứng hoặc nam giới có testosterone cao thường tiết nhiều dầu hơn."
-        },
-        {
-          "title": "3.2 Gen",
-          "content": "Di truyền có thể khiến tuyến bã hoạt động mạnh, da dầu và lỗ chân lông to tự nhiên."
-        },
-        {
-          "title": "3.3 Các nguyên nhân khác",
-          "content": "Bao gồm: tuổi tác, giới tính, dùng sai sản phẩm chăm sóc da."
-        }
-      ]
-    },
-    {
-      "title": "4. Skincare cho da dầu mụn và top thành phần mỹ phẩm phù hợp",
-      "subsections": [
-        {
-          "title": "4.1 Đất sét (Bentonite, Kaolin)",
-          "content": "Đất sét giúp hút dầu thừa trên bề mặt da, giảm mụn đầu đen và mụn đầu trắng.",
-          "products": [
-            {
-              "name": "Tinh chất La Roche-Posay Hyalu B5 Serum phục hồi da",
-              "price": "770.000₫",
-              "image": "https://cdn.openai.com/chat-plugins/images/placeholder-image.png",
-              "description": "Phục hồi và cấp ẩm da bằng Hyaluronic Acid và Vitamin B5",
-              "url": "#"
-            }
-          ]
-        },
-        {
-          "title": "4.2 Niacinamide",
-          "content": "Là vitamin B3 có tác dụng: kháng viêm, ngăn lão hóa, tăng sinh collagen, điều tiết dầu và thu nhỏ lỗ chân lông.",
-          "products": [
-            {
-              "name": "Sữa rửa mặt Some By Mi Miracle Acne Clear Foam",
-              "price": "260.000₫",
-              "image": "https://bizweb.dktcdn.net/100/490/275/products/799-simple-water-boost-micellar-water-1.jpg?v=1688548448993",
-              "description": "Sữa rửa mặt trị mụn chứa Niacinamide giúp làm sạch và giảm dầu thừa",
-              "url": "#"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "conclusion": "Qua bài viết này, hy vọng bạn sẽ hiểu rõ hơn về da dầu, nguyên nhân và cách chăm sóc phù hợp với những thành phần mỹ phẩm hiệu quả như đất sét, niacinamide. Việc chọn đúng sản phẩm sẽ giúp kiểm soát dầu thừa và ngăn ngừa mụn hiệu quả."
-}
+    "title": "Treatment là gì? các hoạt chất điều trị mụn, nám, tàn nhang",
+    "date": "Thứ Tư, 12/07/2023",
+    "author": "Bùi Minh Nhật",
+    "image": "/img/treatment-la-gi-cac-hoat-chat-dieu-tri-mun.webp",
+    "sections": [
+      {
+        "title": "1. Treatment là gì ?",
+        "content": "Các bạn có thể đã google dịch từ 'treatment' và ra kết quả nghĩa tiếng việt là điều trị đúng không. Trong da liễu, treatment được hiểu là các sản phẩm, hoạt chất đặc trị dùng để điều trị các vấn đề trên da như mụn trứng ca, nám, tàn nhang, lỗ chân lông, sạm da,... Như SEUN đã giới thiệu ở những bài viết trước các bước dưỡng da cơ bản, thì treatment có thể được hiểu như là bước dưỡng da nâng cao với việc sử dụng các acid và vitamin cho da. Hiện đang có rất nhiều tín đồ skincare đang sử dụng treatment trong chu trình dưỡng da của mình. Tuy nhiên trên thực tế không phải ai củng chọn đúng treatment và sử dụng đúng với nhu cầu da của mình. Sau đây chúng ta sẽ tìm hiểu về các treatment sử dụng cho 3 vấn đề thường gặp nhất trên da là mụn, nám, tàn nhang nha"
+      },
+      {
+        "title": "2. Treatment dành cho da mụn",
+        "subsections": [
+          {
+            "title": "2.1 Nhóm treatment Retinoids",
+            "content": "Retinoids là tên gọi chung của vitamin A (retinol) và các dẫn xuất có cấu trúc hoặc chức năng tương tự như Vitamin A. Retinoid được chia làm 3 thế hệ với 2 dạng bôi và uống. Hiện nay, nó được sử dụng để chống lão hóa da, bệnh vẩy nến, mụn trứng cá",
+            "layers": [
+              "Retinyl palmitate: Đây là loại retinoid không kê toa nhẹ nhàng nhất cho da. Bạn có thể tham khảo chúng nếu sở hữu làn da nhạy cảm hoặc quá khô và ít nếp nhăn.",
+              "Retinaldehyd: Dạng này sẽ mạnh hơn so với retinyl palmitate.",
+              "Retinol: Đây là thành phần mạnh nhất được tìm thấy trong các sản phẩm có chứa nhóm chất retinoid không kê đơn.SEUN đã có bài viết các bạn đọc thêm nha",
+              "Tretinoin: Một dạng retinoid mạnh và cần được kê toa từ bác sĩ.",
+              "Tazarotene: Loại này mạnh nhất, dùng để điều trị các vấn đề lão hóa nhiều, cần có sự can thiệp liều dùng từ bác sĩ."
+            ]
+          },
+          {
+            "title": "2.2 Nhóm treatment Tretinoin",
+            "content": "Tretinoin là thế hệ 1 của nhóm Retinoids, dễ bị oxy hóa, là thành phần dẫn xuất của Vitamin A có cơ chế bình thường quá trình sừng hóa, tăng thúc đẩy thay thế thượng bì từ đó giúp li giải còi mụn. Ngoài ra còn đánh vào hai cơ chế chính của mụn trứng cá là giảm viêm và giảm tiết bã nhờn. Theo như dân skincare chơi hệ treatment thì tretinoin có tác dụng là trị mụn và trẻ hóa da. Nhưng nhược điểm của lớn nhất của của Tretinoin là tác dụng phụ như đỏ da, khô da, bong tróc da. Các bạn lưu ý là Tretinoin là thuốc kê đơn, sẽ được bác sĩ chỉ định trong trường hợp như da dày sừng. Tretinoin củng có tác dụng chống sưng tấy, giảm thiểu sẹo do mụn để lại. Obagi Tretinoin 0.025% là một sản phẩm tương đối tốt, tuy nhiên cần có sự tư vấn của bác sĩ để chắc chắn mình cần nồng độ nào nhé!"
+          },
+          {
+            "title": "2.3 Nhóm treatment Adapalene",  
+            "content": "Adapalene là thế hệ thứ 3 của nhóm Retinoids, bền vững với ánh sáng, Tương tự Tretinoin thì củng có cơ chế bình thường hóa quá trình sừng hóa, tăng thúc đẩy thay thế thượng bì, giảm viêm, giảm tiết bã nhờn. Khác với Tretinoin thì Adapalene chỉ có tác dụng trị mụn và chống lão hóa nhẹ.Các nghiên cứu cho thấy rằng độ kích ứng của adapalene củng nhẹ hơn nhiều so với Tretinoin. Vậy nên Adapalene được ưa thích hơn trong việc điều trị mụn, dễ dung nạp trên da và ít gây kích ứng da. Adapalenen nồng độ 0,1%, trị được mụn ẩn, mụn đầu trắng, mụn đầu đen, khả năng gom cồi mụn tốt, giá thành không cao, nhưng không thích hợp điều trị các loại mụn viêm"
+          }
+        ]
+      },
+      {
+        "title": "3. Nhóm kháng sinh tại chỗ",
+        "subsections": [
+          {
+            "title": "3.1 Nhóm treatment Benzoyl peroxide",
+            "content": "Benzoyl Peroxide (gọi tắt là BP) là một thành phần chăm sóc da vô cùng hiệu quả trong điều trị mụn trứng cá. Là loại \"thuốc không kê đơn\" thường có trong các loại gel, các sản phẩm skincare và thuốc bôi điều trị tại chỗ. Nồng độ phổ biến của Benzoyl Peroxide trong các sản phẩm thường là 2,5%, 5% và 10% để phù hợp hơn cho các nốt mụn từ nhẹ đến trung bình. Nhưng là một gốc oxy hóa khiến da lão hóa do đó không dùng lâu dài, chỉ định chủ yếu là các mụn viêm đã có cồi mụn nổi lên. Epiduo là sự kết hợp 2 trong 1 của của Differin (Adapalene 0,1%) và Benzac AC 2,5 (benzoyl peroxide 2,5%).Adapalene chủ yếu điều trị mụn trứng cá (mụn đầu đen và mụn đầu trắng), và có tác dụng rất yếu đối với mụn viêm. Trong khi đó, Benzoyl peroxide có hiệu quả trên cả mụn đầu đen và mụn đỏ viêm. Việc bổ sung benzoyl peroxide cùng với Adapalene cho phép Epiduo có phổ tác dụng rộng với hầu hết các loại mụn trứng cá và mụn viêm (sẩn, mụn mủ).Sự kết hợp giữa Adapalene và Benzoyl peroxide vào trong sản phẩm Epiduo của Galderma không phải vì đây là 2 thành phần tốt để trị mụn mà đó là cả 1 công trình nghiên cứu thử nghiệm lâm sàng"
+          },
+          {
+            "title": "3.2 Nhóm treatment Acid Azelaic",
+            "content": "Azelaic Acid là một loại acid tự nhiên có nguồn gốc từ lúa mạch, lúa mì và lúa mạch đen có khả năng kháng khuẩn,kháng viêm,ngăn sừng hóa. Đây cũng chính là lý do khiến Azelaic Acid rất hiệu quả trong việc điều trị mụn trứng cá, rosacea, tăng sắc tố hay làm sáng da. Với ưu điểm ít gây kích ứng, azelaic acid là một trong số ít những loại acid có thể sử dụng cho nhiều loại da đặc biệt là da nhạy cảm, da nhờn hay dễ bị mụn trứng cá. Megadou thành phần có chứa Glycolid Axit và Azeleic Acid thích hợp với da có mụn ẩn, ngoài ra còn có khả năng mờ thâm sau mụn hiệu quả."
+          }
+        ]
+      },
+      {
+        "title": "4. Treatment dành cho da nám, tàn nhang",
+        "content": "Một số thành phần thường gặp trong các sản phẩm trị nám, làm sáng da mọi người nên biết",
+        "subsections": [
+          {
+            "title": "4.1 Hydroquinone",
+            "content": "Hiện tại vẫn là gương mặt vàng trong làn bôi thoa trong điều trị tăng sắc tố, làm trắng da. Nhưng phải dùng dưới sự giám sát và chỉ định của bác sĩ, xảy ra các tác dụng phụ như viêm da, kích ứng, đỏ da"
+          },
+          {
+            "title": "4.2 Tranexamid Acid",
+            "content": "Các nghiên cứu gần đây cho thấy hiệu quả lâm sàng trong điều trị thâm nám đặc biệt là có thể giải quyết được tình trạng giãn mao mạch trong nám, ít gây ra các tác dụng phụ hơn Hydroquinon. Có tác dung làm sáng da, mờ sạm."
+          },
+          {
+            "title": "4.3 Niacinamide",
+            "content": "hoạt chất này giúp giải quyết các vấn đề về lão hóa da, cải thiện nếp nhăn và các vấn đề tăng sắc tố da. Đồng thời còn giảm viêm, điều tiết dầu thừa và lỗ chân lông"
+          },
+          {
+            "title": "4.4 Vitamin C",
+            "content": "Là một chất chống oxy hóa mạnh, giúp loại bỏ những gốc tự do chống lão hóa và làm sáng da"
+          },
+          {
+            "title": "4.5 Arbutin",
+            "content": "Arbutin là một chất làm sáng da và được xem là một dạng của hydroquinone nhưng trong phân tử arbutin lại chứa thêm glucose. Arbutin có nguồn gốc từ cây bearberry (uva-ursi) hoặc các loại thực vật khác và có hoạt tính chống oxy hóa. Nó cũng có thể được sản xuất tổng hợp và được biết đến về mặt hóa học là deoxyarbutin. Nghiên cứu đã chỉ ra rằng phiên bản tổng hợp có hiệu quả làm sáng hơn so với dẫn xuất tự nhiên. Giúp gia tăng sắc tố, làm giảm tình trạng sạm da, khắc phục các đốm nâu, tích tụ trên đa, đồng thời ngăn chặn sự lão hóa giúp cho da căng tràn sức sống. Alpha Arbutin là thành phần thường xuyên có mặt trong các loại mỹ phẩm có chức năng làm sáng và nâng tone da như kem dưỡng da, chống nắng, đặc trị nám, thâm, tàn nhang. Đây là hoạt chất có thể tan trong nước và ổn định trong khoảng pH từ 3,5 – 6,5."
+          }
+        ]
+      }
+    ],
+    "conclusion": "Treatment là bước quan trọng trong skincare giúp điều trị các vấn đề da cụ thể. Việc lựa chọn đúng loại treatment phù hợp với từng loại da và vấn đề cần điều trị sẽ mang lại hiệu quả tối ưu. Tuy nhiên, cần tham khảo ý kiến chuyên gia trước khi sử dụng các sản phẩm có nồng độ cao hoặc kê đơn.",
+    "tags": ["Treatment", "Trị mụn", "Trị nám", "Skincare", "Chăm sóc da", "Retinoids", "Vitamin C", "Niacinamide"]
+  },
+  {
+    "id": "3",
+    "title": "Purging là gì? Nên làm gì khi da bị purging?",
+    "date": "Thứ Tư, 12/07/2023",
+    "author": "Bùi Minh Nhật",
+    "image": "/img/purging-la-gi-nen-lam-gi-khi-da-bi.webp",
+    "sections": [
+      {
+        "title": "1. Purging là gì?",
+        "content": "Purging là hiện tượng da tạm thời xấu đi khi bắt đầu sử dụng sản phẩm có chứa các hoạt chất như AHA, BHA, Retinol, Tretinoin hay các acid khác. Đây là quá trình da \"thanh lọc\" bản thân, đẩy các tạp chất, bã nhờn tích tụ sâu bên dưới lên bề mặt da, khiến da xuất hiện nhiều mụn hơn bình thường trong thời gian đầu sử dụng sản phẩm."
+      },
+      {
+        "title": "2. Tại sao da lại bị purging?",
+        "content": "Khi sử dụng các hoạt chất tăng tốc quá trình tái tạo tế bào da, chu kỳ làm mới da được rút ngắn từ 28 ngày xuống còn 14-21 ngày. Điều này khiến các tạp chất, mụn ẩn dưới da được đẩy lên bề mặt nhanh hơn, tạo ra hiện tượng purging.",
+        "subsections": [
+          {
+            "title": "2.1 Các hoạt chất thường gây purging",
+            "content": "Những hoạt chất có khả năng gây purging cao:",
+            "layers": [
+              "AHA (Alpha Hydroxy Acid): Glycolic Acid, Lactic Acid",
+              "BHA (Beta Hydroxy Acid): Salicylic Acid", 
+              "Retinoids: Retinol, Tretinoin, Adapalene",
+              "Vitamin C nồng độ cao",
+              "Niacinamide nồng độ cao",
+              "Azelaic Acid"
+            ]
+          },
+          {
+            "title": "2.2 Vùng da dễ bị purging",
+            "content": "Purging thường xảy ra ở những vùng da thường xuất hiện mụn như:",
+            "layers": [
+              "Vùng chữ T (trán, mũi, cằm)",
+              "Má, đặc biệt là vùng gần tai",
+              "Cằm và quanh miệng",
+              "Vùng ngực và lưng (nếu sử dụng sản phẩm cho cơ thể)"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "3. Phân biệt purging và breakout",
+        "content": "Việc phân biệt purging và breakout rất quan trọng để có cách xử lý phù hợp:",
+        "subsections": [
+          {
+            "title": "3.1 Dấu hiệu của purging",
+            "content": "Purging có những đặc điểm sau:",
+            "layers": [
+              "Xuất hiện ở vùng da thường hay bị mụn",
+              "Mụn lành nhanh hơn bình thường (1-2 tuần)",
+              "Không có mụn bọc, mụn viêm nghiêm trọng",
+              "Thời gian kéo dài từ 4-6 tuần",
+              "Da không bị kích ứng, ngứa hay đỏ rát"
+            ]
+          },
+          {
+            "title": "3.2 Dấu hiệu của breakout (kích ứng)",
+            "content": "Breakout do kích ứng thường có:",
+            "layers": [
+              "Xuất hiện ở những vùng da không thường xuyên bị mụn",
+              "Mụn to, viêm, có thể chứa mủ",
+              "Da đỏ, ngứa, rát hoặc bong tróc",
+              "Kéo dài hơn 6-8 tuần mà không cải thiện",
+              "Mụn không lành hoặc lành rất chậm"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "4. Cách xử lý khi da bị purging",
+        "content": "Khi da đang trong giai đoạn purging, cần áp dụng những biện pháp chăm sóc phù hợp:",
+        "subsections": [
+          {
+            "title": "4.1 Điều chỉnh tần suất sử dụng sản phẩm",
+            "content": "Không nên ngừng sử dụng sản phẩm hoàn toàn mà hãy điều chỉnh tần suất:",
+            "layers": [
+              "Giảm tần suất sử dụng xuống 2-3 lần/tuần",
+              "Sử dụng vào buổi tối và nhớ chống nắng ban ngày",
+              "Tăng dần tần suất khi da đã quen",
+              "Có thể pha loãng sản phẩm với kem dưỡng ẩm"
+            ]
+          },
+          {
+            "title": "4.2 Chăm sóc da nhẹ nhàng",
+            "content": "Trong thời gian purging, da cần được chăm sóc đặc biệt:",
+            "layers": [
+              "Sử dụng sữa rửa mặt nhẹ nhàng, không chứa sulfate",
+              "Tăng cường dưỡng ẩm với các sản phẩm không gây mụn",
+              "Tránh tẩy tế bào chết vật lý",
+              "Không nặn mụn hay chà xát da",
+              "Sử dụng kem chống nắng hàng ngày"
+            ]
+          },
+          {
+            "title": "4.3 Sản phẩm hỗ trợ trong giai đoạn purging",
+            "content": "Một số sản phẩm có thể giúp giảm tình trạng purging:",
+            "products": [
+              {
+                "name": "Kem dưỡng ẩm Cetaphil Daily Facial Moisturizer",
+                "price": "320.000₫",
+                "image": "//bizweb.dktcdn.net/thumb/large/100/490/275/products/cetaphil-daily-facial-moisturizer.jpg",
+                "description": "Kem dưỡng ẩm nhẹ nhàng, không gây mụn, phù hợp cho da nhạy cảm",
+                "url": "/kem-duong-am-cetaphil-daily-facial-moisturizer"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "5. Khi nào cần dừng sử dụng sản phẩm?",
+        "content": "Trong một số trường hợp, bạn cần ngừng sử dụng sản phẩm và tham khảo ý kiến chuyên gia:",
+        "subsections": [
+          {
+            "title": "5.1 Dấu hiệu cần dừng ngay",
+            "content": "Ngừng sử dụng sản phẩm nếu xuất hiện:",
+            "layers": [
+              "Da đỏ rát, ngứa dữ dội",
+              "Bong tróc da nghiêm trọng",
+              "Mụn viêm lan rộng ra những vùng không thường bị mụn",
+              "Tình trạng không cải thiện sau 8 tuần",
+              "Xuất hiện phản ứng dị ứng"
+            ]
+          }
+        ]
+      }
+    ],
+    "conclusion": "Purging là quá trình bình thường khi bắt đầu sử dụng các hoạt chất mạnh trong skincare. Điều quan trọng là phải kiên nhẫn, chăm sóc da đúng cách và biết phân biệt giữa purging và breakout để có biện pháp xử lý phù hợp. Nếu tình trạng kéo dài hoặc nghiêm trọng, hãy tham khảo ý kiến bác sĩ da liễu.",
+    "tags": ["Purging", "AHA", "BHA", "Skincare", "Peel da", "Retinol", "Chăm sóc da"]
+  },
+  {
+    "id": "4",
+    "title": "Toner là gì? Sự khác nhau giữa Lotion và Nước Hoa Hồng?",
+    "date": "Thứ Tư, 12/07/2023",
+    "author": "Bùi Minh Nhật",
+    "image": "/img/toner-la-gi-su-khac-nhau-giua-lotion.webp",
+    "sections": [
+      {
+        "title": "1. Khái niệm",
+        "subsections": [
+          {
+            "title": "1.1 Toner",
+            "content": "Toner hay còn gọi là nước cân bằng da, còn ở Phương Tây thì được gọi là astringent hoặc clarifying lotion. Toner là sản phẩm chăm sóc da dạng lỏng, có tác dụng cân bằng độ pH của da sau khi rửa mặt, làm sạch sâu những tạp chất còn sót lại và chuẩn bị da cho các bước dưỡng da tiếp theo. Toner thường có kết cấu loãng như nước, dễ thấm vào da và không để lại cảm giác nhờn rít."
+          },
+          {
+            "title": "1.2 Lotion",
+            "content": "Lotion trong skincare thường được hiểu là sản phẩm dưỡng da có kết cấu lỏng hơn kem dưỡng (cream) nhưng đặc hơn toner. Tại Nhật Bản, lotion lại được hiểu là toner - điều này thường gây nhầm lẫn cho người tiêu dùng. Lotion có tác dụng cấp ẩm, làm mềm da và tạo lớp bảo vệ trên bề mặt da."
+          },
+          {
+            "title": "1.3 Nước hoa hồng",
+            "content": "Nước hoa hồng là sản phẩm truyền thống được chiết xuất từ cánh hoa hồng, có tính chất nhẹ nhàng, làm dịu da và mang lại hương thơm tự nhiên. Nước hoa hồng thường được sử dụng để làm sạch, se khít lỗ chân lông và cấp ẩm nhẹ cho da."
+          }
+        ]
+      },
+      {
+        "title": "2. Thành phần và công dụng",
+        "subsections": [
+          {
+            "title": "2.1 Thành phần trong Toner",
+            "content": "Toner hiện đại thường chứa các thành phần hoạt tính như:",
+            "layers": [
+              "Acid nhẹ (AHA, BHA) để tẩy tế bào chết",
+              "Niacinamide để se khít lỗ chân lông",
+              "Hyaluronic Acid để cấp ẩm",
+              "Chiết xuất thực vật để làm dịu da",
+              "Peptides để chống lão hóa"
+            ]
+          },
+          {
+            "title": "2.2 Công dụng của từng loại",
+            "content": "Mỗi loại sản phẩm có công dụng riêng biệt:",
+            "layers": [
+              "Toner: Cân bằng pH, làm sạch sâu, chuẩn bị da cho các bước tiếp theo",
+              "Lotion: Cấp ẩm, làm mềm da, tạo lớp bảo vệ",
+              "Nước hoa hồng: Làm dịu, se khít lỗ chân lông, cấp ẩm nhẹ"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "3. Cách sử dụng đúng cách",
+        "content": "Việc sử dụng đúng cách sẽ giúp tối đa hóa hiệu quả của sản phẩm:",
+        "subsections": [
+          {
+            "title": "3.1 Thứ tự sử dụng trong routine skincare",
+            "content": "Thứ tự chuẩn trong routine chăm sóc da:",
+            "layers": [
+              "Bước 1: Tẩy trang (nếu có makeup)",
+              "Bước 2: Sữa rửa mặt",
+              "Bước 3: Toner",
+              "Bước 4: Serum/Essence",
+              "Bước 5: Kem dưỡng ẩm",
+              "Bước 6: Kem chống nắng (buổi sáng)"
+            ]
+          },
+          {
+            "title": "3.2 Phương pháp sử dụng toner",
+            "content": "Có 3 cách chính để sử dụng toner hiệu quả:",
+            "layers": [
+              "Dùng tay: Đổ toner ra lòng bàn tay, vỗ nhẹ lên da",
+              "Dùng bông tẩy trang: Thấm toner vào bông, lau nhẹ theo chiều từ trong ra ngoài",
+              "Phương pháp 7 skin: Thoa 7 lớp toner mỏng để cấp ẩm tối đa"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "4. Lựa chọn sản phẩm phù hợp với từng loại da",
+        "content": "Việc chọn đúng sản phẩm phù hợp với loại da là rất quan trọng:",
+        "subsections": [
+          {
+            "title": "4.1 Da dầu, da mụn",
+            "content": "Nên chọn toner có tính chất:",
+            "layers": [
+              "Chứa Salicylic Acid (BHA) để kiểm soát dầu thừa",
+              "Có Niacinamide để se khít lỗ chân lông",
+              "Không chứa cồn ethyl alcohol",
+              "Kết cấu loãng, thấm nhanh"
+            ],
+            "products": [
+              {
+                "name": "Paula's Choice SKIN PERFECTING 2% BHA Liquid Exfoliant",
+                "price": "850.000₫",
+                "image": "//bizweb.dktcdn.net/thumb/large/100/490/275/products/paulas-choice-bha-liquid.jpg",
+                "description": "Toner chứa 2% BHA giúp làm sạch sâu lỗ chân lông, kiểm soát dầu thừa",
+                "url": "/paulas-choice-bha-liquid-exfoliant"
+              }
+            ]
+          },
+          {
+            "title": "4.2 Da khô, da nhạy cảm",
+            "content": "Nên ưu tiên các sản phẩm:",
+            "layers": [
+              "Chứa Hyaluronic Acid để cấp ẩm",
+              "Có các chiết xuất làm dịu như Aloe Vera, Centella Asiatica",
+              "Không chứa paraben, sulfate",
+              "pH cân bằng, không gây kích ứng"
+            ],
+            "products": [
+              {
+                "name": "Klairs Supple Preparation Facial Toner",
+                "price": "420.000₫", 
+                "image": "//bizweb.dktcdn.net/thumb/large/100/490/275/products/klairs-supple-preparation-toner.jpg",
+                "description": "Toner cấp ẩm nhẹ nhàng với Centella Asiatica, phù hợp da nhạy cảm",
+                "url": "/klairs-supple-preparation-facial-toner"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "conclusion": "Toner, Lotion và Nước Hoa Hồng đều có vai trò quan trọng trong skincare routine, nhưng mỗi loại có đặc điểm và công dụng riêng. Việc hiểu rõ sự khác biệt và chọn sản phẩm phù hợp với loại da sẽ giúp bạn có được làn da khỏe mạnh và đẹp tự nhiên. Hãy luôn nhớ patch test trước khi sử dụng sản phẩm mới và tham khảo ý kiến chuyên gia nếu cần thiết.",
+    "tags": ["Toner", "Lotion", "Nước hoa hồng", "Cân bằng da", "Skincare", "BHA", "Hyaluronic Acid"]
+  },
+  {
+    "id": "5",
+    "title": "Da dầu là gì? Các cách chăm sóc da và kiềm dầu hiệu quả",
+    "date": "Thứ Tư, 12/07/2023",
+    "author": "Bùi Minh Nhật",
+    "image": "/img/da-dau-mun-nen-dung-my-pham-nao.webp",
+    "sections": [
+      {
+        "title": "1. Da dầu là gì?",
+        "content": "Da dầu là loại da có bề mặt da bóng loáng, lỗ chân lông to và thường tiết nhiều bã nhờn. Đây là tình trạng xảy ra khi các tuyến bã nhờn (sebaceous glands) hoạt động quá mức, sản xuất ra nhiều dầu hơn mức cần thiết để bảo vệ và dưỡng ẩm cho da.",
+        "subsections": [
+          {
+            "title": "1.1 Đặc điểm nhận biết da dầu",
+            "content": "Da dầu có những đặc điểm dễ nhận biết:",
+            "layers": [
+              "Bề mặt da luôn bóng dầu, đặc biệt ở vùng chữ T (trán, mũi, cằm)",
+              "Lỗ chân lông to và rõ ràng",
+              "Da có xu hướng bị mụn đầu đen, mụn đầu trắng",
+              "Makeup dễ bị trôi và không bền màu",
+              "Giấy thấm dầu chuyển trong suốt khi áp lên da"
+            ]
+          },
+          {
+            "title": "1.2 Nguyên nhân gây da dầu",
+            "content": "Có nhiều yếu tố góp phần gây ra tình trạng da dầu:",
+            "layers": [
+              "Yếu tố di truyền: Gen quyết định kích thước và hoạt động của tuyến bã",
+              "Hormone: Sự thay đổi hormone, đặc biệt là testosterone",
+              "Tuổi tác: Da dầu thường xuất hiện nhiều ở tuổi dậy thì",
+              "Thời tiết: Khí hậu nóng ẩm làm tăng tiết dầu",
+              "Stress: Căng thẳng có thể kích thích tuyến bã hoạt động"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "2. Lợi ích và bất lợi của da dầu",
+        "subsections": [
+          {
+            "title": "2.1 Lợi ích của da dầu",
+            "content": "Mặc dù gây khó chịu, da dầu cũng có những lợi ích:",
+            "layers": [
+              "Lão hóa chậm hơn so với da khô nhờ lớp dầu tự nhiên bảo vệ",
+              "Ít bị khô và nứt nẻ",
+              "Da có độ đàn hồi tốt",
+              "Ít nhạy cảm với các yếu tố môi trường"
+            ]
+          },
+          {
+            "title": "2.2 Bất lợi của da dầu",
+            "content": "Tuy nhiên, da dầu cũng gây ra nhiều vấn đề:",
+            "layers": [
+              "Dễ bị mụn và viêm da",
+              "Lỗ chân lông to, dễ bị tắc nghẽn",
+              "Makeup không bền, dễ trôi",
+              "Da bóng dầu gây mất thẩm mỹ",
+              "Dễ bị nhiễm khuẩn do môi trường ẩm ướt"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "3. Các cách chăm sóc da dầu hiệu quả",
+        "subsections": [
+          {
+            "title": "3.1 Làm sạch da đúng cách",
+            "content": "Bước quan trọng nhất trong chăm sóc da dầu là làm sạch:",
+            "layers": [
+              "Rửa mặt 2 lần/ngày với sữa rửa mặt dành cho da dầu",
+              "Sử dụng sản phẩm có chứa Salicylic Acid hoặc Benzoyl Peroxide",
+              "Tránh rửa mặt quá nhiều lần (có thể kích thích tuyến bã tiết thêm dầu)",
+              "Sử dụng nước ấm thay vì nước nóng",
+              "Lau khô da bằng khăn mềm, không chà xát mạnh"
+            ],
+            "products": [
+              {
+                "name": "CeraVe Foaming Facial Cleanser",
+                "price": "280.000₫",
+                "image": "//bizweb.dktcdn.net/thumb/large/100/490/275/products/cerave-foaming-cleanser.jpg",
+                "description": "Sữa rửa mặt tạo bọt cho da dầu, chứa Ceramides và Niacinamide",
+                "url": "/cerave-foaming-facial-cleanser"
+              }
+            ]
+          },
+          {
+            "title": "3.2 Sử dụng toner phù hợp",
+            "content": "Toner giúp cân bằng pH và kiểm soát dầu thừa:",
+            "layers": [
+              "Chọn toner không chứa cồn để tránh làm khô da",
+              "Ưu tiên sản phẩm có Niacinamide để se khít lỗ chân lông",
+              "Toner chứa AHA/BHA giúp tẩy tế bào chết nhẹ nhàng",
+              "Sử dụng 1-2 lần/ngày sau khi rửa mặt"
+            ]
+          },
+          {
+            "title": "3.3 Dưỡng ẩm cho da dầu",
+            "content": "Nhiều người nghĩ da dầu không cần dưỡng ẩm - đây là sai lầm:",
+            "layers": [
+              "Da dầu vẫn cần dưỡng ẩm để cân bằng",
+              "Chọn kem dưỡng có kết cấu gel hoặc lotion nhẹ",
+              "Tránh sản phẩm có dầu khoáng hoặc dầu nặng",
+              "Ưu tiên sản phẩm có Hyaluronic Acid",
+              "Sử dụng 2 lần/ngày, buổi sáng và tối"
+            ],
+            "products": [
+              {
+                "name": "Neutrogena Oil-Free Moisture Gel",
+                "price": "320.000₫",
+                "image": "/img/da-dau-la-gi-cac-cach-cham-soc-da.webp",
+                "description": "Gel dưỡng ẩm không dầu, nhẹ nhàng cho da dầu",
+                "url": "/neutrogena-oil-free-moisture-gel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "4. Phương pháp kiềm dầu hiệu quả",
+        "content": "Ngoài routine chăm sóc hàng ngày, có thể áp dụng các phương pháp kiềm dầu khác:",
+        "subsections": [
+          {
+            "title": "4.1 Sử dụng mặt nạ kiềm dầu",
+            "content": "Mặt nạ giúp kiểm soát dầu thừa và làm sạch sâu:",
+            "layers": [
+              "Mặt nạ đất sét 1-2 lần/tuần",
+              "Mặt nạ than hoạt tính để hút dầu",
+              "Mặt nạ giấy kiềm dầu tiện lợi",
+              "Thời gian đắp 10-15 phút, không để khô hoàn toàn"
+            ]
+          },
+          {
+            "title": "4.2 Thay đổi chế độ sinh hoạt",
+            "content": "Lối sống lành mạnh giúp cải thiện da dầu:",
+            "layers": [
+              "Ăn ít đường, ít thực phẩm chế biến sẵn",
+              "Uống đủ nước 2-2.5 lít/ngày",
+              "Ngủ đủ giấc 7-8 tiếng/đêm",
+              "Tập thể dục đều đặn để cân bằng hormone",
+              "Quản lý stress hiệu quả"
+            ]
+          },
+          {
+            "title": "4.3 Các tips kiềm dầu trong ngày",
+            "content": "Những mẹo nhỏ giúp kiểm soát dầu thừa:",
+            "layers": [
+              "Sử dụng giấy thấm dầu khi cần",
+              "Mang theo sản phẩm kiềm dầu di động",
+              "Tránh chạm tay lên mặt thường xuyên",
+              "Thay gối, khăn mặt thường xuyên",
+              "Sử dụng primer kiềm dầu trước khi makeup"
+            ]
+          }
+        ]
+      }
+    ],
+    "conclusion": "Da dầu là tình trạng phổ biến có thể được cải thiện đáng kể với routine chăm sóc phù hợp. Điều quan trọng là hiểu rõ nguyên nhân và áp dụng các phương pháp kiểm soát dầu thừa một cách khoa học, kiên trì. Không nên coi da dầu là nhược điểm mà hãy học cách chăm sóc đúng cách để có làn da khỏe mạnh và cân bằng.",
+    "tags": ["Da dầu", "Kiềm dầu", "Chăm sóc da", "Skincare", "Niacinamide", "Salicylic Acid"]
+  },
+  {
+    "id": "6", 
+    "title": "Như thế nào là da khô? Chăm sóc da khô đúng cách?",
+    "date": "Thứ Tư, 12/07/2023",
+    "author": "Bùi Minh Nhật",
+    "image": "/img/da-kho-la-gi-va-cach-cham-soc.webp",
+    "sections": [
+      {
+        "title": "1. Da khô là gì?",
+        "content": "Da khô là tình trạng da bị thiếu nước và thiếu dầu tự nhiên, làm cho da trở nên thô ráp, căng rít và dễ bị kích ứng. Đây là một trong những vấn đề da phổ biến, có thể xảy ra ở mọi lứa tuổi và bị ảnh hưởng bởi nhiều yếu tố khác nhau.",
+        "subsections": [
+          {
+            "title": "1.1 Các loại da khô",
+            "content": "Da khô được chia thành các loại chính:",
+            "layers": [
+              "Da khô thiếu dầu: Tuyến bã tiết ít, da thiếu lipid tự nhiên",
+              "Da khô thiếu nước: Da mất nước do hàng rào bảo vệ da bị tổn thương",
+              "Da khô do tuổi tác: Da lão hóa, giảm khả năng giữ ẩm",
+              "Da khô do bệnh lý: Viêm da cơ địa, vẩy nến..."
+            ]
+          }
+        ]
+      }
+    ],
+    "conclusion": "Da khô cần được chăm sóc nhẹ nhàng và cấp ẩm tối đa. Việc lựa chọn sản phẩm phù hợp và duy trì routine chăm sóc đúng cách sẽ giúp cải thiện tình trạng da khô hiệu quả.",
+    "tags": ["Da khô", "Cấp ẩm", "Skincare", "Ceramides", "Hyaluronic Acid"]
+  },
+  {
+    "id": "7",
+    "title": "Những sai lầm về Skincare tuyệt đối cần phải lưu ý", 
+    "date": "Thứ Tư, 12/07/2023",
+    "author": "Bùi Minh Nhật",
+    "image": "/img/nhung-sai-lam-ve-skincare-tuyet-doi-can-phai-luu-y.webp",
+    "sections": [
+      {
+        "title": "1. Không makeup thì không cần tẩy trang?",
+        "content": "Sai. Dù không makeup, da bạn hàng ngày vẫn tiếp xúc với bụi bẩn, ô nhiễm không khí, kem chống nắng và dầu thừa. Việc tẩy trang giúp loại bỏ hoàn toàn những tạp chất này, chuẩn bị da cho việc hấp thụ dưỡng chất tốt hơn."
+      }
+    ],
+    "conclusion": "Tránh những sai lầm phổ biến trong skincare sẽ giúp bạn có làn da khỏe mạnh hơn và tiết kiệm chi phí chăm sóc da.",
+    "tags": ["Skincare", "Sai lầm", "Chăm sóc da", "Routine", "Beauty tips"]
+  },
+  {
+    "id": "8",
+    "title": "Những sai lầm thường gặp khi sử dụng AHA và BHA",
+    "date": "Thứ Tư, 12/07/2023", 
+    "author": "Bùi Minh Nhật",
+    "image": "/img/nhung-sai-lam-thuong-gap-khi-su-dung-ahabha.webp",
+    "sections": [
+      {
+        "title": "1. Sử dụng AHA/BHA không đúng cách",
+        "content": "Trước khi nói về những sai lầm thường xuyên mắc phải khi sử dụng AHA/BHA thì chúng ta cần hiểu AHA và BHA là gì và tác dụng của chúng. AHA (Alpha Hydroxy Acid) và BHA (Beta Hydroxy Acid) là hai nhóm acid tẩy tế bào chết hóa học phổ biến trong skincare."
+      }
+    ],
+    "conclusion": "Sử dụng AHA và BHA đúng cách sẽ mang lại hiệu quả tuyệt vời cho da. Tránh những sai lầm phổ biến để có làn da đẹp và khỏe mạnh.",
+    "tags": ["AHA", "BHA", "Tẩy tế bào chết", "Skincare", "Chemical exfoliation"]
+  },
+  {
+    "id": "9",
+    "title": "Vitamin C có tác dụng gì? Giải đáp thắc mắc về Vitamin C",
+    "date": "Thứ Tư, 12/07/2023",
+    "author": "Bùi Minh Nhật", 
+    "image": "/img/vitamin-c-co-tac-dung-gi-giai-dap-thac-mac.webp",
+    "sections": [
+      {
+        "title": "1. Vitamin C có tác dụng gì?",
+        "content": "Vitamin C là một chất chống oxy hóa mạnh, là nhân tố quan trọng để duy trì làn da khỏe mạnh và trẻ trung. Vitamin C giúp bảo vệ da khỏi các gốc tự do có hại, kích thích sản xuất collagen và làm sáng da tự nhiên."
+      }
+    ],
+    "conclusion": "Vitamin C là thành phần quan trọng trong skincare routine. Sử dụng đúng cách sẽ giúp da khỏe mạnh, trẻ trung và rạng rỡ hơn.",
+    "tags": ["Vitamin C", "Chống oxy hóa", "Làm sáng da", "Skincare", "Collagen"]
+  }
 ]
