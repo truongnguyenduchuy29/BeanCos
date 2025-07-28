@@ -887,20 +887,13 @@ const ProductPage = () => {
             {/* Mobile-First Top bar with title, stats and sort */}
             <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 sm:p-6 mb-4 sm:mb-6">
               <div className="flex flex-col gap-3 sm:gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center mb-2 sm:mb-3">
-                    <div className="w-1.5 sm:w-2 h-6 sm:h-8 bg-gradient-to-b from-pink-500 to-purple-600 rounded-full mr-2 sm:mr-4"></div>
-                    <h2 className="text-lg sm:text-2xl font-bold text-gray-800 line-clamp-2">
-                      {searchParams.get('search')
-                        ? `🔍 Kết quả: "${searchParams.get('search')}"`
-                        : selectedCategory ||
-                          selectedProductType ||
-                          ' Tất Cả Sản Phẩm'}
-                    </h2>
+                {/* Header với hamburger menu bên trái và sắp xếp bên phải */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
                     {/* Mobile Filter Toggle Button - 3 gạch hamburger menu */}
                     <button
                       onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-                      className="lg:hidden ml-auto p-2 bg-gray-100 hover:bg-pink-100 rounded-xl transition-colors duration-300 border border-gray-200"
+                      className="lg:hidden mr-3 p-2 bg-gray-100 hover:bg-pink-100 rounded-xl transition-colors duration-300 border border-gray-200"
                       title="Bộ lọc"
                     >
                       <div className="w-6 h-6 flex flex-col justify-center items-center space-y-1">
@@ -925,25 +918,37 @@ const ProductPage = () => {
                         ></div>
                       </div>
                     </button>
+
+                    <div className="w-1.5 sm:w-2 h-6 sm:h-8 bg-gradient-to-b from-pink-500 to-purple-600 rounded-full mr-2 sm:mr-4"></div>
+                    <h2 className="text-lg sm:text-2xl font-bold text-gray-800 line-clamp-2">
+                      {searchParams.get('search')
+                        ? `🔍 Kết quả: "${searchParams.get('search')}"`
+                        : selectedCategory ||
+                          selectedProductType ||
+                          ' Tất Cả Sản Phẩm'}
+                    </h2>
                   </div>
-                  <div className="flex items-center flex-wrap gap-2 text-xs sm:text-sm text-gray-600"></div>
-                </div>
-                <div className="flex items-center justify-end">
-                  <div className="flex items-center bg-gray-50 rounded-lg sm:rounded-xl px-3 sm:px-4 py-2">
-                    <span className="text-xs sm:text-sm font-medium text-gray-700 mr-1 sm:mr-3 hidden sm:inline">
-                      Sắp xếp:
+
+                  <div className="flex items-center space-x-2">
+                    {/* Label Sắp xếp */}
+                    <span className="hidden sm:inline text-xs sm:text-sm font-medium text-gray-700">
+                      Sắp xếp
                     </span>
-                    <select
-                      value={sortBy}
-                      onChange={handleSortChange}
-                      className="bg-transparent border-none outline-none text-xs sm:text-sm font-medium text-gray-700 cursor-pointer"
-                    >
-                      <option value="default"> Mặc định</option>
-                      <option value="price-asc"> Giá ↑</option>
-                      <option value="price-desc"> Giá ↓</option>
-                      <option value="name-asc"> A-Z</option>
-                      <option value="name-desc"> Z-A</option>
-                    </select>
+
+                    {/* Select box */}
+                    <div className="relative">
+                      <select
+                        value={sortBy}
+                        onChange={handleSortChange}
+                        className="appearance-none bg-white border border-gray-200 rounded-lg sm:rounded-xl px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 cursor-pointer hover:border-pink-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-300 pr-8"
+                      >
+                        <option value="default">Mặc định</option>
+                        <option value="price-asc">Giá thấp → cao</option>
+                        <option value="price-desc">Giá cao → thấp</option>
+                        <option value="name-asc">Tên A → Z</option>
+                        <option value="name-desc">Tên Z → A</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
