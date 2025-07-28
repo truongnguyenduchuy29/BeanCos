@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProductSection from "../components/ProductSection";
 import productData from "../db/product.json";
+import pageData from "../db/page.json";
 import { useAppContext } from "../context/AppContext";
 import QuickView from "../components/QuickView";
 
@@ -464,47 +465,34 @@ const HomePage = () => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
-  const newsItems = [
-    {
-      id: 1,
-      title: "Da dầu mụn và mỹ phẩm dành cho da dầu và mụn",
-      excerpt:
-        "1. DA CỦA CHÚNG TA CÓ CẤU TẠO NHƯ THẾ NÀO NHỈ ? Da gồm 3 lớp...",
-      date: "12.07.2023",
-      image: "../src/img/da-dau-mun-nen-dung-my-pham-nao.webp",
-      category: "Da Dầu",
-    },
-    {
-      id: 2,
-      title: "Treatment là gì? các hoạt chất điều trị mụn, nám, tàn nhang",
-      excerpt:
-        '1.Treatment là gì ? Các bạn có thể đã google dịch từ "treatment" và ra kết quả...',
-      date: "12.07.2023",
-      image: "../src/img/treatment-la-gi-cac-hoat-chat-dieu-tri-mun.webp",
-      category: "BHA",
-      tags: ["Lần đầu dùng", "treatment", "BAN", "cần làm thế nào?"],
-    },
-    {
-      id: 3,
-      title: "Purging là gì? Nên làm gì khi da bị purging?",
-      excerpt:
-        "Purging là hiện tượng xảy ra bình thường trên da khi lần đa có tác động...",
-      date: "12.07.2023",
-      image: "../../src/img/purging-la-gi-nen-lam-gi-khi-da-bi.webp",
-      tags: ["PURGING", "BREAK OUT"],
-      beforeAfter: true,
-    },
-    {
-      id: 4,
-      title: "Toner là gì? Sự khác nhau giữa Lotion và Nước Hoa Hồng?",
-      excerpt:
-        "1. Khái niệm 1.1 Toner toner hay còn gọi là nước cân bằng da, còn ở Phương Tây...",
-      date: "12.07.2023",
-      image: "../src/img/toner-la-gi-su-khac-nhau-giua-lotion.webp",
-      category: "LOTION",
-      subtitle: "CÁCH PHÂN BIỆT",
-    },
-  ];
+  // Get articles from pageData JSON
+  const articles = pageData as Array<{
+    id: string;
+    title: string;
+    date: string;
+    author: string;
+    image: string;
+    sections: Array<{
+      title?: string;
+      content?: string;
+      subsections?: Array<{
+        title: string;
+        content: string;
+      }>;
+    }>;
+    conclusion: string;
+    tags: string[];
+  }>;
+
+  // Get first 4 articles for homepage news section
+  const newsItems = articles.slice(0, 4).map((article) => ({
+    id: article.id,
+    title: article.title,
+    excerpt: article.sections[0]?.content?.substring(0, 80) + "..." || "Nội dung bài viết...",
+    date: article.date,
+    image: article.image.startsWith('/img/') ? article.image : article.image.replace('/src/img/', '/img/'),
+    category: article.tags[0] || "",
+  }));
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -1234,9 +1222,10 @@ const HomePage = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {newsItems.map((item) => (
-              <div
+              <Link
                 key={item.id}
-                className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+                to={`/article/${item.id}`}
+                className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 block"
               >
                 <div className="relative">
                   <img
@@ -1252,9 +1241,9 @@ const HomePage = () => {
                 </div>
 
                 <div className="p-2 sm:p-3">
-                  {item.subtitle && (
+                  {item.category && (
                     <p className="text-[10px] sm:text-xs text-gray-500 mb-1">
-                      {item.subtitle}
+                      {item.category}
                     </p>
                   )}
                   <h3 className="font-semibold text-gray-800 mb-1.5 line-clamp-2 text-xs sm:text-sm">
@@ -1263,11 +1252,11 @@ const HomePage = () => {
                   <p className="text-[10px] sm:text-xs text-gray-600 mb-2 line-clamp-2">
                     {item.excerpt}
                   </p>
-                  <button className="text-blue-500 hover:text-blue-700 text-[10px] sm:text-xs font-medium transition-colors">
+                  <span className="text-blue-500 hover:text-blue-700 text-[10px] sm:text-xs font-medium transition-colors">
                     Đọc tiếp
-                  </button>
+                  </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
