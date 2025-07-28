@@ -130,6 +130,71 @@ const ProductSection = () => {
     // Create style element
     const style = document.createElement("style");
     style.textContent = `
+      /* Voucher Animations */
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+      
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      
+      @keyframes glow {
+        0%, 100% {
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+        }
+      }
+      
+      @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      
+      .voucher-card-active {
+        animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite;
+      }
+      
+      .voucher-gradient-animated {
+        background-size: 200% 200%;
+        animation: gradient-shift 3s ease infinite;
+      }
+      
+      .voucher-shine {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .voucher-shine::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+      }
+      
+      /* Existing styles */
       .section_product {
         padding: 60px 0;
         background: #f8f9fa;
@@ -702,167 +767,157 @@ const ProductSection = () => {
 
   return (
     <>
-      {/* Vouchers Section */}
-      <section className="py-4 sm:py-6 bg-white">
+      {/* Vouchers Section với thiết kế mới */}
+      <section className="py-6 sm:py-8 bg-gradient-to-br from-pink-50 via-white to-purple-50">
         <div
           className="mx-auto px-2 sm:px-4"
           style={{ width: "1223px", maxWidth: "100%" }}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2 sm:px-0">
-            {currentVouchers.map((voucher) => (
-              <div
-                key={voucher.id}
-                className={`border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-1000 transform ${
-                  voucher.isActive && voucherTimers[voucher.id]
-                    ? "border-pink-300 bg-gradient-to-r from-pink-50 to-purple-50 animate-pulse scale-100"
-                    : "border-gray-300 bg-gray-100 opacity-75 scale-95"
-                }`}
-              >
-                <div className="flex p-3 sm:p-4">
-                  <div className="flex-shrink-0 mr-3 sm:mr-4">
-                    <div
-                      className={`w-16 h-16 sm:w-20 sm:h-20 ${
-                        voucher.color
-                      } rounded-lg flex items-center justify-center font-bold text-xl sm:text-2xl shadow-sm border border-pink-100 transition-all duration-1000 ${
-                        voucher.isActive && voucherTimers[voucher.id]
-                          ? "animate-bounce"
-                          : "opacity-50"
-                      }`}
-                    >
-                      {voucher.discount === "0K" ? (
-                        <span
-                          className={`${
-                            voucher.isActive && voucherTimers[voucher.id]
-                              ? "text-pink-600"
-                              : "text-gray-400"
-                          }`}
-                        >
-                          0K
-                        </span>
-                      ) : (
-                        <span
-                          className={`${
-                            voucher.isActive && voucherTimers[voucher.id]
-                              ? "text-pink-600"
-                              : "text-gray-400"
-                          }`}
-                        >
-                          {voucher.discount}
-                        </span>
-                      )}
+          {/* Header Section */}
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">🎟️ Voucher Khuyến Mãi</h2>
+            <p className="text-gray-600">Nhận ngay ưu đãi hấp dẫn cho đơn hàng của bạn!</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-2 sm:px-0">
+            {currentVouchers.map((voucher, index) => {
+              const gradients = [
+                'from-pink-500 via-red-500 to-yellow-500',
+                'from-green-400 via-blue-500 to-purple-600', 
+                'from-purple-500 via-pink-500 to-red-500',
+                'from-yellow-400 via-red-500 to-pink-500'
+              ];
+              const currentGradient = gradients[index % gradients.length];
+              
+              return (
+                <div
+                  key={voucher.id}
+                  className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 voucher-shine ${
+                    voucher.isActive && voucherTimers[voucher.id]
+                      ? "scale-100 opacity-100 voucher-card-active"
+                      : "scale-95 opacity-75"
+                  }`}
+                >
+                  {/* Background với gradient */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${currentGradient} opacity-90 voucher-gradient-animated`}></div>
+                  
+                  {/* Pattern overlay */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-0 left-0 w-full h-full" 
+                         style={{
+                           backgroundImage: `radial-gradient(circle at 20% 20%, rgba(255,255,255,0.3) 1px, transparent 1px), 
+                                           radial-gradient(circle at 80% 80%, rgba(255,255,255,0.3) 1px, transparent 1px),
+                                           radial-gradient(circle at 40% 60%, rgba(255,255,255,0.2) 1px, transparent 1px)`,
+                           backgroundSize: '50px 50px, 30px 30px, 70px 70px'
+                         }}>
                     </div>
                   </div>
-                  <div className="flex flex-col flex-grow min-w-0">
-                    <div
-                      className={`font-bold text-sm sm:text-lg truncate transition-all duration-1000 ${
-                        voucher.isActive && voucherTimers[voucher.id]
-                          ? "text-green-600"
-                          : "text-gray-400"
-                      }`}
-                    >
-                      NHẬP MÃ: {voucher.code}
-                      {voucher.isActive && voucherTimers[voucher.id] && (
-                        <span className="ml-2 text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full animate-pulse">
-                          MỚI!
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-xs sm:text-sm text-gray-600 my-1 line-clamp-2">
-                      {voucher.description}
+
+                  {/* Decorative elements */}
+                  <div className="absolute top-4 right-4 w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <span className="text-2xl">🎁</span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="relative z-10 p-6 text-white h-full flex flex-col">
+                    {/* Voucher Code */}
+                    <div className="mb-4">
+                      <div className="text-xs font-bold opacity-90 mb-1">NHẬP MÃ:</div>
+                      <div className="text-lg font-black tracking-wider">
+                        {voucher.code}
+                        {voucher.isActive && voucherTimers[voucher.id] && (
+                          <span className="ml-2 text-xs bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full animate-bounce font-bold">
+                            HOT!
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Timer Display */}
-                    {voucher.isActive && voucherTimers[voucher.id] ? (
-                      <div className="mb-2">
-                        <div className="flex items-center space-x-2">
-                          <div className="flex-1 bg-gray-200 rounded-full h-2">
+                    {/* Discount */}
+                    <div className="mb-4">
+                      <div className="text-4xl font-black mb-1">{voucher.discount}</div>
+                      <div className="text-xs opacity-90 leading-tight">{voucher.description}</div>
+                    </div>
+
+                    {/* Timer */}
+                    <div className="mb-4 flex-grow">
+                      {voucher.isActive && voucherTimers[voucher.id] ? (
+                        <div className="bg-white bg-opacity-20 rounded-full px-3 py-2 backdrop-blur-sm">
+                          <div className="flex items-center justify-center space-x-2">
+                            <span className="text-xs font-bold animate-pulse">⏰</span>
+                            <span className="text-sm font-mono font-bold">
+                              {formatTimeRemaining(voucherTimers[voucher.id])}
+                            </span>
+                          </div>
+                          <div className="mt-2 bg-white bg-opacity-30 rounded-full h-1">
                             <div
-                              className="h-2 rounded-full bg-red-500 transition-all duration-1000"
+                              className="h-1 bg-white rounded-full transition-all duration-1000"
                               style={{
                                 width: `${Math.max(
                                   0,
-                                  (voucherTimers[voucher.id] /
-                                    (15 * 60 * 1000)) *
-                                    100
+                                  (voucherTimers[voucher.id] / (15 * 60 * 1000)) * 100
                                 )}%`,
                               }}
                             ></div>
                           </div>
-                          <span className="text-xs text-red-600 font-mono bg-red-100 px-2 py-1 rounded animate-pulse">
-                            {formatTimeRemaining(voucherTimers[voucher.id])}
-                          </span>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="mb-2">
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div className="h-2 rounded-full bg-gray-400 w-0"></div>
+                      ) : (
+                        <div className="bg-gray-600 bg-opacity-50 rounded-full px-3 py-2 text-center">
+                          <span className="text-sm font-bold opacity-75">❌ Hết hạn</span>
                         </div>
-                        <span className="text-xs text-gray-400 font-mono bg-gray-100 px-2 py-1 rounded mt-1 inline-block">
-                          Hết hạn
-                        </span>
-                      </div>
-                    )}
+                      )}
+                    </div>
 
-                    <div className="flex justify-between items-center mt-2 flex-wrap gap-1">
+                    {/* Action Buttons */}
+                    <div className="flex justify-between items-center">
                       <button
                         onClick={(e) => handleCopyVoucher(voucher, e)}
-                        disabled={
+                        disabled={!voucher.isActive || !voucherTimers[voucher.id]}
+                        className={`flex-1 mr-2 py-2.5 px-4 rounded-xl font-bold text-sm transition-all duration-300 transform ${
                           !voucher.isActive || !voucherTimers[voucher.id]
-                        }
-                        className={`text-xs py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all duration-1000 transform ${
-                          !voucher.isActive || !voucherTimers[voucher.id]
-                            ? "bg-gray-200 text-gray-400 cursor-not-allowed scale-95"
+                            ? "bg-gray-500 bg-opacity-50 text-gray-300 cursor-not-allowed"
                             : copiedVoucher === voucher.id
-                            ? "bg-green-100 text-green-700 border border-green-200 scale-110 animate-pulse"
-                            : "bg-green-100 text-green-700 border border-green-200 hover:bg-green-200 hover:scale-105"
+                            ? "bg-green-500 text-white scale-105 animate-pulse"
+                            : "bg-white text-gray-800 hover:bg-opacity-90 hover:scale-105 shadow-lg"
                         }`}
                       >
                         {!voucher.isActive || !voucherTimers[voucher.id] ? (
-                          "Hết hạn"
+                          "💔 Hết hạn"
                         ) : copiedVoucher === voucher.id ? (
-                          <span className="flex items-center gap-1">
-                            <svg
-                              className="w-3 h-3"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            Đã sao chép
-                          </span>
+                          "✅ Đã sao chép!"
                         ) : (
-                          <span className="flex items-center gap-1">
-                            <svg
-                              className="w-3 h-3"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            Sao chép mã
-                          </span>
+                          "📋 Sao chép mã"
                         )}
                       </button>
+
                       <button
                         onClick={() => handleShowConditions(voucher)}
-                        className="text-xs text-blue-500 hover:underline transition-all duration-300"
+                        className="text-white hover:text-yellow-200 transition-colors duration-300 text-xs underline font-semibold"
                       >
                         Điều kiện
                       </button>
                     </div>
+
+                    {/* Shine effect */}
+                    {voucher.isActive && voucherTimers[voucher.id] && (
+                      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-20 transform -skew-x-12 animate-pulse"></div>
+                      </div>
+                    )}
                   </div>
+
+                  {/* Bottom decorative line */}
+                  <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-white via-yellow-300 to-white opacity-50"></div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
+          </div>
+
+          {/* Call to action */}
+          <div className="text-center mt-8">
+            <p className="text-gray-600 text-sm">
+              ⚡ Số lượng có hạn - Nhanh tay sao chép mã để nhận ưu đãi ngay!
+            </p>
           </div>
         </div>
       </section>
