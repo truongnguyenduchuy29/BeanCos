@@ -146,33 +146,71 @@ const NewPage = () => {
               <div className="w-16 h-1 bg-pink-500"></div>
             </div>
 
-            {/* Featured Article */}
-            {allArticles.length > 0 && (
-              <div className="mb-12">
+            {/* Main Articles Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              {/* Featured Article - Left Side */}
+              {allArticles.length > 0 && (
                 <div className="relative bg-white rounded-lg shadow-md overflow-hidden">
                   <div className="relative">
                     <img
                       src="/src/img/da-dau-mun-nen-dung-my-pham-nao.webp"
                       alt={allArticles[0].title}
-                      className="w-full h-80 object-cover"
+                      className="w-full h-64 object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h2 className="text-2xl font-bold mb-3 leading-tight">
-                        {allArticles[0].title}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                      <div className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-medium mb-2 inline-block">
+                        Thứ Tư, 12/07/2023
+                      </div>
+                      <h2 className="text-lg font-bold mb-2 leading-tight">
+                        Da Dầu
                       </h2>
-                      <p className="text-sm opacity-90">
+                      <h3 className="text-sm font-medium mb-1">
+                        Kiềm dầu hiệu quả?
+                      </h3>
+                      <p className="text-xs opacity-90">
                         Da dầu mụn và mỹ phẩm dành cho da dầu và mụn
                       </p>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Articles Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {allArticles.slice(1).map((article) => (
+              {/* Right Side Articles Grid */}
+              <div className="grid grid-cols-1 gap-4">
+                {allArticles.slice(1, 3).map((article) => (
+                  <div
+                    key={article.id}
+                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex"
+                  >
+                    <div className="relative w-24 h-20 flex-shrink-0">
+                      <img
+                        src={getArticleImage(article)}
+                        alt={article.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-1 left-1">
+                        <div className="bg-blue-500 text-white px-1 py-0.5 rounded text-xs font-medium">
+                          12/07/2023
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-3 flex-1">
+                      <h3 className="font-semibold text-gray-800 mb-1 text-xs leading-tight line-clamp-2">
+                        {article.title}
+                      </h3>
+                      <p className="text-xs text-gray-600 line-clamp-2">
+                        {getArticleExcerpt(article)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom Articles Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+              {allArticles.slice(3).map((article) => (
                 <div
                   key={article.id}
                   className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
