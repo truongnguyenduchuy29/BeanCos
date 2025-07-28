@@ -494,123 +494,147 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="product-page bg-gray-50">
+    <div className="product-page bg-gradient-to-br from-gray-50 via-white to-pink-50 min-h-screen">
       <Header />
 
-      {/* Breadcrumb */}
-      <div className="bg-gray-100 py-4">
-        <div className="container mx-auto px-4">
-          <nav className="flex items-center text-base">
+      {/* Modern Breadcrumb */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="container mx-auto px-4 py-4">
+          <nav className="flex items-center text-sm">
             <Link 
               to="/" 
-              className="text-gray-600 hover:text-pink-500"
+              className="text-gray-600 hover:text-pink-500 transition-colors duration-200 flex items-center"
               onClick={() => {
-                // Scroll to top when navigating to home page
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
+              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L9 5.414V17a1 1 0 102 0V5.414l5.293 5.293a1 1 0 001.414-1.414l-7-7z"/>
+              </svg>
               Trang chủ
             </Link>
-            <span className="mx-2 text-gray-400">&gt;</span>
+            <svg className="w-4 h-4 mx-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"/>
+            </svg>
             {searchParams.get('search') ? (
-              <span className="text-pink-500">
-                Kết quả tìm kiếm: "{searchParams.get('search')}"
+              <span className="text-pink-600 font-medium bg-pink-50 px-3 py-1 rounded-full">
+                🔍 Kết quả: "{searchParams.get('search')}"
               </span>
             ) : selectedCategory || selectedProductType ? (
               <>
                 <button
                   onClick={resetToAllProducts}
-                  className="text-gray-600 hover:text-pink-500"
+                  className="text-gray-600 hover:text-pink-500 transition-colors duration-200"
                 >
                   Tất cả sản phẩm
                 </button>
-                <span className="mx-2 text-gray-400">&gt;</span>
-                <span className="text-pink-500">
-                  {selectedCategory || selectedProductType}
+                <svg className="w-4 h-4 mx-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"/>
+                </svg>
+                <span className="text-pink-600 font-medium bg-pink-50 px-3 py-1 rounded-full">
+                  📦 {selectedCategory || selectedProductType}
                 </span>
               </>
             ) : (
-              <span className="text-pink-500">Tất cả sản phẩm</span>
+              <span className="text-pink-600 font-medium bg-pink-50 px-3 py-1 rounded-full">
+                ✨ Tất cả sản phẩm
+              </span>
             )}
           </nav>
         </div>
       </div>
 
-      {/* Banner Section */}
-      <div className="container mx-auto px-4 py-5">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {banners.map((banner) => (
+      {/* Enhanced Banner Section */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {banners.map((banner, index) => (
             <div
               key={banner.id}
-              className="relative rounded-md overflow-hidden border border-gray-200"
+              className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+              style={{
+                background: index === 0 ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' :
+                           index === 1 ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' :
+                           'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+              }}
             >
+              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
               <img
                 src={banner.imageUrl}
                 alt={banner.title}
-                className="w-full h-36 object-cover"
+                className="w-full h-48 object-cover opacity-80 group-hover:scale-110 transition-transform duration-700"
               />
-              <div className="absolute top-0 left-0 p-4">
-                <h3 className="text-lg font-semibold text-green-700">
-                  {banner.title}
-                </h3>
-                {banner.subtitle && (
-                  <p className="text-base text-green-700">{banner.subtitle}</p>
-                )}
-                <button className="mt-2 px-4 py-1.5 bg-white text-green-700 rounded-full text-sm hover:bg-gray-100 transition">
-                  {banner.buttonText}
-                </button>
+              <div className="absolute inset-0 p-6 flex flex-col justify-center text-white">
+                <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-4">
+                  <h3 className="text-xl font-bold mb-2 leading-tight">
+                    {banner.title}
+                  </h3>
+                  {banner.subtitle && (
+                    <p className="text-lg font-medium mb-3">{banner.subtitle}</p>
+                  )}
+                  <button className="bg-white text-gray-800 px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    {banner.buttonText} →
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Brand Carousel */}
-      <div className="container mx-auto px-4 py-5">
-        <h2 className="text-xl font-semibold mb-4">TÌM KIẾM NHIỀU</h2>
-        <div className="relative">
+      {/* Enhanced Brand Carousel */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">🏷️ Thương Hiệu Nổi Bật</h2>
+          <p className="text-gray-600">Khám phá các thương hiệu uy tín hàng đầu</p>
+        </div>
+        <div className="relative bg-white rounded-2xl shadow-lg p-6">
           <button
             onClick={() => scrollBrands("left")}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
+            className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-gradient-to-r from-pink-500 to-purple-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
           >
-            &lt;
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd"/>
+            </svg>
           </button>
           <div
             ref={brandsRef}
-            className="flex overflow-x-auto scrollbar-hide space-x-4 py-2"
+            className="flex overflow-x-auto scrollbar-hide space-x-6 py-4"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {brands.map((brand) => (
               <div
                 key={brand.id}
-                className="flex-none w-24 text-center cursor-pointer"
+                className="flex-none w-28 text-center cursor-pointer group"
                 onClick={() => handleBrandChange(brand.name)}
               >
                 <div
-                  className={`border ${
+                  className={`border-2 ${
                     selectedBrand === brand.name
-                      ? "border-pink-500"
-                      : "border-gray-200"
-                  } rounded-lg p-2 mb-2`}
+                      ? "border-pink-500 bg-pink-50 shadow-lg"
+                      : "border-gray-200 hover:border-pink-300 hover:shadow-md"
+                  } rounded-2xl p-4 mb-3 transition-all duration-300 transform group-hover:scale-105 bg-white`}
                 >
                   <img
                     src={brand.imageUrl}
                     alt={brand.name}
-                    className="w-full h-12 object-contain"
+                    className="w-full h-16 object-contain filter group-hover:brightness-110 transition-all duration-300"
                   />
                 </div>
-                <p className="text-sm truncate">{brand.name}</p>
+                <p className={`text-sm font-medium ${
+                  selectedBrand === brand.name ? "text-pink-600" : "text-gray-700"
+                } group-hover:text-pink-500 transition-colors duration-300`}>
+                  {brand.name}
+                </p>
               </div>
             ))}
           </div>
           <button
             onClick={() => scrollBrands("right")}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-gradient-to-r from-pink-500 to-purple-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
           >
-            &gt;
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"/>
+            </svg>
           </button>
         </div>
       </div>
@@ -618,180 +642,185 @@ const ProductPage = () => {
       {/* Main Content with Sidebar and Products */}
       <div className="mx-auto px-4 py-6" style={{ maxWidth: "1300px" }}>
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Sidebar Filters */}
+          {/* Compact Modern Sidebar Filters */}
           <div className="lg:w-[280px] mb-4 lg:mb-0">
-            {/* Categories */}
-            <div className="mb-5">
-              <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-bold text-purple-900">
-                  DANH MỤC SẢN PHẨM
-                </h3>
+            <div className="bg-white rounded-2xl shadow-lg p-4 sticky top-4">
+              
+              {/* Filter Header with Reset */}
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
+                <h2 className="text-lg font-bold text-gray-800 flex items-center">
+                  🔍 Bộ Lọc
+                </h2>
+                <button
+                  onClick={resetToAllProducts}
+                  className="text-xs text-pink-500 hover:text-pink-600 font-medium bg-pink-50 px-2 py-1 rounded-full transition-colors"
+                >
+                  Xóa lọc
+                </button>
               </div>
-              <div className="border border-gray-200 p-3 rounded-b-md">
-                {categories.map((category) => (
-                  <div key={category} className="flex items-center mb-2.5">
+
+              {/* Compact Categories */}
+              <div className="mb-4">
+                <h3 className="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  📂 Danh mục
+                </h3>
+                <div className="flex flex-wrap gap-1">
+                  {categories.slice(0, 4).map((category) => (
                     <button
-                      className={`w-full text-left ${
-                        selectedCategory === category
-                          ? "text-pink-500 font-medium"
-                          : "text-gray-700"
-                      } text-sm hover:text-pink-400 transition-colors`}
+                      key={category}
                       onClick={() => handleCategoryChange(category)}
+                      className={`text-xs px-3 py-1.5 rounded-full transition-all ${
+                        selectedCategory === category
+                          ? "bg-pink-500 text-white shadow-sm"
+                          : "bg-gray-100 text-gray-700 hover:bg-pink-100 hover:text-pink-600"
+                      }`}
                     >
                       {category}
                     </button>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Product Types */}
-            <div className="mb-5">
-              <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-semibold text-purple-900">
-                  LOẠI SẢN PHẨM
+              {/* Compact Product Types - Show only popular ones */}
+              <div className="mb-4">
+                <h3 className="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  🧴 Loại sản phẩm
                 </h3>
-              </div>
-              <div className="border border-gray-200 p-3 rounded-b-md max-h-48 overflow-y-auto">
-                {productTypes.map((type) => (
-                  <div key={type} className="flex items-center mb-2.5">
-                    <input
-                      type="checkbox"
-                      id={`type-${type}`}
-                      checked={selectedProductType === type}
-                      onChange={() => handleProductTypeChange(type)}
-                      className="mr-2 h-4 w-4"
-                    />
-                    <label
-                      htmlFor={`type-${type}`}
-                      className="text-xs text-gray-700 cursor-pointer"
+                <div className="grid grid-cols-2 gap-1">
+                  {productTypes.slice(0, 6).map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => handleProductTypeChange(type)}
+                      className={`text-xs px-2 py-1.5 rounded-lg transition-all text-left ${
+                        selectedProductType === type
+                          ? "bg-blue-500 text-white shadow-sm"
+                          : "bg-gray-50 text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+                      }`}
                     >
-                      {type}
-                    </label>
-                  </div>
-                ))}
+                      {type.length > 10 ? type.slice(0, 10) + '...' : type}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Price Range */}
-            <div className="mb-5">
-              <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-semibold text-purple-900">
-                  CHỌN MỨC GIÁ
+              {/* Compact Price Range */}
+              <div className="mb-4">
+                <h3 className="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  💰 Mức giá
                 </h3>
-              </div>
-              <div className="border border-gray-200 p-3 rounded-b-md">
-                {priceRanges.map((range, index) => (
-                  <div key={index} className="flex items-center mb-2.5">
-                    <input
-                      type="checkbox"
-                      id={`price-${index}`}
-                      checked={
+                <div className="grid grid-cols-1 gap-1">
+                  {priceRanges.slice(0, 3).map((range, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handlePriceRangeChange(`${range.min}-${range.max}`)}
+                      className={`text-xs px-3 py-1.5 rounded-lg text-left transition-all ${
                         selectedPriceRange === `${range.min}-${range.max}`
-                      }
-                      onChange={() =>
-                        handlePriceRangeChange(`${range.min}-${range.max}`)
-                      }
-                      className="mr-2 h-4 w-4"
-                    />
-                    <label
-                      htmlFor={`price-${index}`}
-                      className="text-xs text-gray-700 cursor-pointer"
+                          ? "bg-green-500 text-white shadow-sm"
+                          : "bg-gray-50 text-gray-700 hover:bg-green-100 hover:text-green-600"
+                      }`}
                     >
                       {range.label}
-                    </label>
-                  </div>
-                ))}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Brands */}
-            <div className="mb-5">
-              <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-semibold text-purple-900">
-                  THƯƠNG HIỆU
+              {/* Compact Popular Brands */}
+              <div className="mb-4">
+                <h3 className="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  🏷️ Thương hiệu
                 </h3>
-              </div>
-              <div className="border border-gray-200 p-3 rounded-b-md max-h-48 overflow-y-auto">
-                {uniqueBrands.map((brand) => (
-                  <div key={brand} className="flex items-center mb-2.5">
-                    <input
-                      type="checkbox"
-                      id={`brand-${brand}`}
-                      checked={selectedBrand === brand}
-                      onChange={() => handleBrandChange(brand)}
-                      className="mr-2 h-4 w-4"
-                    />
-                    <label
-                      htmlFor={`brand-${brand}`}
-                      className="text-xs text-gray-700 cursor-pointer"
+                <div className="flex flex-wrap gap-1">
+                  {uniqueBrands.slice(0, 6).map((brand) => (
+                    <button
+                      key={brand}
+                      onClick={() => handleBrandChange(brand)}
+                      className={`text-xs px-2 py-1 rounded-full transition-all ${
+                        selectedBrand === brand
+                          ? "bg-purple-500 text-white shadow-sm"
+                          : "bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-600"
+                      }`}
                     >
-                      {brand}
-                    </label>
-                  </div>
-                ))}
+                      {brand.length > 8 ? brand.slice(0, 8) + '...' : brand}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Skin Types */}
-            <div className="mb-5">
-              <div className="bg-purple-100 p-3 rounded-t-md">
-                <h3 className="text-sm font-semibold text-purple-900">
-                  LOẠI DA
+              {/* Compact Skin Types */}
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  ✨ Loại da
                 </h3>
-              </div>
-              <div className="border border-gray-200 p-3 rounded-b-md">
-                {skinTypes.map((skinType) => (
-                  <div key={skinType} className="flex items-center mb-2.5">
-                    <input
-                      type="checkbox"
-                      id={`skin-${skinType}`}
-                      checked={selectedSkinType === skinType}
-                      onChange={() => handleSkinTypeChange(skinType)}
-                      className="mr-2 h-4 w-4"
-                    />
-                    <label
-                      htmlFor={`skin-${skinType}`}
-                      className="text-xs text-gray-700 cursor-pointer"
+                <div className="flex flex-wrap gap-1">
+                  {skinTypes.slice(0, 4).map((skinType) => (
+                    <button
+                      key={skinType}
+                      onClick={() => handleSkinTypeChange(skinType)}
+                      className={`text-xs px-3 py-1.5 rounded-full transition-all ${
+                        selectedSkinType === skinType
+                          ? "bg-yellow-500 text-white shadow-sm"
+                          : "bg-gray-100 text-gray-700 hover:bg-yellow-100 hover:text-yellow-600"
+                      }`}
                     >
                       {skinType}
-                    </label>
-                  </div>
-                ))}
+                    </button>
+                  ))}
+                </div>
               </div>
+
             </div>
           </div>
 
           {/* Product Grid */}
           <div className="lg:flex-1" ref={productsRef}>
-            {/* Top bar with title and sort */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 pb-3 border-b border-gray-200">
-              <div>
-                <h2 className="text-xl font-semibold uppercase mb-2 sm:mb-0">
-                  {searchParams.get('search') 
-                    ? `KẾT QUẢ TÌM KIẾM: "${searchParams.get('search')}"` 
-                    : selectedCategory || selectedProductType || "TẤT CẢ SẢN PHẨM"
-                  }
-                </h2>
-                {searchParams.get('search') && (
-                  <p className="text-sm text-gray-600">
-                    Tìm thấy {filteredProducts.length} sản phẩm
-                  </p>
-                )}
-              </div>
-              <div className="flex items-center">
-                <span className="text-sm text-gray-600 mr-2">Sắp xếp:</span>
-                <select
-                  value={sortBy}
-                  onChange={handleSortChange}
-                  className="border border-gray-300 rounded px-3 py-1.5 text-sm"
-                >
-                  <option value="default">Mặc định</option>
-                  <option value="price-asc">Giá: Thấp đến cao</option>
-                  <option value="price-desc">Giá: Cao đến thấp</option>
-                  <option value="name-asc">Tên: A-Z</option>
-                  <option value="name-desc">Tên: Z-A</option>
-                </select>
+            {/* Modern Top bar with title, stats and sort */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center mb-3">
+                    <div className="w-2 h-8 bg-gradient-to-b from-pink-500 to-purple-600 rounded-full mr-4"></div>
+                    <h2 className="text-2xl font-bold text-gray-800">
+                      {searchParams.get('search') 
+                        ? `🔍 Kết quả tìm kiếm: "${searchParams.get('search')}"` 
+                        : selectedCategory || selectedProductType || "✨ Tất Cả Sản Phẩm"
+                      }
+                    </h2>
+                  </div>
+                  <div className="flex items-center space-x-4 text-sm text-gray-600">
+                    <span className="flex items-center bg-blue-50 px-3 py-1 rounded-full">
+                      <svg className="w-4 h-4 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V4z"/>
+                      </svg>
+                      <span className="font-semibold text-blue-700">{filteredProducts.length}</span> sản phẩm
+                    </span>
+                    <span className="flex items-center bg-green-50 px-3 py-1 rounded-full">
+                      <svg className="w-4 h-4 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"/>
+                      </svg>
+                      Trang <span className="font-semibold text-green-700">{currentPage}</span>/{totalPages}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center bg-gray-50 rounded-xl px-4 py-2">
+                    <svg className="w-4 h-4 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V4z"/>
+                    </svg>
+                    <span className="text-sm font-medium text-gray-700 mr-3">Sắp xếp:</span>
+                    <select
+                      value={sortBy}
+                      onChange={handleSortChange}
+                      className="bg-transparent border-none outline-none text-sm font-medium text-gray-700 cursor-pointer"
+                    >
+                      <option value="default">🎲 Mặc định</option>
+                      <option value="price-asc">💰 Giá tăng dần</option>
+                      <option value="price-desc">💎 Giá giảm dần</option>
+                      <option value="name-asc">🔤 Tên A-Z</option>
+                      <option value="name-desc">🔠 Tên Z-A</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -819,15 +848,18 @@ const ProductPage = () => {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {currentProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="product-card group relative border border-gray-200 rounded-md overflow-hidden transition-all duration-300 hover:shadow-lg bg-white"
+                  className="product-card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100"
                 >
+                  {/* Premium gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-50/10 via-pink-50/10 to-blue-50/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[1]"></div>
+                  
                   {/* Brand Logo */}
-                  <div className="absolute top-2 left-2 z-10">
-                    <div className="w-12 h-7 bg-white border border-gray-200 rounded flex items-center justify-center">
+                  <div className="absolute top-3 left-3 z-20">
+                    <div className="w-12 h-8 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-lg flex items-center justify-center shadow-sm">
                       <img
                         src={
                           brands.find((b) => b.name === product.brand)
@@ -837,93 +869,108 @@ const ProductPage = () => {
                         className="max-h-5 max-w-8"
                       />
                     </div>
-                  </div>{" "}
+                  </div>
+
                   {/* Wishlist button */}
                   <button 
                     onClick={() => handleToggleWishlist(product)}
-                    className={`absolute top-2 right-2 z-10 w-7 h-7 rounded-full ${isInWishlist(product.id) ? 'bg-pink-500 text-white' : 'bg-white text-gray-500 hover:text-pink-500'} border border-gray-200 flex items-center justify-center hover:bg-pink-50 transition-all shadow-sm hover:shadow-md`}
+                    className={`absolute top-3 right-3 z-20 w-9 h-9 rounded-full ${
+                      isInWishlist(product.id) 
+                        ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-200' 
+                        : 'bg-white/90 text-gray-500 hover:text-pink-500 hover:bg-white shadow-md'
+                    } backdrop-blur-sm border border-gray-200 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl`}
                   >
                     <Heart className={`w-4 h-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
                   </button>
-                  {/* Product Image Container */}
-                  <div className="pt-10 px-3 pb-3 relative overflow-hidden">
-                    <img
-                      src={product.imageUrl}
-                      alt={product.name}
-                      className="w-full h-48 object-contain transition-transform duration-500 group-hover:scale-105"
-                    />
 
-                    {/* Quick view & Buy overlay (appears on hover) */}
-                    <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
-                      <button
-                        onClick={() => handleQuickView(product)}
-                        className="mb-3 w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-pink-100 transition-colors shadow-md"
-                      >
-                        <Search className="w-5 h-5 text-pink-500" />
-                      </button>
-                      <button 
-                        onClick={() => handleBuyNow(product)}
-                        className="px-5 py-1.5 bg-pink-500 text-white text-sm font-medium rounded hover:bg-pink-600 transition-colors shadow-md flex items-center space-x-1"
-                      >
-                        <ShoppingBag className="w-3.5 h-3.5" />
-                        <span>Mua ngay</span>
-                      </button>
-                    </div>
-                  </div>
-                  {/* Tags (Best Seller, Exclusive) */}
+                  {/* Premium Tags */}
                   {product.tags && product.tags.length > 0 && (
-                    <div className="absolute top-10 left-0">
+                    <div className="absolute top-12 left-0 z-20">
                       {product.tags.includes("BEST SELLER") && (
-                        <span className="block bg-red-600 text-white text-[11px] px-2 py-0.5 mb-0.5 font-medium">
-                          BEST SELLER
+                        <span className="block bg-gradient-to-r from-red-500 to-red-600 text-white text-[10px] px-3 py-1 mb-1 font-bold tracking-wide shadow-lg rounded-r-full">
+                          ⭐ BEST SELLER
                         </span>
                       )}
                       {product.tags.includes("EXCLUSIVE") && (
-                        <span className="block bg-blue-800 text-white text-[11px] px-2 py-0.5 font-medium">
-                          EXCLUSIVE
+                        <span className="block bg-gradient-to-r from-blue-600 to-blue-700 text-white text-[10px] px-3 py-1 font-bold tracking-wide shadow-lg rounded-r-full">
+                          💎 EXCLUSIVE
                         </span>
                       )}
                     </div>
                   )}
+
+                  {/* Product Image Container */}
+                  <div className="pt-12 px-4 pb-4 relative overflow-hidden">
+                    <div className="relative">
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className="w-full h-52 object-contain transition-all duration-700 group-hover:scale-110"
+                      />
+                      
+                      {/* Floating glow effect */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-purple-100/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
+                    </div>
+
+                    {/* Premium hover overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center">
+                      <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <button
+                          onClick={() => handleQuickView(product)}
+                          className="mb-3 w-12 h-12 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-110"
+                        >
+                          <Search className="w-5 h-5 text-pink-500" />
+                        </button>
+                        <button 
+                          onClick={() => handleBuyNow(product)}
+                          className="px-6 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-sm font-semibold rounded-full hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center space-x-2 backdrop-blur-sm border border-pink-400"
+                        >
+                          <ShoppingBag className="w-4 h-4" />
+                          <span>Mua ngay</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Product Info */}
-                  <div className="p-4">
+                  <div className="p-5 relative z-10">
                     <Link 
                       to={`/product/${product.id}`}
                       onClick={() => {
-                        // Scroll to top when navigating to product detail
                         window.scrollTo({
                           top: 0,
                           behavior: "smooth",
                         });
                       }}
                     >
-                      <h3 className="text-sm font-medium mb-2.5 h-10 overflow-hidden line-clamp-2 group-hover:text-pink-500 transition">
+                      <h3 className="text-sm font-semibold mb-3 h-10 overflow-hidden line-clamp-2 text-gray-800 group-hover:text-pink-600 transition-colors duration-300 leading-relaxed">
                         {product.name}
                       </h3>
                     </Link>
 
-                    <div className="flex items-baseline flex-wrap">
-                      <span className="text-red-600 font-bold text-base mr-2">
-                        {formatPrice(product.price)}đ
-                      </span>
-
-                      {product.discount > 0 && (
-                        <>
-                          <span className="text-gray-400 text-xs line-through">
+                    <div className="flex items-baseline justify-between flex-wrap mb-3">
+                      <div className="flex items-baseline space-x-2">
+                        <span className="text-pink-600 font-bold text-lg">
+                          {formatPrice(product.price)}đ
+                        </span>
+                        {product.discount > 0 && (
+                          <span className="text-gray-400 text-sm line-through">
                             {formatPrice(product.originalPrice)}đ
                           </span>
-                          <span className="ml-2 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-sm">
-                            -{product.discount}%
-                          </span>
-                        </>
+                        )}
+                      </div>
+                      {product.discount > 0 && (
+                        <span className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs px-2 py-1 rounded-full font-bold shadow-md">
+                          -{product.discount}%
+                        </span>
                       )}
                     </div>
 
-                    {/* Gift info */}
+                    {/* Premium Gift info */}
                     {product.gifts && product.gifts.length > 0 && (
-                      <div className="mt-2 border border-red-200 rounded p-1.5 bg-red-50">
+                      <div className="mt-3 border-2 border-red-200 rounded-xl p-3 bg-gradient-to-r from-red-50 to-pink-50">
                         <div className="flex items-center">
-                          <span className="text-red-500 mr-1.5">
+                          <span className="text-red-500 mr-2">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-4 w-4"
@@ -939,46 +986,56 @@ const ProductPage = () => {
                               />
                             </svg>
                           </span>
-                          <span className="text-xs text-red-500 line-clamp-1 font-medium">
-                            {`${product.gifts.length} quà tặng kèm`}
+                          <span className="text-xs text-red-600 font-semibold">
+                            🎁 {`${product.gifts.length} quà tặng kèm`}
                           </span>
                         </div>
                       </div>
                     )}
                   </div>
+
+                  {/* Premium card border effect */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
                 </div>
               ))}
               </div>
             )}
 
-            {/* Pagination */}
+            {/* Modern Pagination */}
             {totalPages > 1 && (
-              <div className="mt-8 mb-[40px] flex justify-center">
-                <div className="flex space-x-3">
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                      key={index + 1}
-                      onClick={() => {
-                        setCurrentPage(index + 1);
-                        // Scroll to products section when page changes
-                        setTimeout(() => {
-                          if (productsRef.current) {
-                            productsRef.current.scrollIntoView({ 
-                              behavior: 'smooth', 
-                              block: 'start' 
-                            });
-                          }
-                        }, 100);
-                      }}
-                      className={`w-10 h-10 flex items-center justify-center text-base rounded-md ${
-                        currentPage === index + 1
-                          ? "bg-pink-500 text-white font-medium shadow-md"
-                          : "border border-gray-300 hover:bg-gray-100 text-gray-600"
-                      } transition-all duration-200`}
-                    >
-                      {index + 1}
-                    </button>
-                  ))}
+              <div className="mt-12 mb-8 flex justify-center">
+                <div className="bg-white rounded-2xl shadow-lg p-6">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm text-gray-600 mr-4 font-medium">📄 Trang:</span>
+                    <div className="flex space-x-2">
+                      {Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                          key={index + 1}
+                          onClick={() => {
+                            setCurrentPage(index + 1);
+                            setTimeout(() => {
+                              if (productsRef.current) {
+                                productsRef.current.scrollIntoView({ 
+                                  behavior: 'smooth', 
+                                  block: 'start' 
+                                });
+                              }
+                            }, 100);
+                          }}
+                          className={`w-12 h-12 flex items-center justify-center text-sm font-semibold rounded-xl transition-all duration-300 ${
+                            currentPage === index + 1
+                              ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-200 transform scale-110"
+                              : "bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-500"
+                          }`}
+                        >
+                          {index + 1}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="ml-4 text-sm text-gray-500">
+                      của <span className="font-semibold text-gray-700">{totalPages}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Youtube, Instagram } from "lucide-react";
+import { Facebook, Twitter, Youtube, Instagram } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -20,13 +20,13 @@ const Footer = () => {
                 15, Quận 11, TP. Hồ Chí Minh
               </p>
               <p className="mb-1">
-                <span className="font-medium">Điện thoại:</span>{" "}
+                <span className="font-medium">Điện thoại:</span>{' '}
                 <a href="tel:19006750" className="text-red-500 hover:underline">
                   1900 6750
                 </a>
               </p>
               <p className="mb-1">
-                <span className="font-medium">Email:</span>{" "}
+                <span className="font-medium">Email:</span>{' '}
                 <a
                   href="mailto:support@sapo.vn"
                   className="text-red-500 hover:underline"
@@ -63,35 +63,52 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">LIÊN KẾT NHANH</h3>
+            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">
+              LIÊN KẾT NHANH
+            </h3>
             <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
               <li>
-                •{" "}
-                <a href="/about" className="hover:text-red-500 transition-colors">
+                •{' '}
+                <a
+                  href="/about"
+                  className="hover:text-red-500 transition-colors"
+                >
                   Giới thiệu
                 </a>
               </li>
               <li>
-                •{" "}
-                <a href="/products" className="hover:text-red-500 transition-colors">
+                •{' '}
+                <a
+                  href="/products"
+                  className="hover:text-red-500 transition-colors"
+                >
                   Sản phẩm
                 </a>
               </li>
               <li>
-                •{" "}
-                <a href="/news" className="hover:text-red-500 transition-colors">
+                •{' '}
+                <a
+                  href="/news"
+                  className="hover:text-red-500 transition-colors"
+                >
                   Tin tức
                 </a>
               </li>
               <li>
-                •{" "}
-                <a href="/routine" className="hover:text-red-500 transition-colors">
+                •{' '}
+                <a
+                  href="/routine"
+                  className="hover:text-red-500 transition-colors"
+                >
                   Routine Skincare
                 </a>
               </li>
               <li>
-                •{" "}
-                <a href="/contact" className="hover:text-red-500 transition-colors">
+                •{' '}
+                <a
+                  href="/contact"
+                  className="hover:text-red-500 transition-colors"
+                >
                   Liên hệ
                 </a>
               </li>
@@ -99,10 +116,12 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">HỖ TRỢ</h3>
+            <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">
+              HỖ TRỢ
+            </h3>
             <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
               <li>
-                • Kinh doanh:{" "}
+                • Kinh doanh:{' '}
                 <a
                   href="tel:1900800111"
                   className="text-red-500 hover:underline"
@@ -111,7 +130,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                • Bảo hành:{" "}
+                • Bảo hành:{' '}
                 <a
                   href="tel:1900800222"
                   className="text-red-500 hover:underline"
@@ -120,7 +139,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                • Khiếu nại:{" "}
+                • Khiếu nại:{' '}
                 <a
                   href="tel:1900800333"
                   className="text-red-500 hover:underline"
@@ -129,7 +148,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                •{" "}
+                •{' '}
                 <a
                   href="/contact"
                   className="hover:text-red-500 transition-colors"
@@ -183,10 +202,18 @@ const Footer = () => {
                 />
               </div>
               <div className="bg-white p-1 rounded border flex items-center justify-center">
-                <img src="/src/img/payment-2.png" alt="VISA" className="h-6 sm:h-7" />
+                <img
+                  src="/src/img/payment-2.png"
+                  alt="VISA"
+                  className="h-6 sm:h-7"
+                />
               </div>
               <div className="bg-white p-1 rounded border flex items-center justify-center">
-                <img src="/src/img/payment-3.png" alt="JCB" className="h-6 sm:h-7" />
+                <img
+                  src="/src/img/payment-3.png"
+                  alt="JCB"
+                  className="h-6 sm:h-7"
+                />
               </div>
               <div className="bg-white p-1 rounded border flex items-center justify-center">
                 <img
@@ -198,7 +225,9 @@ const Footer = () => {
             </div>
 
             <div className="bg-white p-2 sm:p-3 rounded border">
-              <h5 className="font-semibold text-xs sm:text-sm mb-2">Zalo Mini Apps</h5>
+              <h5 className="font-semibold text-xs sm:text-sm mb-2">
+                Zalo Mini Apps
+              </h5>
               <div className="flex items-center">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded mr-2 sm:mr-3 flex items-center justify-center">
                   <img
@@ -223,7 +252,7 @@ const Footer = () => {
         <div className="border-t border-gray-300 pt-2 sm:pt-3">
           <div className="bg-[#e91e63] text-white text-center py-2 rounded-sm">
             <p className="text-xs sm:text-sm">
-              © Bản quyền thuộc về Mr. Bean | Cung cấp bởi Sapo
+              © Bản quyền thuộc về Trương Nguyễn | Đức Huy
             </p>
           </div>
         </div>
