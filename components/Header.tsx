@@ -7,10 +7,10 @@ import {
   Menu,
   X,
   ChevronDown,
-} from "lucide-react";
-import { useAppContext } from "../context/AppContext";
-import { Link, useLocation } from "react-router-dom";
-import productData from "../db/product.json";
+} from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
+import { Link, useLocation } from 'react-router-dom';
+import productData from '../db/product.json';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -140,35 +140,57 @@ const Header = () => {
   return (
     <>
       {/* Top bar */}
-      <div className="bg-purple-200 text-sm text-purple-800 py-1.5 sm:py-2 shadow-sm">
+      <div className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white py-2 shadow-lg">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <div className="text-xs sm:text-sm font-medium">
-            Chào mừng bạn đến với Bean Mỹ Phẩm!
+          <div className="text-sm font-medium flex items-center">
+            <div className="bg-white/20 rounded-full p-1 mr-2">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            Chào mừng bạn đến với Bean Mỹ Phẩm! ✨
           </div>
-          <div className="hidden md:flex space-x-5 items-center text-xs sm:text-sm">
+          <div className="hidden md:flex space-x-6 items-center text-sm">
             <a
               href="#"
-              className="hover:text-purple-700 transition-colors cursor-pointer"
+              className="hover:text-yellow-300 transition-all duration-300 flex items-center group"
             >
+              <svg
+                className="w-4 h-4 mr-1 group-hover:animate-pulse"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                  clipRule="evenodd"
+                />
+              </svg>
               Hệ thống cửa hàng
             </a>
             {!isAuthenticated ? (
               <>
                 <a
                   href="/register"
-                  className="hover:text-purple-700 transition-colors cursor-pointer"
+                  className="hover:text-yellow-300 transition-all duration-300 bg-white/20 px-3 py-1 rounded-full hover:bg-white/30"
                 >
                   Đăng ký
                 </a>
                 <a
                   href="/login"
-                  className="hover:text-purple-700 transition-colors cursor-pointer"
+                  className="hover:text-yellow-300 transition-all duration-300 bg-white/20 px-3 py-1 rounded-full hover:bg-white/30"
                 >
                   Đăng nhập
                 </a>
               </>
             ) : (
-              <span className="font-medium">Xin chào, {user?.name}</span>
+              <span className="font-medium bg-white/20 px-3 py-1 rounded-full">
+                👋 Xin chào, {user?.name}
+              </span>
             )}
           </div>
         </div>
@@ -192,28 +214,32 @@ const Header = () => {
             {/* Search bar */}
             <div className="hidden md:block w-full max-w-xl mx-4 relative">
               <form onSubmit={handleSearch} className="relative">
-                <input
-                  type="text"
-                  placeholder={placeholderMessages[placeholderIndex]}
-                  value={searchQuery}
-                  onChange={handleSearchInputChange}
-                  onFocus={() => {
-                    if (searchQuery.trim() && searchSuggestions.length > 0) {
-                      setShowSearchSuggestions(true);
-                    }
-                  }}
-                  onBlur={() => {
-                    // Delaỳ để cho phép click vào suggestion
-                    setTimeout(() => setShowSearchSuggestions(false), 200);
-                  }}
-                  className="search-input w-full px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm shadow-sm transition-all duration-300"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-1.5 top-1/2 transform -translate-y-1/2 bg-purple-100 hover:bg-purple-200 p-1.5 sm:p-2 rounded-full text-purple-500 hover:text-purple-700 transition-colors"
-                >
-                  <Search className="w-4 h-4 sm:w-5 sm:h-5" />
-                </button>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder={placeholderMessages[placeholderIndex]}
+                    value={searchQuery}
+                    onChange={handleSearchInputChange}
+                    onFocus={() => {
+                      if (searchQuery.trim() && searchSuggestions.length > 0) {
+                        setShowSearchSuggestions(true);
+                      }
+                    }}
+                    onBlur={() => {
+                      setTimeout(() => setShowSearchSuggestions(false), 200);
+                    }}
+                    className="w-full px-6 py-3 pl-12 pr-16 border-2 border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 text-sm shadow-lg transition-all duration-300 hover:shadow-xl bg-gray-50/50 backdrop-blur-sm"
+                  />
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <Search className="w-5 h-5" />
+                  </div>
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 p-2 rounded-full text-white transition-all duration-300 hover:scale-105 shadow-lg"
+                  >
+                    <Search className="w-4 h-4" />
+                  </button>
+                </div>
               </form>
 
               {/* Search Suggestions Dropdown */}
@@ -281,54 +307,77 @@ const Header = () => {
             </div>
 
             {/* Contact and actions */}
-            <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
-              <div className="flex items-center text-pink-500">
-                <div className="mr-2 bg-pink-50 rounded-full p-1.5">
-                  <Phone className="w-4 h-4" />
+            <div className="hidden md:flex items-center space-x-6">
+              {/* Hotline */}
+              <div className="flex items-center bg-gradient-to-r from-pink-50 to-purple-50 rounded-full px-4 py-2 border border-pink-100">
+                <div className="mr-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full p-2">
+                  <Phone className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <div className="text-[10px] sm:text-xs text-gray-600">
-                    Hotline
+                  <div className="text-xs text-gray-600 font-medium">
+                    Hotline 24/7
                   </div>
-                  <div className="text-xs sm:text-sm font-semibold">
+                  <div className="text-sm font-bold text-pink-600">
                     1900 6750
                   </div>
                 </div>
               </div>
 
+              {/* Wishlist */}
               <Link
                 to="/wishlist"
-                className="flex items-center text-pink-500 hover:text-pink-600 transition-colors group"
+                className="flex items-center group hover:bg-pink-50 rounded-full px-3 py-2 transition-all duration-300"
               >
-                <div className={`mr-2 relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-all duration-300 ${wishlistAnimation ? 'animate-bounce scale-110' : ''}`}>
-                  <Heart className="w-4 h-4" />
-                  <span className={`absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm transition-all duration-300 ${wishlistAnimation ? 'animate-pulse scale-125' : ''}`}>
+                <div
+                  className={`mr-3 relative bg-gradient-to-r from-pink-500 to-purple-500 rounded-full p-2 group-hover:scale-110 transition-all duration-300 ${
+                    wishlistAnimation ? 'animate-bounce scale-110' : ''
+                  }`}
+                >
+                  <Heart className="w-4 h-4 text-white" />
+                  <span
+                    className={`absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shadow-lg transition-all duration-300 ${
+                      wishlistAnimation ? 'animate-pulse scale-125' : ''
+                    }`}
+                  >
                     {wishlist.length}
                   </span>
                 </div>
-                <div>
-                  <div className="text-[10px] sm:text-xs text-gray-600">
+                <div className="text-left">
+                  <div className="text-xs text-gray-600 group-hover:text-pink-600 transition-colors">
                     Yêu thích
                   </div>
-                  <div className="text-xs sm:text-sm">sản phẩm</div>
+                  <div className="text-sm font-semibold text-gray-800 group-hover:text-pink-600 transition-colors">
+                    {wishlist.length} sản phẩm
+                  </div>
                 </div>
               </Link>
 
+              {/* Cart */}
               <Link
                 to="/cart"
-                className="flex items-center text-pink-500 hover:text-pink-600 transition-colors group"
+                className="flex items-center group hover:bg-pink-50 rounded-full px-3 py-2 transition-all duration-300 relative"
               >
-                <div className={`mr-2 relative bg-pink-50 rounded-full p-1.5 group-hover:bg-pink-100 transition-all duration-300 ${cartAnimation ? 'animate-bounce scale-110' : ''}`}>
-                  <ShoppingCart className="w-4 h-4" />
-                  <span className={`absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center shadow-sm transition-all duration-300 ${cartAnimation ? 'animate-pulse scale-125' : ''}`}>
+                <div
+                  className={`mr-3 relative bg-gradient-to-r from-pink-500 to-purple-500 rounded-full p-2 group-hover:scale-110 transition-all duration-300 ${
+                    cartAnimation ? 'animate-bounce scale-110' : ''
+                  }`}
+                >
+                  <ShoppingCart className="w-4 h-4 text-white" />
+                  <span
+                    className={`absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shadow-lg transition-all duration-300 ${
+                      cartAnimation ? 'animate-pulse scale-125' : ''
+                    }`}
+                  >
                     {cart.reduce((sum, item) => sum + item.quantity, 0)}
                   </span>
                 </div>
-                <div>
-                  <div className="text-[10px] sm:text-xs text-gray-600">
+                <div className="text-left">
+                  <div className="text-xs text-gray-600 group-hover:text-pink-600 transition-colors">
                     Giỏ hàng
                   </div>
-                  <div className="text-xs sm:text-sm">của bạn</div>
+                  <div className="text-sm font-semibold text-gray-800 group-hover:text-pink-600 transition-colors">
+                    {cart.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm
+                  </div>
                 </div>
               </Link>
             </div>
